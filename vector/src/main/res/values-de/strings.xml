@@ -575,7 +575,7 @@ Beachte: Diese Aktion wird die App neu starten und einige Zeit brauchen.</string
 
     <!-- Raum settings: advanced addresses -->
     <string name="room_settings_addresses_no_local_addresses">Dieser Raum hat keine lokalen Adressen</string>
-    <string name="room_settings_addresses_add_new_address">Neue Adresse (z. B. #foo:matrix.org)</string>
+    <string name="room_settings_addresses_add_new_address">Neue Adresse (z. B. #foo:synod.im)</string>
 
     <string name="room_settings_addresses_invalid_format_dialog_title">Ungültiges Adressformat</string>
     <string name="room_settings_addresses_invalid_format_dialog_body">\'%s\' entspricht nicht dem Format von Adressen</string>
@@ -797,7 +797,7 @@ Unbekannte Geräte:</string>
 
     <string name="room_settings_room_notifications_title">Benachrichtigungen</string>
     <string name="room_settings_no_flair">Dieser Raum zeigt keine Flairs für irgendeine Community an</string>
-    <string name="room_settings_add_new_group">Neue Community-ID (z.B. +foo:matrix.org)</string>
+    <string name="room_settings_add_new_group">Neue Community-ID (z.B. +foo:synod.im)</string>
     <string name="room_settings_invalid_group_format_dialog_title">Ungültige Community-ID</string>
     <string name="room_settings_invalid_group_format_dialog_body">\'%s\' ist keine valide Community-ID</string>
 
@@ -899,7 +899,7 @@ Unbekannte Geräte:</string>
     <string name="settings_notification_privacy_message_content_not_shown">• Benachrichtigungen werden <b>den Nachrichteninhalt nicht anzeigen</b></string>
 
     <string name="startup_notification_privacy_title">Benachrichtungs-Datenschutz</string>
-    <string name="startup_notification_privacy_message">Riot.im kann im Hintergrund laufen um deine Benachrichtigungen sicher und privat zu verwalten. Dies kann den Energieverbrauch beeinflussen.</string>
+    <string name="startup_notification_privacy_message">synod.im kann im Hintergrund laufen um deine Benachrichtigungen sicher und privat zu verwalten. Dies kann den Energieverbrauch beeinflussen.</string>
     <string name="startup_notification_privacy_button_grant">Berechtigung gewähren</string>
     <string name="startup_notification_privacy_button_other">Wähle eine andere Option</string>
 
@@ -1188,27 +1188,27 @@ Versuche die Anwendung neuzustarten.</string>
 
     <string name="no_valid_google_play_services_apk">Keine validen Google-Play-Dienste gefunden. Benachrichtigungen könnten nicht richtig funktionieren.</string>
 
-    <string name="store_title">Riot.im - Kommuniziere auf deine Weise</string>
+    <string name="store_title">synod.im - Kommuniziere auf deine Weise</string>
     <string name="store_short_description">Eine universelle, sichere Chat-App - komplett unter deiner Kontrolle.</string>
     <string name="store_full_description">"Eine Chat-App unter deiner Kontrolle und total flexibel. Riot lässt dich auf die Art kommunizieren wie du willst. Die App wurde gemacht für [matrix] - dem Standard für offene, dezentrale Komunikation.
 
-Hole dir ein kostenloses Konto auf matrix.org, hol dir einen eigenen Server auf https://modular.im oder nutze einen anderen Matrix-Server.
+Hole dir ein kostenloses Konto auf synod.im, hol dir einen eigenen Server auf https://modular.im oder nutze einen anderen Matrix-Server.
 
-Warum solltest du Riot.im wählen?
+Warum solltest du synod.im wählen?
 
 • KOMPLETTE KOMMUNIKATION: Baue Räume um deine Teams, deine Freunde, deine Community - wie auch immer du willst! Chatte, teile Dateien, füge Widgets hinzu und führe Sprach- und Videotelefonate - alles kostenlos.
 
-• MÄCHTIGE INTEGRATIONEN: Benutze Riot.im mit den Werkzeugen die du kennst und liebst. Mit Riot.im kannst du sogar mit Personen und Gruppen chatten, die andere Chat-Anwendungen benutzen.
+• MÄCHTIGE INTEGRATIONEN: Benutze synod.im mit den Werkzeugen die du kennst und liebst. Mit synod.im kannst du sogar mit Personen und Gruppen chatten, die andere Chat-Anwendungen benutzen.
 
 • PRIVAT UND SICHER: Halte deine Konversationen geheim. Aktuellste Ende-zu-Ende-Verschlüsselung sorgt dafür, dass deine private Kommunikation auch privat bleibt.
 
 • OFFEN - NICHT VERSCHLOSSEN: Quelloffen und basierend auf Matrix. Behalte deine Daten indem du deinen eigenen Server betreibst oder einen auswählst dem du vertraust.
 
-• WO AUCH IMMER DU BIST: Bleibe im Kontakt wo auch immer du bist wobei deine Nachrichtenhistorie zwischen all deinen Geräten synchronisiert wird. Das andere \"Gerät\" kann auch ein Browser sein. Schau dir dazu auch riot.im an."</string>
+• WO AUCH IMMER DU BIST: Bleibe im Kontakt wo auch immer du bist wobei deine Nachrichtenhistorie zwischen all deinen Geräten synchronisiert wird. Das andere \"Gerät\" kann auch ein Browser sein. Schau dir dazu auch synod.im an."</string>
 
     <string name="video_call_in_progress">Videogespräch aktiv…</string>
 
-    <string name="store_whats_new">"An Riot.im werden ständig Änderungen und Verbesserungen durchgeführt.
+    <string name="store_whats_new">"An synod.im werden ständig Änderungen und Verbesserungen durchgeführt.
 Das vollständige Änderungsprotokoll ist hier zu finden: %1$s.
 Um sicherzustellen, dass du nichts verpasst, lass deine Updates einfach aktiviert."</string>
     <string name="title_activity_keys_backup_setup">Schlüssel-Sicherung</string>
@@ -1644,7 +1644,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
 
     <string name="room_filtering_footer_title">Können Sie nicht finden, wonach Sie suchen\?</string>
     <string name="room_filtering_footer_create_new_room">Erstelle einen neuen Raum</string>
-    <string name="room_directory_search_hint">Name oder ID (#beispiel:matrix.org)</string>
+    <string name="room_directory_search_hint">Name oder ID (#beispiel:synod.im)</string>
 
     <string name="labs_swipe_to_reply_in_timeline">Aktivieren Sie das Streichen, um in der Zeitleiste zu antworten</string>
 
@@ -1725,10 +1725,10 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
 
 
     <string name="settings_background_fdroid_sync_mode">Hintergrundsynchronisierungsmodus (experimentell)</string>
-    <string name="settings_background_fdroid_sync_mode_battery_description">Riot wird sich im Hintergrund auf eine Art synchronisieren die die Ressourcen des Geräts schont (Akku).
+    <string name="settings_background_fdroid_sync_mode_battery_description">Riot wird sich im Hintergrund auf eine Art synchronisieren, welche die Ressourcen des Geräts schont (Akku).
 \nAbhängig von dem Ressourcen-Statuses deines Geräts kann dein System die Synchronisierung verschieben.</string>
     <string name="settings_background_fdroid_sync_mode_real_time_description">Riot wird sich im Hintergrund periodisch zu einem bestimmten Zeitpunkt synchronisieren (konfigurierbar).
-\nDies wird Funk- und Akkunutzung beeinflussen. Es wird wird eine permanente Benachrichtigung geben, die sagt, dass Riot auf Ereignisse lauscht.</string>
+\nDies wird Funk- und Akkunutzung beeinflussen. Es wird eine permanente Benachrichtigung geben, die sagt, dass Riot auf Ereignisse lauscht.</string>
     <string name="settings_set_workmanager_delay_summary">%s
 \nDie Synchronisierung kann aufgrund deiner Ressourcen (Akku) oder Gerätezustands (schlafend) verschoben werden.</string>
     <string name="settings_integrations">Integrationen</string>
@@ -1769,7 +1769,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="push_gateway_item_device_name">Gerätename:</string>
     <string name="push_gateway_item_format">Format:</string>
 
-    <string name="store_riotx_full_description">RiotX ist ein neuer Client für das Matrix-Protokoll (matrix.org): Ein offenes Netzwerk für sichere, dezentrale Kommunikation.
+    <string name="store_riotx_full_description">RiotX ist ein neuer Client für das Matrix-Protokoll (synod.im): Ein offenes Netzwerk für sichere, dezentrale Kommunikation.
 \nRiotX ist der Riot-Android-Client der auf dem matrix-android-sdk basiert - aber beides komplett neu geschrieben.
 \n
 \nHinweis: Dies ist eine Beta-Version. RiotX wird aktuell aktiv entwickelt und enthält Einschränkungen und (wir hoffen nicht zu viele) Fehler. Jede Rückmeldung ist willkommen!
@@ -1825,7 +1825,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="attachment_type_contact">Kontakt</string>
     <string name="attachment_type_camera">Kamera</string>
     <string name="attachment_type_audio">Audio</string>
-    <string name="attachment_type_gallery">Gallerie</string>
+    <string name="attachment_type_gallery">Galerie</string>
     <string name="attachment_type_sticker">Sticker</string>
     <string name="report_content_spam">Es ist Spam</string>
     <string name="report_content_inappropriate">Es ist unangebracht</string>
@@ -1950,7 +1950,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
 \n
 \nMöchtest du die Registrierung stoppen\?</string>
 
-    <string name="login_a11y_choose_matrix_org">matrix.org auswählen</string>
+    <string name="login_a11y_choose_matrix_org">synod.im auswählen</string>
     <string name="login_a11y_choose_modular">modular auswählen</string>
     <string name="login_a11y_choose_other">Benutzerdefinierten Server auswählen</string>
     <string name="login_terms_title">Bedingungen akzeptieren um fortzufahren</string>

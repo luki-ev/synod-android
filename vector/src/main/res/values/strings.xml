@@ -956,10 +956,10 @@
 
     <!-- Room settings: advanced addresses -->
     <string name="room_settings_addresses_no_local_addresses">This room has no local addresses</string>
-    <string name="room_settings_addresses_add_new_address">New address (e.g #foo:matrix.org")</string>
+    <string name="room_settings_addresses_add_new_address">New address (e.g #foo:synod.im")</string>
 
     <string name="room_settings_no_flair">This room is not showing flair for any communities</string>
-    <string name="room_settings_add_new_group">New community ID (e.g +foo:matrix.org")</string>
+    <string name="room_settings_add_new_group">New community ID (e.g +foo:synod.im")</string>
     <string name="room_settings_invalid_group_format_dialog_title">Invalid community ID</string>
     <string name="room_settings_invalid_group_format_dialog_body">\'%s\' is not a valid community ID</string>
 
@@ -1313,26 +1313,26 @@
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
 
     <!-- String for Play Store -->
-    <string name="store_title">Riot.im - Communicate, your way</string>
-    <string name="store_whats_new">"We’re always making changes and improvements to Riot.im.
+    <string name="store_title">synod.im - Communicate, your way</string>
+    <string name="store_whats_new">"We’re always making changes and improvements to synod.im.
 The complete changelog can be found here: %1$s.
 To make sure you don’t miss a thing, just keep your updates turned on."</string>
     <string name="store_short_description">A universal secure chat app entirely under your control.</string>
     <string name="store_full_description">"A chat app, under your control and entirely flexible. Riot lets you communicate the way you want. Made for [matrix] - the standard for open, decentralised communication.
 
-Get a free matrix.org account, get your own server at https://modular.im, or use another Matrix server.
+Get a free synod.im account, get your own server at https://modular.im, or use another Matrix server.
 
-Why choose Riot.im?
+Why choose synod.im?
 
 • COMPLETE COMMUNICATION: Build rooms around your teams, your friends, your community - however you like! Chat, share files, add widgets and make voice and video calls - all free of charge.
 
-• POWERFUL INTEGRATIONS: Use Riot.im with the tools you know and love. With Riot.im you can even chat with users and groups on other chat apps.
+• POWERFUL INTEGRATIONS: Use synod.im with the tools you know and love. With synod.im you can even chat with users and groups on other chat apps.
 
 • PRIVATE AND SECURE: Keep your conversations secret. State of the art end-to-end encryption ensures that private communication stays private.
 
 • OPEN, NOT CLOSED: Open source, and built on Matrix. Own your own data by hosting your own server, or selecting one you trust.
 
-• EVERYWHERE YOU ARE: Stay in touch wherever you are with fully synchronised message history across all your devices and online at https://riot.im."</string>
+• EVERYWHERE YOU ARE: Stay in touch wherever you are with fully synchronised message history across all your devices and online at https://synod.im."</string>
 
     <!-- Passphrase -->
     <string name="passphrase_create_passphrase">Create passphrase</string>
@@ -1640,7 +1640,7 @@ Why choose Riot.im?
     <!-- String for Play Store, for RiotX -->
     <string name="store_riotx_title">RiotX - Next Generation Matrix Client</string>
     <string name="store_riotx_short_description">A faster and lighter client for Matrix using the latest Android frameworks</string>
-    <string name="store_riotx_full_description">"RiotX is a new client for the Matrix protocol (Matrix.org): an open network for secure, decentralised communication. RiotX is a full rewrite of the Riot Android client, based on a full rewrite of the Matrix Android SDK.
+    <string name="store_riotx_full_description">"RiotX is a new client for the Matrix protocol (matrix.org): an open network for secure, decentralised communication. RiotX is a full rewrite of the Riot Android client, based on a full rewrite of the Matrix Android SDK.
 
 Disclaimer: This is a beta version. RiotX is currently in active development and contains limitations and (we hope not too many) bugs. All feedback is welcome!
 
@@ -1691,7 +1691,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="room_filtering_footer_create_new_direct_message">Send a new direct message</string>
     <string name="room_filtering_footer_open_room_directory">View the room directory</string>
 
-    <string name="room_directory_search_hint">Name or ID (#example:matrix.org)</string>
+    <string name="room_directory_search_hint">Name or ID (#example:synod.im)</string>
 
     <string name="labs_swipe_to_reply_in_timeline">Enable swipe to reply in timeline</string>
 
@@ -1920,7 +1920,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="login_signup_cancel_confirmation_title">Warning</string>
     <string name="login_signup_cancel_confirmation_content">Your account is not created yet.\n\nStop the registration process?</string>
 
-    <string name="login_a11y_choose_matrix_org">Select matrix.org</string>
+    <string name="login_a11y_choose_matrix_org">Select synod.im</string>
     <string name="login_a11y_choose_modular">Select modular</string>
     <string name="login_a11y_choose_other">Select a custom homeserver</string>
     <string name="login_a11y_captcha_container">Please perform the captcha challenge</string>
