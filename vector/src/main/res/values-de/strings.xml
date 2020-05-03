@@ -1877,7 +1877,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="login_splash_title">Sichere Kommunikation</string>
     <string name="login_splash_text1">Einzeln oder in Gruppen mit Leuten chatten</string>
     <string name="login_splash_text2">Führe vertrauliche Gespräche mit Ende-zu-Ende-Verschlüsselung</string>
-    <string name="login_splash_submit">Los geht&apos;s!</string>
+    <string name="login_splash_submit">Los gehts!</string>
 
     <string name="login_server_title">Wähle einen Server</string>
     <string name="login_server_text">Genau wie bei Emails haben Accounts ein Zuhause, auch wenn du mit jedem kommunizieren kannst</string>
