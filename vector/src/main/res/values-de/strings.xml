@@ -1878,7 +1878,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
 
     <string name="login_server_title">Wähle einen Server</string>
     <string name="login_server_text">Genau wie bei Emails haben Accounts ein Zuhause, auch wenn du mit jedem kommunizieren kannst</string>
-    <string name="login_server_matrix_org_text">Folge Millionen anderen kostenlos auf dem größten öffentlichen Server</string>
+    <string name="login_server_matrix_org_text">Tausche dich aus - mit dem sicheren Kommunikations-Dienst im kirchlichen Bereich</string>
     <string name="login_server_modular_text">Premium Hosting für Organisationen</string>
     <string name="login_server_modular_learn_more">Mehr erfahren</string>
     <string name="login_server_other_title">Andere</string>
