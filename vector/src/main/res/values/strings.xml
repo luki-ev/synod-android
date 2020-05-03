@@ -1575,7 +1575,7 @@ Why choose synod.im?
     <string name="group_all_communities">"All Communities"</string>
 
     <string name="room_preview_no_preview">"This room can't be previewed"</string>
-    <string name="room_preview_world_readable_room_not_supported_yet">"The preview of world-readable room is not supported yet in RiotX"</string>
+    <string name="room_preview_world_readable_room_not_supported_yet">"The preview of world-readable room is not supported yet in Synod.im"</string>
 
     <string name="fab_menu_create_room">"Rooms"</string>
     <string name="fab_menu_create_chat">"Direct Messages"</string>
@@ -1593,7 +1593,7 @@ Why choose synod.im?
     <string name="keys_backup_unable_to_get_keys_backup_data">"An error occurred getting keys backup data"</string>
 
     <string name="alpha_disclaimer_title">Welcome to the beta!</string>
-    <string name="alpha_disclaimer_content_line_1">"While RiotX is in early development, some features may be missing and you may experience bugs."</string>
+    <string name="alpha_disclaimer_content_line_1">"While Synod.im is in early development, some features may be missing and you may experience bugs."</string>
     <!-- The parameter will be replaced by the value of string alpha_disclaimer_content_line_2_gplay_colored_part -->
     <string name="alpha_disclaimer_content_line_2_gplay">"The latest feature list is always in the %1$s, and if you find bugs please submit a report in the top left menu of Home, and we’ll fix them as quickly as we can."</string>
     <string name="alpha_disclaimer_content_line_2_gplay_colored_part">"Play Store description"</string>
@@ -1958,7 +1958,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="soft_logout_clear_data_dialog_content">Clear all data currently stored on this device?\nSign in again to access your account data and messages.</string>
     <string name="soft_logout_clear_data_dialog_e2e_warning_content">You’ll lose access to secure messages unless you sign in to recover your encryption keys.</string>
     <string name="soft_logout_clear_data_dialog_submit">Clear data</string>
-    <string name="soft_logout_sso_not_same_user_error">The current session is for user %1$s and you provide credentials for user %2$s. This is not supported by RiotX.\nPlease first clear data, then sign in again on another account.</string>
+    <string name="soft_logout_sso_not_same_user_error">The current session is for user %1$s and you provide credentials for user %2$s. This is not supported by Synod.im.\nPlease first clear data, then sign in again on another account.</string>
 
     <string name="permalink_malformed">Your matrix.to link was malformed</string>
     <string name="bug_report_error_too_short">The description is too short</string>
@@ -1980,7 +1980,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="autocomplete_limited_results">Showing only the first results, type more letters…</string>
 
     <string name="settings_developer_mode_fail_fast_title">Fail-fast</string>
-    <string name="settings_developer_mode_fail_fast_summary">RiotX may crash more often when an unexpected error occurs</string>
+    <string name="settings_developer_mode_fail_fast_summary">Synod.im may crash more often when an unexpected error occurs</string>
 
     <string name="command_description_verify">Request to verify the given userID</string>
     <string name="command_description_shrug">Prepends ¯\\_(ツ)_/¯ to a plain-text message</string>
@@ -2064,9 +2064,9 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
 
     <string name="room_member_jump_to_read_receipt">Jump to read receipt</string>
 
-    <string name="rendering_event_error_type_of_event_not_handled">"RiotX does not handle events of type '%1$s'"</string>
-    <string name="rendering_event_error_type_of_message_not_handled">"RiotX does not handle message of type '%1$s'"</string>
-    <string name="rendering_event_error_exception">"RiotX encountered an issue when rendering content of event with id '%1$s'"</string>
+    <string name="rendering_event_error_type_of_event_not_handled">"Synod.im does not handle events of type '%1$s'"</string>
+    <string name="rendering_event_error_type_of_message_not_handled">"Synod.im does not handle message of type '%1$s'"</string>
+    <string name="rendering_event_error_exception">"Synod.im encountered an issue when rendering content of event with id '%1$s'"</string>
 
     <string name="unignore">Unignore</string>
 

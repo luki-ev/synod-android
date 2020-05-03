@@ -1532,7 +1532,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="group_all_communities">Alle Gemeinschaften</string>
 
     <string name="room_preview_no_preview">Für diesen Raum kann keine Vorschau angezeigt werden</string>
-    <string name="room_preview_world_readable_room_not_supported_yet">Die Vorschau von öffentlichen Räumen wird von RiotX noch nicht unterstützt</string>
+    <string name="room_preview_world_readable_room_not_supported_yet">Die Vorschau von öffentlichen Räumen wird von Synod.im noch nicht unterstützt</string>
 
     <string name="fab_menu_create_room">Räume</string>
     <string name="fab_menu_create_chat">Direktnachrichten</string>
@@ -1572,7 +1572,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="keys_backup_unable_to_get_keys_backup_data">Beim Abrufen der Schlüsselsicherungsdaten ist ein Fehler aufgetreten</string>
 
     <string name="alpha_disclaimer_title">Willkommen in der Beta!</string>
-    <string name="alpha_disclaimer_content_line_1">Während sich RiotX in der frühen Entwicklung befindet, fehlen möglicherweise einige Funktionen und es können Fehler auftreten.</string>
+    <string name="alpha_disclaimer_content_line_1">Während sich Synod.im in einen frühen Entwicklungsphase befindet, fehlen möglicherweise einige Funktionen und es können Fehler auftreten.</string>
     <string name="alpha_disclaimer_content_line_2_gplay_colored_part">Play Store Beschreibung</string>
     <string name="settings_sdk_version">Matrix SDK Version</string>
     <string name="settings_other_third_party_notices">Sonstige Hinweise Dritter</string>
@@ -1622,15 +1622,15 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="sas_cancelled_by_other">Die andere Partei hat die Überprüfung abgebrochen.
 \n%s</string>
     <string name="sas_error_m_unknown_method">Das Gerät kann sich nicht auf eine Schlüsselvereinbarung, eine Hash-, eine MAC- oder eine SAS-Methode einigen</string>
-    <string name="alpha_disclaimer_content_line_2_gplay">Die neueste Featureliste befindet sich immer in %1$s. Wenn Sie Fehler finden, senden Sie uns bitte einen Bericht im Menü oben links von \"Startseite\". Wir werden den Fehler so schnell wie möglich beheben.</string>
-    <string name="alpha_disclaimer_content_line_2_fdroid">Wenn Sie Fehler finden, senden Sie uns bitte einen Bericht im Menü oben links von \"Startseite\". Wir werden diese so schnell wie möglich beheben.</string>
+    <string name="alpha_disclaimer_content_line_2_gplay">Die neueste Featureliste befindet sich immer in %1$s. Wenn du einen Fehler findest, schick uns bitte eine Mail an support@synod.im. Wir geben den Fehlerbericht an die Entwickler:innen weiter.</string>
+    <string name="alpha_disclaimer_content_line_2_fdroid">Wenn du einen Fehler findest, schick uns bitte eine Mail an support@synod.im. Wir geben den Fehlerbericht an die Entwickler:innen weiter.</string>
 
     <string name="import_e2e_keys_from_file">Importieren Sie e2e-Schlüssel aus der Datei \"%1$s\".</string>
 
     <string name="send_suggestion_sent">Vielen Dank, der Vorschlag wurde erfolgreich gesendet</string>
     <string name="send_suggestion_failed">Der Vorschlag konnte nicht gesendet werden (%s)</string>
 
-    <string name="store_riotx_title">RiotX - Matrix Client der nächsten Generation</string>
+    <string name="store_riotx_title">Synod.im - Matrix Client der nächsten Generation</string>
     <string name="store_riotx_short_description">Ein schnellerer und leichterer Client für Matrix mit den neuesten Android-Frameworks</string>
     <string name="send_file_step_sending_thumbnail">Miniaturbild wird gesendet (%1$s / %2$s)</string>
     <string name="send_file_step_sending_file">Datei wird gesendet (%1$s / %2$s)</string>
@@ -1950,6 +1950,7 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
 \nMöchtest du die Passwortänderung stoppen\?</string>
 
     <string name="login_set_email_title">E-Mail-Adresse angeben</string>
+    <string name="login_set_email_notice">Gib eine Email-Adresse an, um später dein Passwort neu setzen zu können, falls du es vergessen hast.</string>
     <string name="login_set_email_mandatory_hint">E-Mail</string>
     <string name="login_set_email_optional_hint">E-Mail (optional)</string>
     <string name="login_set_msisdn_mandatory_hint">Telefonnummer</string>
@@ -1968,4 +1969,19 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="login_wait_for_email_notice">Wir haben dir eine E-Mail an %1$s gesendet.
 \nBitte öffne den darin enthaltenen Link, um mit der Benutzerkontoerstellung fortzufahren.</string>
     <string name="login_validation_code_is_not_correct">Der eingegebene Code ist nicht korrekt. Bitte überprüfe deine Eingabe.</string>
+
+    <string name="settings_advanced_settings">Erweiterte Einstellungen</string>
+    <string name="settings_developer_mode">Entwickler:innen-Modus</string>
+    <string name="settings_developer_mode_summary">Der Entwickler:innen-Modus aktiviert verborgene Funktionen und kann die App schneller abstürzen lassen. Nur für Entwickler:innen!</string>
+    <string name="settings_rageshake">Wutgeschüttel</string>
+    <string name="settings_rageshake_detection_threshold">Schwellenwert für die Erkennung</string>
+    <string name="settings_rageshake_detection_threshold_summary">Schüttel dein Telefon, um den Schwellenwert für die Erkennung zu testen!</string>
+    <string name="rageshake_detected">Wutgeschüttel erkannt!</string>
+    <string name="settings">Einstellungen</string>
+    <string name="devices_current_device">Aktuelle Verbindungen</string>
+    <string name="devices_other_devices">Andere Verbindungen</string>
+
+    <string name="settings_developer_mode_fail_fast_title">Fail-fast</string>
+    <string name="settings_developer_mode_fail_fast_summary">Synod.im wird eher abstürzen, wenn ein unerwarteter Fehler passiert.</string>
+
 </resources>
