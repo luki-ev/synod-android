@@ -1895,14 +1895,25 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="two_and_some_others_read">gelesen von %1$s, %2$s und %3$d anderen</string>
     <string name="error_handling_incoming_share">Zu teilende Daten nicht verarbeitbar</string>
 
-    <string name="login_splash_text3">Erweitere &amp; individualisiere dein Benutzererlebnis</string>
     <string name="login_connect_to">Verbinde mit %1$s</string>
     <string name="login_connect_to_modular">Mit Modular verbinden</string>
     <string name="login_connect_to_a_custom_server">Mit einem benutzerdefinierten Server verbinden</string>
+
+    <!-- Replaced string is the homeserver url -->
+    <string name="login_signup_to">Bei %1$s registrieren</string>
+    <string name="login_signin_username_hint">Benutzername or Email</string>
+    <string name="login_signup_username_hint">Benutzername</string>
+    <string name="login_signup_password_hint">Passwort</string>
+    <string name="login_signup_submit">Weiter</string>
+    <string name="login_signup_error_user_in_use">Dieser Nutzername wird bereits verwendet.</string>
+    <string name="login_signup_cancel_confirmation_title">Achtung</string>
+    <string name="login_signup_cancel_confirmation_content">Dein Nutzeraccount wurde noch nicht erstellt.\n\nRegistrierungsprozess abbrechen?</string>
+
+    <!-- Replaced string is the homeserver url -->
     <string name="login_signin_to">Bei %1$s anmelden</string>
     <string name="login_signup">Registrieren</string>
     <string name="login_signin">Anmelden</string>
-    <string name="login_signin_sso">Mit einmaligem Anmelden fortfahren</string>
+    <string name="login_signin_sso">Mit einmaligem Anmelden (SSO) fortfahren</string>
 
     <string name="login_server_url_form_modular_hint">Modular Adresse</string>
     <string name="login_server_url_form_other_hint">Adresse</string>
@@ -1946,12 +1957,6 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="login_msisdn_confirm_notice">Wir haben einen Code an %1$s gesendet. Gib diesen unten ein um dich zu verifizieren.</string>
     <string name="login_msisdn_confirm_hint">Code eingeben</string>
     <string name="login_msisdn_confirm_send_again">Erneut senden</string>
-    <string name="login_signin_username_hint">Benutzername oder E-Mail-Adresse</string>
-    <string name="login_signup_password_hint">Passwort</string>
-    <string name="login_signup_error_user_in_use">Dieser Benutzername ist bereits belegt</string>
-    <string name="login_signup_cancel_confirmation_content">Dein Benutzerkonto ist noch nicht erstellt.
-\n
-\nMöchtest du die Registrierung stoppen\?</string>
 
     <string name="login_a11y_choose_matrix_org">synod.im auswählen</string>
     <string name="login_a11y_choose_modular">modular auswählen</string>
