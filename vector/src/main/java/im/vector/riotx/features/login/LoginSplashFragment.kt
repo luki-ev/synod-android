@@ -29,10 +29,19 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
     @OnClick(R.id.loginSplashSubmit)
     fun getStarted() {
-        loginSharedActionViewModel.post(LoginNavigation.OpenServerSelection)
+        loginViewModel.handle(LoginAction.UpdateHomeServer(getString(R.string.matrix_org_server_url)))
     }
 
     override fun resetViewModel() {
         // Nothing to do
+    }
+
+    override fun updateWithState(state: LoginViewState) {
+        //updateSelectedChoice(state)
+
+        if (state.loginMode != LoginMode.Unknown) {
+            // LoginFlow for matrix.org has been retrieved
+            loginSharedActionViewModel.post(LoginNavigation.OnLoginFlowRetrieved)
+        }
     }
 }
