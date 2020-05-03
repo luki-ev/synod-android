@@ -1895,13 +1895,13 @@ Wenn du diese neue Wiederherstellungsmethode nicht eingerichtet hast, kann ein A
     <string name="two_and_some_others_read">gelesen von %1$s, %2$s und %3$d anderen</string>
     <string name="error_handling_incoming_share">Zu teilende Daten nicht verarbeitbar</string>
 
-    <string name="login_connect_to">Verbinde mit %1$s</string>
+    <string name="login_connect_to">Mit %1$s verbinden</string>
     <string name="login_connect_to_modular">Mit Modular verbinden</string>
     <string name="login_connect_to_a_custom_server">Mit einem benutzerdefinierten Server verbinden</string>
 
     <!-- Replaced string is the homeserver url -->
     <string name="login_signup_to">Bei %1$s registrieren</string>
-    <string name="login_signin_username_hint">Benutzername or Email</string>
+    <string name="login_signin_username_hint">Benutzername oder Email-Adresse</string>
     <string name="login_signup_username_hint">Benutzername</string>
     <string name="login_signup_password_hint">Passwort</string>
     <string name="login_signup_submit">Weiter</string>
