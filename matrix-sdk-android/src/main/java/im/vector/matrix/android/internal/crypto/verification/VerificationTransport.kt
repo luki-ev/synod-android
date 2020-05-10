@@ -34,6 +34,9 @@ internal interface VerificationTransport {
                         onErrorReason: CancelCode,
                         onDone: (() -> Unit)?)
 
+    /**
+     * @param callback will be called with eventId and ValidVerificationInfoRequest in case of success
+     */
     fun sendVerificationRequest(supportedMethods: List<String>,
                                 localId: String,
                                 otherUserId: String,
@@ -46,7 +49,8 @@ internal interface VerificationTransport {
                           otherUserDeviceId: String?,
                           code: CancelCode)
 
-    fun done(transactionId: String)
+    fun done(transactionId: String,
+             onDone: (() -> Unit)?)
 
     /**
      * Creates an accept message suitable for this transport

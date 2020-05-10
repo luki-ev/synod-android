@@ -117,6 +117,7 @@ internal class VerificationTransportToDevice(
                                  onDone: (() -> Unit)?) {
         Timber.d("## SAS sending msg type $type")
         Timber.v("## SAS sending msg info $verificationInfo")
+        val stateBeforeCall = tx?.state
         val tx = tx ?: return
         val contentMap = MXUsersDevicesMap<Any>()
         val toSendToDeviceObject = verificationInfo.toSendToDeviceObject()
@@ -132,7 +133,11 @@ internal class VerificationTransportToDevice(
                             if (onDone != null) {
                                 onDone()
                             } else {
-                                tx.state = nextState
+                                // we may have received next state (e.g received accept in sending_start)
+                                // We only put next state if the state was what is was before we started
+                                if (tx.state == stateBeforeCall) {
+                                    tx.state = nextState
+                                }
                             }
                         }
 
@@ -145,7 +150,7 @@ internal class VerificationTransportToDevice(
                 .executeBy(taskExecutor)
     }
 
-    override fun done(transactionId: String) {
+    override fun done(transactionId: String, onDone: (() -> Unit)?) {
         val otherUserId = tx?.otherUserId ?: return
         val otherUserDeviceId = tx?.otherDeviceId ?: return
         val cancelMessage = KeyVerificationDone(transactionId)
@@ -155,6 +160,7 @@ internal class VerificationTransportToDevice(
                 .configureWith(SendToDeviceTask.Params(EventType.KEY_VERIFICATION_DONE, contentMap, transactionId)) {
                     this.callback = object : MatrixCallback<Unit> {
                         override fun onSuccess(data: Unit) {
+                            onDone?.invoke()
                             Timber.v("## SAS verification [$transactionId] done")
                         }
 

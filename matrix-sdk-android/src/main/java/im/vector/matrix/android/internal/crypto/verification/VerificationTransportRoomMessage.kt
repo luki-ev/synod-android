@@ -22,8 +22,8 @@ import androidx.work.ExistingWorkPolicy
 import androidx.work.Operation
 import androidx.work.WorkInfo
 import im.vector.matrix.android.R
-import im.vector.matrix.android.api.session.crypto.verification.ValidVerificationInfoRequest
 import im.vector.matrix.android.api.session.crypto.verification.CancelCode
+import im.vector.matrix.android.api.session.crypto.verification.ValidVerificationInfoRequest
 import im.vector.matrix.android.api.session.crypto.verification.VerificationTxState
 import im.vector.matrix.android.api.session.events.model.Content
 import im.vector.matrix.android.api.session.events.model.Event
@@ -107,7 +107,7 @@ internal class VerificationTransportRoomMessage(
 //        }, listenerExecutor)
 
         val workLiveData = workManagerProvider.workManager
-                .getWorkInfosForUniqueWorkLiveData("${roomId}_VerificationWork")
+                .getWorkInfosForUniqueWorkLiveData(uniqueQueueName())
 
         val observer = object : Observer<List<WorkInfo>> {
             override fun onChanged(workInfoList: List<WorkInfo>?) {
@@ -115,7 +115,7 @@ internal class VerificationTransportRoomMessage(
                         ?.filter { it.state == WorkInfo.State.SUCCEEDED }
                         ?.firstOrNull { it.id == enqueueInfo.second }
                         ?.let { wInfo ->
-                            if (wInfo.outputData.getBoolean("failed", false)) {
+                            if (SendVerificationMessageWorker.hasFailed(wInfo.outputData)) {
                                 Timber.e("## SAS verification [${tx?.transactionId}] failed to send verification message in state : ${tx?.state}")
                                 tx?.cancel(onErrorReason)
                             } else {
@@ -196,12 +196,15 @@ internal class VerificationTransportRoomMessage(
                         ?.filter { it.state == WorkInfo.State.SUCCEEDED }
                         ?.firstOrNull { it.id == workRequest.id }
                         ?.let { wInfo ->
-                            if (wInfo.outputData.getBoolean("failed", false)) {
+                            if (SendVerificationMessageWorker.hasFailed(wInfo.outputData)) {
                                 callback(null, null)
-                            } else if (wInfo.outputData.getString(localId) != null) {
-                                callback(wInfo.outputData.getString(localId), validInfo)
                             } else {
-                                callback(null, null)
+                                val eventId = wInfo.outputData.getString(localId)
+                                if (eventId != null) {
+                                    callback(eventId, validInfo)
+                                } else {
+                                    callback(null, null)
+                                }
                             }
                             workLiveData.removeObserver(this)
                         }
@@ -228,7 +231,8 @@ internal class VerificationTransportRoomMessage(
         enqueueSendWork(workerParams)
     }
 
-    override fun done(transactionId: String) {
+    override fun done(transactionId: String,
+                      onDone: (() -> Unit)?) {
         Timber.d("## SAS sending done for $transactionId")
         val event = createEventAndLocalEcho(
                 type = EventType.KEY_VERIFICATION_DONE,
@@ -244,7 +248,26 @@ internal class VerificationTransportRoomMessage(
                 sessionId = sessionId,
                 event = event
         ))
-        enqueueSendWork(workerParams)
+        val enqueueInfo = enqueueSendWork(workerParams)
+
+        val workLiveData = workManagerProvider.workManager
+                .getWorkInfosForUniqueWorkLiveData(uniqueQueueName())
+        val observer = object : Observer<List<WorkInfo>> {
+            override fun onChanged(workInfoList: List<WorkInfo>?) {
+                workInfoList
+                        ?.filter { it.state == WorkInfo.State.SUCCEEDED }
+                        ?.firstOrNull { it.id == enqueueInfo.second }
+                        ?.let { _ ->
+                            onDone?.invoke()
+                            workLiveData.removeObserver(this)
+                        }
+            }
+        }
+
+        // TODO listen to DB to get synced info
+        GlobalScope.launch(Dispatchers.Main) {
+            workLiveData.observeForever(observer)
+        }
     }
 
     private fun enqueueSendWork(workerParams: Data): Pair<Operation, UUID> {
@@ -254,9 +277,11 @@ internal class VerificationTransportRoomMessage(
                 .setBackoffCriteria(BackoffPolicy.LINEAR, 2_000L, TimeUnit.MILLISECONDS)
                 .build()
         return workManagerProvider.workManager
-                .beginUniqueWork("${roomId}_VerificationWork", ExistingWorkPolicy.APPEND, workRequest)
+                .beginUniqueWork(uniqueQueueName(), ExistingWorkPolicy.APPEND, workRequest)
                 .enqueue() to workRequest.id
     }
+
+    private fun uniqueQueueName() = "${roomId}_VerificationWork"
 
     override fun createAccept(tid: String,
                               keyAgreementProtocol: String,

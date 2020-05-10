@@ -34,6 +34,7 @@ import im.vector.riotx.core.utils.toast
 import im.vector.riotx.features.createdirect.CreateDirectRoomActivity
 import im.vector.riotx.features.crypto.keysbackup.settings.KeysBackupManageActivity
 import im.vector.riotx.features.crypto.keysbackup.setup.KeysBackupSetupActivity
+import im.vector.riotx.features.crypto.recover.BootstrapBottomSheet
 import im.vector.riotx.features.crypto.verification.SupportedVerificationMethodsProvider
 import im.vector.riotx.features.crypto.verification.VerificationBottomSheet
 import im.vector.riotx.features.debug.DebugMenuActivity
@@ -83,19 +84,19 @@ class DefaultNavigator @Inject constructor(
         }
     }
 
-    override fun requestSessionVerification(context: Context) {
+    override fun requestSessionVerification(context: Context, otherSessionId: String) {
         val session = sessionHolder.getSafeActiveSession() ?: return
         val pr = session.cryptoService().verificationService().requestKeyVerification(
                 supportedVerificationMethodsProvider.provide(),
                 session.myUserId,
-                session.cryptoService().getUserDevices(session.myUserId).map { it.deviceId }
+                listOf(otherSessionId)
         )
         if (context is VectorBaseActivity) {
             VerificationBottomSheet.withArgs(
                     roomId = null,
                     otherUserId = session.myUserId,
                     transactionId = pr.transactionId
-            ).show(context.supportFragmentManager, "REQPOP")
+            ).show(context.supportFragmentManager, VerificationBottomSheet.WAITING_SELF_VERIF_TAG)
         }
     }
 
@@ -104,6 +105,12 @@ class DefaultNavigator @Inject constructor(
         if (context is VectorBaseActivity) {
             VerificationBottomSheet.forSelfVerification(session)
                     .show(context.supportFragmentManager, VerificationBottomSheet.WAITING_SELF_VERIF_TAG)
+        }
+    }
+
+    override fun upgradeSessionSecurity(context: Context) {
+        if (context is VectorBaseActivity) {
+            BootstrapBottomSheet.show(context.supportFragmentManager, false)
         }
     }
 
