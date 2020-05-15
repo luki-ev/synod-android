@@ -22,7 +22,7 @@
                 android:id="@+id/loginSplashLogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/riotx_logo"
+                android:src="@drawable/synod_logo"
                 android:transitionName="loginLogoTransition"
                 app:layout_constraintBottom_toTopOf="@+id/loginSplashTitle"
                 app:layout_constraintEnd_toEndOf="parent"

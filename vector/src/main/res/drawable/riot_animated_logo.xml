@@ -2,15 +2,6 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item
-        android:drawable="@drawable/riot_splash_0_blue"
-        android:duration="@integer/splash_animation_velocity" />
-    <item
-        android:drawable="@drawable/riot_splash_1_green"
-        android:duration="@integer/splash_animation_velocity" />
-    <item
-        android:drawable="@drawable/riot_splash_2_pink"
-        android:duration="@integer/splash_animation_velocity" />
-    <item
-        android:drawable="@drawable/riot_splash_3_red"
+        android:drawable="@drawable/synod_splash"
         android:duration="@integer/splash_animation_velocity" />
 </animation-list>
