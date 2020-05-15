@@ -1968,7 +1968,6 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="reaction_search_type_hint">Beginne zu Tippen um eine Reaktion zu finden.</string>
 
     <string name="room_join_rules_invite">%1$s hat den Raum auf \"nur-einladen\" gestellt.</string>
-    <string name="login_splash_title">Befreie deine Kommunikation</string>
     <string name="login_server_url_form_modular_text">Premium-Hosting für Organisationen</string>
     <string name="login_server_url_form_modular_notice">Gib die Adresse des Modular Riot oder Servers ein, den du verwenden möchtest</string>
     <string name="login_server_url_form_other_notice">Gibt die Adresse eines Servers oder eines Riot ein, zu dem du dich verbinden möchtest</string>
