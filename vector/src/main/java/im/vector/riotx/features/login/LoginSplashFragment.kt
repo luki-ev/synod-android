@@ -22,6 +22,8 @@ import javax.inject.Inject
 
 /**
  * In this screen, the user is viewing an introduction to what he can do with this application
+ *
+ * Changed for Synod.im: Skip server selection
  */
 class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
@@ -34,5 +36,12 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
     override fun resetViewModel() {
         // Nothing to do
+    }
+
+    override fun updateWithState(state: LoginViewState) {
+        if (state.loginMode != LoginMode.Unknown) {
+            // LoginFlow for matrix.org has been retrieved
+            loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OnLoginFlowRetrieved))
+        }
     }
 }
