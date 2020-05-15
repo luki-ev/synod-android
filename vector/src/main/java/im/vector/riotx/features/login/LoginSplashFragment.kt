@@ -35,13 +35,4 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
     override fun resetViewModel() {
         // Nothing to do
     }
-
-    override fun updateWithState(state: LoginViewState) {
-        //updateSelectedChoice(state)
-
-        if (state.loginMode != LoginMode.Unknown) {
-            // LoginFlow for matrix.org has been retrieved
-            loginSharedActionViewModel.post(LoginNavigation.OnLoginFlowRetrieved)
-        }
-    }
 }
