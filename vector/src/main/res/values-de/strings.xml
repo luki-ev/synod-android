@@ -1990,11 +1990,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
 
     <string name="login_msisdn_error_not_international">Internationale Telefonnummern müssen mit \'+\' beginnen</string>
     <string name="login_msisdn_error_other">Die Telefonnummer scheint ungültig zu sein. Bitte prüfen</string>
-
-    <string name="login_signup_to">Anmelden bei %1$s</string>
-    <string name="login_signup_username_hint">Benutzername</string>
-    <string name="login_signup_submit">Weiter</string>
-    <string name="login_signup_cancel_confirmation_title">Warnung</string>
+    
     <string name="login_a11y_captcha_container">Bitte löse das Captcha</string>
     <string name="login_error_outdated_homeserver_title">Veralteter Heimserver</string>
     <string name="login_error_outdated_homeserver_content">Auf diesem Heimserver läuft eine zu alte Version, um eine Verbindung herzustellen. Bitten die Heimserver-Administration um ein Upgrade.</string>
