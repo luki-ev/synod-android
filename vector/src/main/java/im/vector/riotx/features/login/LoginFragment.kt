@@ -140,7 +140,7 @@ class LoginFragment @Inject constructor() : AbstractLoginFragment() {
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    loginServerIcon.isVisible = true
+                    loginServerIcon.isVisible = false
                     loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
                     loginTitle.text = getString(resId, state.homeServerUrl.toReducedUrl())
                     loginNotice.text = getString(R.string.login_server_matrix_org_text)

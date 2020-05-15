@@ -36,7 +36,7 @@ class LoginSignUpSignInSelectionFragment @Inject constructor() : AbstractLoginFr
         when (state.serverType) {
             ServerType.MatrixOrg -> {
                 loginSignupSigninServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
-                loginSignupSigninServerIcon.isVisible = true
+                loginSignupSigninServerIcon.isVisible = false
                 loginSignupSigninTitle.text = getString(R.string.login_connect_to, state.homeServerUrl.toReducedUrl())
                 loginSignupSigninText.text = getString(R.string.login_server_matrix_org_text)
             }
