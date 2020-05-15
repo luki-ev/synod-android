@@ -1946,7 +1946,6 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
 \nMöchtest du die Passwortänderung stoppen\?</string>
 
     <string name="login_set_email_title">E-Mail-Adresse angeben</string>
-    <string name="login_set_email_notice">Gib eine Email-Adresse an, um später dein Passwort neu setzen zu können, falls du es vergessen hast.</string>
     <string name="login_set_email_mandatory_hint">E-Mail</string>
     <string name="login_set_email_optional_hint">E-Mail (optional)</string>
     <string name="login_set_msisdn_mandatory_hint">Telefonnummer</string>
@@ -1979,7 +1978,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="login_reset_password_submit">Weiter</string>
     <string name="login_reset_password_success_notice_2">Du wurdest von allen Sitzungen abgemeldet und erhälst keine Push-Benachrichtigungen mehr. Um Benachrichtigungen wieder zu aktivieren, melde dich auf jedem Gerät erneut an.</string>
     <string name="login_reset_password_cancel_confirmation_title">Warnung</string>
-    <string name="login_set_email_notice">Lege eine E-Mail-Adresse fest, um dein Konto wiederherzustellen. Später kannst du optional zulassen, dass Personen dich anhand dieser E-Mail-Adresse entdecken.</string>
+    <string name="login_set_email_notice">Gib eine Email-Adresse an, um später dein Passwort neu setzen zu können, falls du es vergessen hast.</string>
     <string name="login_set_email_submit">Weiter</string>
 
     <string name="login_set_msisdn_title">Lege Telefonnummer fest</string>
