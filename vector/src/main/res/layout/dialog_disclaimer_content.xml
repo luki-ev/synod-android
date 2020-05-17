@@ -16,7 +16,7 @@
             android:layout_marginStart="23dp"
             android:layout_marginLeft="23dp"
             android:layout_marginTop="15dp"
-            android:src="@drawable/disclaimer_top_banner_foreground" />
+            android:src="@drawable/synod_logo" />
 
         <TextView
             android:layout_width="wrap_content"
