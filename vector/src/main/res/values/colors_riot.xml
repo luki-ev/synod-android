@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Error colors -->
-    <color name="vector_success_color">#70BF56</color>
+    <color name="vector_success_color">#32B4B6</color>
     <color name="vector_warning_color">#ff4b55</color>
     <color name="vector_error_color">#ff4b55</color>
 
@@ -39,18 +39,18 @@
     <color name="riot_primary_background_color_status">#FFEEF2F5</color>
 
     <!--Default/Android Status Bar-->
-    <color name="primary_color_dark_light">#FF1A2027</color>
+    <color name="primary_color_dark_light">#299496</color>
     <!--Default/Base-->
-    <color name="primary_color_light">#03b381</color>
+    <color name="primary_color_light">#32B4B6</color>
     <!--Default/Accent-->
-    <color name="accent_color_light">#03b381</color>
+    <color name="accent_color_light">#E1531A</color>
 
     <!--Dark/Android Status Bar-->
     <color name="primary_color_dark_dark">#FF0D0E10</color>
     <!--Dark/Base-->
     <color name="primary_color_dark">#FF15171B</color>
     <!--Dark/Accent-->
-    <color name="accent_color_dark">#03b381</color>
+    <color name="accent_color_dark">#E1531A</color>
 
     <!--Black/Android Status Bar-->
     <color name="primary_color_dark_black">#000</color>
@@ -117,7 +117,7 @@
     <color name="password_strength_bar_weak">#FFF56679</color>
     <color name="password_strength_bar_low">#FFFFC666</color>
     <color name="password_strength_bar_ok">#FFF8E71C</color>
-    <color name="password_strength_bar_strong">#FF7AC9A1</color>
+    <color name="password_strength_bar_strong">#32B4B6</color>
     <color name="password_strength_bar_undefined">#FF9E9E9E</color>
 
     <!-- Button color -->
