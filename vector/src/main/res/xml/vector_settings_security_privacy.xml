@@ -72,7 +72,7 @@
     <im.vector.riotx.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_ANALYTICS_PREFERENCE_KEY"
         android:title="@string/settings_analytics"
-        app:isPreferenceVisible="@bool/false_not_implemented">
+        app:isPreferenceVisible="false">
 
         <im.vector.riotx.core.preference.VectorSwitchPreference
             android:defaultValue="false"
