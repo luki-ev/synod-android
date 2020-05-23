@@ -1640,13 +1640,14 @@ Why choose Synod.im?
     <string name="settings_labs_show_hidden_events_in_timeline">Show hidden events in timeline</string>
 
     <!-- String for Play Store, for RiotX -->
-    <string name="store_riotx_title">Synod.im - Next Generation Matrix Client</string>
-    <string name="store_riotx_short_description">A faster and lighter client for Matrix using the latest Android frameworks</string>
-    <string name="store_riotx_full_description">"RiotX is a new client for the Matrix protocol (matrix.org): an open network for secure, decentralised communication. RiotX is a full rewrite of the Riot Android client, based on a full rewrite of the Matrix Android SDK.
+    <string name="store_riotx_title">Synod.im - Matrix Client</string>
+    <string name="store_riotx_short_description">A Matrix compatible messenger by LUKi e.V.</string>
+    <string name="store_riotx_full_description">"Synod.im is a Matrix compatible messenger by LUKi e.V. to join the federated Matrix network.
+This is a friendly fork of RiotX Android.
 
-Disclaimer: This is a beta version. RiotX is currently in active development and contains limitations and (we hope not too many) bugs. All feedback is welcome!
+Disclaimer: This is a beta version. Synod.im is currently in active development and contains limitations and (we hope not too many) bugs. All feedback is welcome!
 
-RiotX supports:
+Synod.im supports:
 • Login to an existing account
 • Create room and join public rooms
 • Accept and reject invitations
@@ -1659,7 +1660,7 @@ RiotX supports:
 • Push notification
 • Light, Dark and Black themes
 
-Not all features in Riot are implemented in RiotX yet. Main missing (and coming soon!) features:
+Main missing (and coming soon!) features:
 • Room settings (list room members, etc.)
 • Calls
 • Widgets
