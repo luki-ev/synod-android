@@ -34,7 +34,8 @@
 
     <im.vector.riotx.core.preference.VectorPreferenceCategory
         android:key="SETTINGS_RAGE_SHAKE_CATEGORY_KEY"
-        android:title="@string/settings_rageshake">
+        android:title="@string/settings_rageshake"
+        app:isPreferenceVisible="@bool/false_not_implemented">
 
         <im.vector.riotx.core.preference.VectorSwitchPreference
             android:defaultValue="true"
