@@ -150,7 +150,7 @@
     <string name="user_directory_header">User directory</string>
     <string name="matrix_only_filter">Matrix contacts only</string>
     <string name="no_conversation_placeholder">No conversations</string>
-    <string name="no_contact_access_placeholder">You didn’t allow Riot to access your local contacts</string>
+    <string name="no_contact_access_placeholder">You didn’t allow Synod.im to access your local contacts</string>
     <string name="no_result_placeholder">No results</string>
     <string name="people_no_identity_server">No identity server configured.</string>
 
@@ -306,7 +306,7 @@
     <string name="e2e_re_request_encryption_key_sent">Key request sent.</string>
 
     <string name="e2e_re_request_encryption_key_dialog_title">Request sent</string>
-    <string name="e2e_re_request_encryption_key_dialog_content">Please launch Riot on another device that can decrypt the message so it can send the keys to this session.</string>
+    <string name="e2e_re_request_encryption_key_dialog_content">Please launch Synod.im on another device that can decrypt the message so it can send the keys to this session.</string>
 
     <!-- read receipts list Screen -->
     <string name="read_receipts_list">Read Receipts List</string>
@@ -345,7 +345,7 @@
 
     <!-- Call settings screen -->
     <string name="settings_call_category">Calls</string>
-    <string name="settings_call_ringtone_use_riot_ringtone">Use default Riot ringtone for incoming calls</string>
+    <string name="settings_call_ringtone_use_riot_ringtone">Use default Synod.im ringtone for incoming calls</string>
     <string name="settings_call_ringtone_use_default_stun">Allow fallback call assist server</string>
     <string name="settings_call_ringtone_use_default_stun_sum">Will use "%s" as assist when your home server does not offers one (your IP address will be shared during a call)</string>
     <string name="settings_call_ringtone_title">Incoming call ringtone</string>
@@ -374,14 +374,14 @@
 
     <!-- permissions Android M -->
     <string name="permissions_rationale_popup_title">Information</string>
-    <string name="permissions_rationale_msg_storage">Riot needs permission to access your photo and video library to send and save attachments.\n\nPlease allow access on the next pop-up to be able to send files from your phone.</string>
-    <string name="permissions_rationale_msg_camera">Riot needs permission to access your camera to take pictures and video calls.</string>
+    <string name="permissions_rationale_msg_storage">Synod.im needs permission to access your photo and video library to send and save attachments.\n\nPlease allow access on the next pop-up to be able to send files from your phone.</string>
+    <string name="permissions_rationale_msg_camera">Synod.im needs permission to access your camera to take pictures and video calls.</string>
     <string name="permissions_rationale_msg_camera_explanation">\n\nPlease allow access on the next pop-up to be able to make the call.</string>
-    <string name="permissions_rationale_msg_record_audio">Riot needs permission to access your microphone to perform audio calls.</string>
+    <string name="permissions_rationale_msg_record_audio">Synod.im needs permission to access your microphone to perform audio calls.</string>
     <string name="permissions_rationale_msg_record_audio_explanation">\n\nPlease allow access on the next pop-up to be able to make the call.</string>
-    <string name="permissions_rationale_msg_camera_and_audio">Riot needs permission to access your camera and your microphone to perform video calls.\n\nPlease allow access on the next pop-ups to be able to make the call.</string>
-    <string name="permissions_rationale_msg_contacts">Riot can check your address book to find other Matrix users based on their email and phone numbers. If you agree to share your address book for this purpose, please allow access on the next pop-up.</string>
-    <string name="permissions_msg_contacts_warning_other_androids">Riot can check your address book to find other Matrix users based on their email and phone numbers.\n\nDo you agree to share your address book for this purpose?</string>
+    <string name="permissions_rationale_msg_camera_and_audio">Synod.im needs permission to access your camera and your microphone to perform video calls.\n\nPlease allow access on the next pop-ups to be able to make the call.</string>
+    <string name="permissions_rationale_msg_contacts">Synod.im can check your address book to find other Matrix users based on their email and phone numbers. If you agree to share your address book for this purpose, please allow access on the next pop-up.</string>
+    <string name="permissions_msg_contacts_warning_other_androids">Synod.im can check your address book to find other Matrix users based on their email and phone numbers.\n\nDo you agree to share your address book for this purpose?</string>
 
     <string name="permissions_action_not_performed_missing_permissions">Sorry. Action not performed, due to missing permissions</string>
 
@@ -632,7 +632,7 @@
     <string name="settings_app_info_link_title">Application info</string>
     <string name="settings_app_info_link_summary">Show the application info in the system settings.</string>
     <string name="settings_add_3pid_confirm_password_title">Confirm your password</string>
-    <string name="settings_add_3pid_flow_not_supported">You can\'t do this from Riot mobile</string>
+    <string name="settings_add_3pid_flow_not_supported">You can\'t do this from Synod.im mobile</string>
     <string name="settings_add_3pid_authentication_needed">Authentication is required</string>
 
 
@@ -661,7 +661,7 @@
 
     <string name="settings_troubleshoot_test_device_settings_title">Session Settings.</string>
     <string name="settings_troubleshoot_test_device_settings_success">Notifications are enabled for this session.</string>
-    <string name="settings_troubleshoot_test_device_settings_failed">Notifications are not enabled for this session.\nPlease check the Riot settings.</string>
+    <string name="settings_troubleshoot_test_device_settings_failed">Notifications are not enabled for this session.\nPlease check the Synod.im settings.</string>
     <string name="settings_troubleshoot_test_device_settings_quickfix">Enable</string>
 
     <string name="settings_troubleshoot_test_bing_settings_title">Custom Settings.</string>
@@ -672,15 +672,15 @@
 
     <string name="settings_troubleshoot_test_play_services_title">Play Services Check</string>
     <string name="settings_troubleshoot_test_play_services_success">Google Play Services APK is available and up-to-date.</string>
-    <string name="settings_troubleshoot_test_play_services_failed">Riot uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
+    <string name="settings_troubleshoot_test_play_services_failed">Synod.im uses Google Play Services to deliver push messages but it doesn’t seem to be configured correctly:\n%1$s</string>
     <string name="settings_troubleshoot_test_play_services_quickfix">Fix Play Services</string>
 
     <string name="settings_troubleshoot_test_fcm_title">Firebase Token</string>
     <string name="settings_troubleshoot_test_fcm_success">FCM token successfully retrieved:\n%1$s</string>
     <string name="settings_troubleshoot_test_fcm_failed">Failed to retrieved FCM token:\n%1$s</string>
-    <string name="settings_troubleshoot_test_fcm_failed_too_many_registration">[%1$s]\nThis error is out of control of Riot and according to Google, this error indicates that the device has too many apps registered with FCM. The error only occurs in cases where there are extreme numbers of apps, so it should not affect the average user.</string>
-    <string name="settings_troubleshoot_test_fcm_failed_service_not_available">[%1$s]\nThis error is out of control of Riot. It can occur for several reasons. Maybe it will work if you retry later, you can also check that Google Play Service is not restricted in data usage in the system settings, or that your device clock is correct, or it can happen on custom ROM.</string>
-    <string name="settings_troubleshoot_test_fcm_failed_account_missing">[%1$s]\nThis error is out of control of Riot. There is no Google account on the phone. Please open the account manager and add a Google account.</string>
+    <string name="settings_troubleshoot_test_fcm_failed_too_many_registration">[%1$s]\nThis error is out of control of Synod.im and according to Google, this error indicates that the device has too many apps registered with FCM. The error only occurs in cases where there are extreme numbers of apps, so it should not affect the average user.</string>
+    <string name="settings_troubleshoot_test_fcm_failed_service_not_available">[%1$s]\nThis error is out of control of Synod.im. It can occur for several reasons. Maybe it will work if you retry later, you can also check that Google Play Service is not restricted in data usage in the system settings, or that your device clock is correct, or it can happen on custom ROM.</string>
+    <string name="settings_troubleshoot_test_fcm_failed_account_missing">[%1$s]\nThis error is out of control of Synod.im. There is no Google account on the phone. Please open the account manager and add a Google account.</string>
     <string name="settings_troubleshoot_test_fcm_failed_account_missing_quick_fix">Add Account</string>
 
     <string name="settings_troubleshoot_test_token_registration_title">Token Registration</string>
@@ -698,16 +698,16 @@
 
     <string name="settings_troubleshoot_test_service_boot_title">Start on boot</string>
     <string name="settings_troubleshoot_test_service_boot_success">Service will start when the device is restarted.</string>
-    <string name="settings_troubleshoot_test_service_boot_failed">The service will not start when the device is restarted, you will not receive notifications until Riot has been opened once.</string>
+    <string name="settings_troubleshoot_test_service_boot_failed">The service will not start when the device is restarted, you will not receive notifications until Synod.im has been opened once.</string>
     <string name="settings_troubleshoot_test_service_boot_quickfix">Enable Start on boot</string>
 
     <string name="settings_troubleshoot_test_bg_restricted_title">Check background restrictions</string>
-    <string name="settings_troubleshoot_test_bg_restricted_success">Background restrictions are disabled for Riot. This test should be run using mobile data (no WIFI).\n%1$s</string>
-    <string name="settings_troubleshoot_test_bg_restricted_failed">Background restrictions are enabled for Riot.\nWork that the app tries to do will be aggressively restricted while it is in the background, and this could affect notifications.\n%1$s</string>
+    <string name="settings_troubleshoot_test_bg_restricted_success">Background restrictions are disabled for Synod.im. This test should be run using mobile data (no WIFI).\n%1$s</string>
+    <string name="settings_troubleshoot_test_bg_restricted_failed">Background restrictions are enabled for Synod.im.\nWork that the app tries to do will be aggressively restricted while it is in the background, and this could affect notifications.\n%1$s</string>
     <string name="settings_troubleshoot_test_bg_restricted_quickfix">Disable restrictions</string>
 
     <string name="settings_troubleshoot_test_battery_title">Battery Optimization</string>
-    <string name="settings_troubleshoot_test_battery_success">Riot is not affected by Battery Optimization.</string>
+    <string name="settings_troubleshoot_test_battery_success">Synod.im is not affected by Battery Optimization.</string>
     <string name="settings_troubleshoot_test_battery_failed">If a user leaves a device unplugged and stationary for a period of time, with the screen off, the device enters Doze mode. This prevents apps from accessing the network and defers their jobs, syncs, and standard alarms. </string>
     <string name="settings_troubleshoot_test_battery_quickfix">Ignore Optimization</string>
 
@@ -742,9 +742,9 @@
     <string name="settings_background_sync">Background synchronization</string>
     <string name="settings_background_fdroid_sync_mode">Background Sync Mode (Experimental)</string>
     <string name="settings_background_fdroid_sync_mode_battery">Optimized for battery</string>
-    <string name="settings_background_fdroid_sync_mode_battery_description">Riot will sync in background in way that preserves the device’s limited resources (battery).\nDepending on your device resource state, the sync may be deferred by the operating system.</string>
+    <string name="settings_background_fdroid_sync_mode_battery_description">Synod.im will sync in background in way that preserves the device’s limited resources (battery).\nDepending on your device resource state, the sync may be deferred by the operating system.</string>
     <string name="settings_background_fdroid_sync_mode_real_time">Optimized for real time</string>
-    <string name="settings_background_fdroid_sync_mode_real_time_description">Riot will sync in background periodically at precise time (configurable).\nThis will impact radio and battery usage, there will be a permanent notification displayed stating that riot is listening for events.</string>
+    <string name="settings_background_fdroid_sync_mode_real_time_description">Synod.im will sync in background periodically at precise time (configurable).\nThis will impact radio and battery usage, there will be a permanent notification displayed stating that Synod.im is listening for events.</string>
     <string name="settings_background_fdroid_sync_mode_disabled">No background sync</string>
     <string name="settings_background_fdroid_sync_mode_disabled_description">You will not be notified of incoming messages when the app is in background.</string>
     <string name="settings_background_sync_update_error">Failed to update settings.</string>
@@ -810,12 +810,12 @@
     <string name="settings_discovery_category">Discovery</string>
     <string name="settings_discovery_manage">Manage your discovery settings.</string>
     <string name="startup_notification_privacy_title">Notification Privacy</string>
-    <string name="startup_notification_privacy_message">Riot can run in the background to manage your notifications securely and privately. This might affect battery usage.</string>
+    <string name="startup_notification_privacy_message">Synod.im can run in the background to manage your notifications securely and privately. This might affect battery usage.</string>
     <string name="startup_notification_privacy_button_grant">Grant permission</string>
     <string name="startup_notification_privacy_button_other">Choose another option</string>
 
     <string name="startup_notification_fdroid_battery_optim_title">Background Connection</string>
-    <string name="startup_notification_fdroid_battery_optim_message">Riot needs to keep a low impact background connection in order to have reliable notifications.\nOn the next screen you will be prompted to allow Riot to always run in background, please accept.</string>
+    <string name="startup_notification_fdroid_battery_optim_message">Synod.im needs to keep a low impact background connection in order to have reliable notifications.\nOn the next screen you will be prompted to allow Synod.im to always run in background, please accept.</string>
     <string name="startup_notification_fdroid_battery_optim_button_grant">Grant permission</string>
 
     <!-- analytics -->
@@ -1042,7 +1042,7 @@
     <string name="encryption_information_verify_device_warning2">"If they don't match, the security of your communication may be compromised."</string>
     <string name="encryption_information_verify_key_match">I verify that the keys match</string>
 
-    <string name="e2e_enabling_on_app_update">Riot now supports end-to-end encryption but you need to log in again to enable it.\n\nYou can do it now or later from the application settings.</string>
+    <string name="e2e_enabling_on_app_update">Synod.im now supports end-to-end encryption but you need to log in again to enable it.\n\nYou can do it now or later from the application settings.</string>
 
     <!-- unknown sessions management -->
     <string name="unknown_devices_alert_title">Room contains unknown sessions</string>
@@ -1315,20 +1315,20 @@
     <string name="no_valid_google_play_services_apk">No valid Google Play Services APK found. Notifications may not work properly.</string>
 
     <!-- String for Play Store -->
-    <string name="store_title">synod.im - Communicate, your way</string>
-    <string name="store_whats_new">"We’re always making changes and improvements to synod.im.
+    <string name="store_title">Synod.im - Communicate, your way</string>
+    <string name="store_whats_new">"We’re always making changes and improvements to Synod.im.
 The complete changelog can be found here: %1$s.
 To make sure you don’t miss a thing, just keep your updates turned on."</string>
     <string name="store_short_description">A universal secure chat app entirely under your control.</string>
-    <string name="store_full_description">"A chat app, under your control and entirely flexible. Riot lets you communicate the way you want. Made for [matrix] - the standard for open, decentralised communication.
+    <string name="store_full_description">"A chat app, under your control and entirely flexible. Synod.im lets you communicate the way you want. Made for [matrix] - the standard for open, decentralised communication.
 
-Get a free synod.im account, get your own server at https://modular.im, or use another Matrix server.
+Get a free Synod.im account, get your own server at https://modular.im, or use another Matrix server.
 
-Why choose synod.im?
+Why choose Synod.im?
 
 • COMPLETE COMMUNICATION: Build rooms around your teams, your friends, your community - however you like! Chat, share files, add widgets and make voice and video calls - all free of charge.
 
-• POWERFUL INTEGRATIONS: Use synod.im with the tools you know and love. With synod.im you can even chat with users and groups on other chat apps.
+• POWERFUL INTEGRATIONS: Use Synod.im with the tools you know and love. With Synod.im you can even chat with users and groups on other chat apps.
 
 • PRIVATE AND SECURE: Keep your conversations secret. State of the art end-to-end encryption ensures that private communication stays private.
 
@@ -1346,7 +1346,7 @@ Why choose synod.im?
 
     <!-- Key Backup -->
 
-    <string name="keys_backup_passphrase_not_empty_error_message">Please delete the passphrase if you want Riot to generate a recovery key.</string>
+    <string name="keys_backup_passphrase_not_empty_error_message">Please delete the passphrase if you want Synod.im to generate a recovery key.</string>
     <string name="keys_backup_no_session_error">No Matrix session available</string>
 
     <string name="keys_backup_setup_step1_title">Never lose encrypted messages</string>
@@ -1481,7 +1481,7 @@ Why choose synod.im?
 
     <string name="autodiscover_invalid_response">Invalid homeserver discovery response</string>
     <string name="autodiscover_well_known_autofill_dialog_title">"Autocomplete Server Options</string>
-    <string name="autodiscover_well_known_autofill_dialog_message">Riot detected a custom server configuration for your userId domain \"%1$s\":\n%2$s</string>
+    <string name="autodiscover_well_known_autofill_dialog_message">Synod.im detected a custom server configuration for your userId domain \"%1$s\":\n%2$s</string>
     <string name="autodiscover_well_known_autofill_confirm">Use Config</string>
 
     <string name="invalid_or_expired_credentials">You have been logged out due to invalid or expired credentials.</string>
@@ -1640,7 +1640,7 @@ Why choose synod.im?
     <string name="settings_labs_show_hidden_events_in_timeline">Show hidden events in timeline</string>
 
     <!-- String for Play Store, for RiotX -->
-    <string name="store_riotx_title">RiotX - Next Generation Matrix Client</string>
+    <string name="store_riotx_title">Synod.im - Next Generation Matrix Client</string>
     <string name="store_riotx_short_description">A faster and lighter client for Matrix using the latest Android frameworks</string>
     <string name="store_riotx_full_description">"RiotX is a new client for the Matrix protocol (matrix.org): an open network for secure, decentralised communication. RiotX is a full rewrite of the Riot Android client, based on a full rewrite of the Matrix Android SDK.
 
@@ -1798,7 +1798,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="content_reported_as_inappropriate_title">"Reported as inappropriate"</string>
     <string name="content_reported_as_inappropriate_content">"This content was reported as inappropriate.\n\nIf you don't want to see any more content from this user, you can block him to hide his messages"</string>
 
-    <string name="permissions_rationale_msg_keys_backup_export">Riot needs permission to save your E2E keys on disk.\n\nPlease allow access on the next pop-up to be able to export your keys manually.</string>
+    <string name="permissions_rationale_msg_keys_backup_export">Synod.im needs permission to save your E2E keys on disk.\n\nPlease allow access on the next pop-up to be able to export your keys manually.</string>
 
     <string name="no_network_indicator">There is no network connection right now</string>
 
@@ -2195,7 +2195,7 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
 
     <string name="keys_backup_restore_success_title_already_up_to_date">Keys are already up to date!</string>
 
-    <string name="login_mobile_device_riotx">RiotX Android</string>
+    <string name="login_mobile_device_riotx">Synod.im Android</string>
 
     <string name="settings_key_requests">Key Requests</string>
 
@@ -2338,11 +2338,11 @@ Not all features in Riot are implemented in RiotX yet. Main missing (and coming 
     <string name="error_adding_media_file_to_gallery">Could not add media file to the Gallery</string>
     <string name="change_password_summary">Set a new account password…</string>
 
-    <string name="use_other_session_content_description">Use the latest Riot on your other devices, Riot Web, Riot Desktop, Riot iOS, RiotX for Android, or another cross-signing capable Matrix client</string>
-    <string name="riot_desktop_web">Riot Web\nRiot Desktop</string>
-    <string name="riot_ios_android">Riot iOS\nRiot X for Android</string>
+    <string name="use_other_session_content_description">Use the latest Synod.im on your other devices, Synod.im Web, Riot Desktop, Synod.im iOS, Synod.im for Android, or another cross-signing capable Matrix client</string>
+    <string name="riot_desktop_web">Synod.im Web\nRiot Desktop</string>
+    <string name="riot_ios_android">Synod.im iOS\nSynod.im for Android</string>
     <string name="or_other_mx_capabale_client">or another cross-signing capable Matrix client</string>
-    <string name="use_latest_riot">Use the latest Riot on your other devices:</string>
+    <string name="use_latest_riot">Use the latest Synod.im on your other devices:</string>
     <string name="command_description_discard_session">Forces the current outbound group session in an encrypted room to be discarded</string>
     <string name="command_description_discard_session_not_handled">Only supported in encrypted rooms</string>
     <!-- first will be replaced by recovery_passphrase, second will be replaced by recovery_key-->
