@@ -66,9 +66,9 @@ static def gitBranchName() {
     }
 }
 
-// For Google Play build, build on any other branch than master will have a "-dev" suffix
+// For Google Play build, build on any other branch than synodim will have a "-dev" suffix
 static def getGplayVersionSuffix() {
-    if (gitBranchName() == "master") {
+    if (gitBranchName() == "synodim") {
         return ""
     } else {
         return "-dev"
