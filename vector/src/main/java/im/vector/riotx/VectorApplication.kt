@@ -32,11 +32,10 @@ import com.airbnb.epoxy.EpoxyAsyncUtil
 import com.airbnb.epoxy.EpoxyController
 import com.facebook.stetho.Stetho
 import com.gabrielittner.threetenbp.LazyThreeTen
-import com.github.piasy.biv.BigImageViewer
-import com.github.piasy.biv.loader.glide.GlideImageLoader
 import im.vector.matrix.android.api.Matrix
 import im.vector.matrix.android.api.MatrixConfiguration
 import im.vector.matrix.android.api.auth.AuthenticationService
+import im.vector.matrix.android.api.legacy.LegacySessionImporter
 import im.vector.riotx.core.di.ActiveSessionHolder
 import im.vector.riotx.core.di.DaggerVectorComponent
 import im.vector.riotx.core.di.HasVectorInjector
@@ -47,40 +46,45 @@ import im.vector.riotx.features.configuration.VectorConfiguration
 import im.vector.riotx.features.lifecycle.VectorActivityLifecycleCallbacks
 import im.vector.riotx.features.notifications.NotificationDrawerManager
 import im.vector.riotx.features.notifications.NotificationUtils
-import im.vector.riotx.features.notifications.PushRuleTriggerListener
 import im.vector.riotx.features.popup.PopupAlertManager
 import im.vector.riotx.features.rageshake.VectorUncaughtExceptionHandler
-import im.vector.riotx.features.session.SessionListener
 import im.vector.riotx.features.settings.VectorPreferences
 import im.vector.riotx.features.version.VersionProvider
 import im.vector.riotx.push.fcm.FcmHelper
 import timber.log.Timber
 import java.text.SimpleDateFormat
-import java.util.concurrent.Executors
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
-class VectorApplication : Application(), HasVectorInjector, MatrixConfiguration.Provider, androidx.work.Configuration.Provider {
+import androidx.work.Configuration as WorkConfiguration
+
+class VectorApplication :
+        Application(),
+        HasVectorInjector,
+        MatrixConfiguration.Provider,
+        WorkConfiguration.Provider {
 
     lateinit var appContext: Context
-    // font thread handler
+    @Inject lateinit var legacySessionImporter: LegacySessionImporter
     @Inject lateinit var authenticationService: AuthenticationService
     @Inject lateinit var vectorConfiguration: VectorConfiguration
     @Inject lateinit var emojiCompatFontProvider: EmojiCompatFontProvider
     @Inject lateinit var emojiCompatWrapper: EmojiCompatWrapper
     @Inject lateinit var vectorUncaughtExceptionHandler: VectorUncaughtExceptionHandler
     @Inject lateinit var activeSessionHolder: ActiveSessionHolder
-    @Inject lateinit var sessionListener: SessionListener
     @Inject lateinit var notificationDrawerManager: NotificationDrawerManager
-    @Inject lateinit var pushRuleTriggerListener: PushRuleTriggerListener
     @Inject lateinit var vectorPreferences: VectorPreferences
     @Inject lateinit var versionProvider: VersionProvider
     @Inject lateinit var notificationUtils: NotificationUtils
     @Inject lateinit var appStateHandler: AppStateHandler
     @Inject lateinit var rxConfig: RxConfig
     @Inject lateinit var popupAlertManager: PopupAlertManager
+
     lateinit var vectorComponent: VectorComponent
+
+    // font thread handler
     private var fontThreadHandler: Handler? = null
 
     override fun onCreate() {
@@ -102,7 +106,6 @@ class VectorApplication : Application(), HasVectorInjector, MatrixConfiguration.
         logInfo()
         LazyThreeTen.init(this)
 
-        BigImageViewer.initialize(GlideImageLoader.with(applicationContext))
         EpoxyController.defaultDiffingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
         EpoxyController.defaultModelBuildingHandler = EpoxyAsyncUtil.getAsyncBackgroundHandler()
         registerActivityLifecycleCallbacks(VectorActivityLifecycleCallbacks(popupAlertManager))
@@ -118,10 +121,14 @@ class VectorApplication : Application(), HasVectorInjector, MatrixConfiguration.
         emojiCompatWrapper.init(fontRequest)
 
         notificationUtils.createNotificationChannels()
+
+        // It can takes time, but do we care?
+        legacySessionImporter.process()
+
         if (authenticationService.hasAuthenticatedSessions() && !activeSessionHolder.hasActiveSession()) {
             val lastAuthenticatedSession = authenticationService.getLastAuthenticatedSession()!!
             activeSessionHolder.setActiveSession(lastAuthenticatedSession)
-            lastAuthenticatedSession.configureAndStart(applicationContext, pushRuleTriggerListener, sessionListener)
+            lastAuthenticatedSession.configureAndStart(applicationContext)
         }
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : LifecycleObserver {
             @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
@@ -147,7 +154,11 @@ class VectorApplication : Application(), HasVectorInjector, MatrixConfiguration.
 
     override fun providesMatrixConfiguration() = MatrixConfiguration(BuildConfig.FLAVOR_DESCRIPTION)
 
-    override fun getWorkManagerConfiguration() = androidx.work.Configuration.Builder().setExecutor(Executors.newCachedThreadPool()).build()
+    override fun getWorkManagerConfiguration(): WorkConfiguration {
+        return WorkConfiguration.Builder()
+                .setExecutor(Executors.newCachedThreadPool())
+                .build()
+    }
 
     override fun injector(): VectorComponent {
         return vectorComponent

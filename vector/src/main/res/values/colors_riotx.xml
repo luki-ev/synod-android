@@ -21,6 +21,7 @@
 
     <color name="riotx_notice">#E1531A</color>
     <color name="riotx_notice_secondary">#FF61708B</color>
+    <color name="riotx_notice_secondary_alpha12">#1E61708B</color>
     <color name="riotx_links">#299496</color>
 
     <color name="riotx_avatar_fill_1">#32B4B6</color>
@@ -39,6 +40,7 @@
     <!-- Other usefull color -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="black_alpha">#55000000</color>
 
     <!-- Palette: format fo naming:
       'riotx_<name in the palette snake case>_<theme>'
@@ -189,6 +191,5 @@
     <attr name="riotx_keys_backup_banner_accent_color" format="color" />
     <color name="riotx_keys_backup_banner_accent_color_light">#FFF8E3</color>
     <color name="riotx_keys_backup_banner_accent_color_dark">#22262E</color>
-
 
 </resources>
