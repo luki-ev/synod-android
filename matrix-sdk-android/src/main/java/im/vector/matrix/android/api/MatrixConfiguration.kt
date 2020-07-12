@@ -22,6 +22,11 @@ import java.net.Proxy
 data class MatrixConfiguration(
         val applicationFlavor: String = "Default-application-flavor",
         val cryptoConfig: MXCryptoConfig = MXCryptoConfig(),
+        val integrationUIUrl: String = "https://dimension.synod.im/riot",
+        val integrationRestUrl: String = "https://dimension.synod.im/api/v1/scalar",
+        val integrationWidgetUrls: List<String> = listOf(
+                "https://dimension.synod.im/widgets"
+        ),
         /**
          * Optional proxy to connect to the matrix servers
          * You can create one using for instance Proxy(proxyType, InetSocketAddress(hostname, port)
