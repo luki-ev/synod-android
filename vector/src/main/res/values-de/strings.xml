@@ -906,8 +906,8 @@ Du kannst sie jetzt aktivieren oder später über das Einstellungsmenü.</string
     <string name="settings_deactivate_my_account">Deaktivere meinen Account</string>
 
     <string name="settings_opt_in_of_analytics">Sende Analysedaten</string>
-    <string name="settings_opt_in_of_analytics_summary">Riot sammelt anonyme Analysedaten um uns zu helfen, die App zu verbessern.</string>
-    <string name="settings_opt_in_of_analytics_prompt">Bitte aktive Analysedaten um uns zu helfen Riot zu verbessern.</string>
+    <string name="settings_opt_in_of_analytics_summary">Element sammelt anonyme Analysedaten um uns zu helfen, die App zu verbessern.</string>
+    <string name="settings_opt_in_of_analytics_prompt">Bitte aktive Analysedaten um uns zu helfen Element zu verbessern.</string>
     <string name="settings_opt_in_of_analytics_ok">Ja, ich möchte helfen!</string>
 
     <string name="widget_integration_missing_parameter">Ein benötigter Parameter fehlt.</string>
@@ -1557,7 +1557,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="keys_backup_unable_to_get_keys_backup_data">Beim Abrufen der Schlüsselsicherungsdaten ist ein Fehler aufgetreten</string>
 
     <string name="alpha_disclaimer_title">Willkommen in der Beta!</string>
-    <string name="alpha_disclaimer_content_line_1">Während sich Synod.im in einen frühen Entwicklungsphase befindet, fehlen möglicherweise einige Funktionen und es können Fehler auftreten.</string>
+    <string name="alpha_disclaimer_content_line_1">Während sich Synod.im in einer frühen Entwicklungsphase befindet, fehlen möglicherweise einige Funktionen und es können Fehler auftreten.</string>
     <string name="alpha_disclaimer_content_line_2_gplay_colored_part">Play Store Beschreibung</string>
     <string name="settings_sdk_version">Matrix SDK Version</string>
     <string name="settings_other_third_party_notices">Sonstige Hinweise Dritter</string>
@@ -1742,7 +1742,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="room_widget_webview_access_microphone">Mikrofon benutzen</string>
     <string name="room_widget_webview_read_protected_media">Lese DRM-geschützte Medien</string>
 
-    <string name="security_warning_identity_server">Frühere Versionen von Riot hatten ein Sicherheitsproblem, welches dem Identitätsserver (%1$s) Zugriff auf deinen Account geben konnte. Wenn du %2$s vertraust, kannst du dies ignorieren – ansonsten logge dich bitte aus und wieder ein.
+    <string name="security_warning_identity_server">Frühere Versionen von Element hatten ein Sicherheitsproblem, welches dem Identitätsserver (%1$s) Zugriff auf deinen Account geben konnte. Wenn du %2$s vertraust, kannst du dies ignorieren – ansonsten logge dich bitte aus und wieder ein.
 \n
 \nWeitere Details gibt es hier (Englisch):
 \nhttps://medium.com/@RiotChat/36b4792ea0d6</string>
@@ -1754,14 +1754,14 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="push_gateway_item_device_name">Sitzungsname:</string>
     <string name="push_gateway_item_format">Format:</string>
 
-    <string name="store_riotx_full_description">RiotX ist ein neuer Client für das Matrix-Protokoll (synod.im): Ein offenes Netzwerk für sichere, dezentrale Kommunikation.
-\nRiotX ist der Riot-Android-Client der auf dem matrix-android-sdk basiert - aber beides komplett neu geschrieben.
+    <string name="store_riotx_full_description">Element ist ein neuer Client für das Matrix-Protokoll (matrix.org): Ein offenes Netzwerk für sichere, dezentrale Kommunikation.
+\nElement ist der Riot-Android-Client der auf dem matrix-android-sdk basiert - aber beides komplett neu geschrieben.
 \n
-\nHinweis: Dies ist eine Beta-Version. RiotX wird aktuell aktiv entwickelt und enthält Einschränkungen und (wir hoffen nicht zu viele) Fehler. Jede Rückmeldung ist willkommen!
+\nHinweis: Dies ist eine Beta-Version. Element wird aktuell aktiv entwickelt und enthält Einschränkungen und (wir hoffen nicht zu viele) Fehler. Jede Rückmeldung ist willkommen!
 \n
-\nRiotX unterstützt: • Anmelden an ein existierendes Konto • Erstelle Räume und trete öffentlichen Räumen bei • Akzeptiere und lehne Einladungen ab • Zeige Raum-Details • Sende Textnachrichten • Sende Anhänge • Lese und Schreibe Nachrichten in verschlüsselten Räumen • Verschlüsselung: Backup der Ende-zu-Ende-Schlüssel, erweiterte Geräteverifizierung, Schlüsseltauschanfragen und -antworten • Push-Benachrichtigungen • Helles, dunkles und schwarzes Thema
+\nElement unterstützt: • Anmelden an ein existierendes Konto • Erstelle Räume und trete öffentlichen Räumen bei • Akzeptiere und lehne Einladungen ab • Zeige Raum-Details • Sende Textnachrichten • Sende Anhänge • Lese und Schreibe Nachrichten in verschlüsselten Räumen • Verschlüsselung: Backup der Ende-zu-Ende-Schlüssel, erweiterte Geräteverifizierung, Schlüsseltauschanfragen und -antworten • Push-Benachrichtigungen • Helles, dunkles und schwarzes Thema
 \n
-\nNicht alle Features in Riot sind bisher in RiotX implementiert. Hauptfunktionen, die noch fehlen (und bald kommen!): • Raum-Einstellungen (Raum-Mitglieder auflisten, etc.) • Anrufe • Widgets • …</string>
+\nNicht alle Features in Element sind bisher in Element implementiert. Hauptfunktionen, die noch fehlen (und bald kommen!): • Raum-Einstellungen (Raum-Mitglieder auflisten, etc.) • Anrufe • Widgets • …</string>
 
     <string name="settings_discovery_identity_server_info">Du nutzt aktuell %1$s um vorhandene Kontakte zu finden und um von dir bekannten Kontakten gefunden zu werden.</string>
     <string name="settings_discovery_identity_server_info_none">Du benutzt aktuell keinen Identitätsserver. Um zu entdecken und um von dir bekannten Kontakten entdeckt zu werden, richte unten einen ein.</string>
@@ -1857,13 +1857,9 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="room_join_rules_public">%1$s hat den Raum für jeden, der den Link hat, öffentlich gemacht.</string>
     <string name="timeline_unread_messages">Ungelesene Nachrichten</string>
 
-
-
-    <string name="login_splash_title">Sichere Kommunikation</string>
-    <string name="login_splash_text1">Einzeln oder in Gruppen mit Leuten chatten</string>
-    <string name="login_splash_text2">Führe vertrauliche Gespräche mit Ende-zu-Ende-Verschlüsselung</string>
-    <string name="login_splash_text3">Erweitere &amp; individualisiere dein Benutzererlebnis</string>
-    <string name="login_splash_submit">Los gehts!</string>
+    <string name="login_splash_text1">Privat oder in Gruppen mit Leuten chatten</string>
+    <string name="login_splash_text2">Halte Gespräche mittels Verschlüsselung privat</string>
+    <string name="login_splash_submit">Beginne</string>
 
     <string name="login_server_title">Wähle einen Server</string>
     <string name="login_server_text">Genau wie bei Emails haben Accounts ein Zuhause, auch wenn du mit jedem kommunizieren kannst</string>
@@ -1881,27 +1877,16 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="two_and_some_others_read">gelesen von %1$s, %2$s und %3$d anderen</string>
     <string name="error_handling_incoming_share">Zu teilende Daten nicht verarbeitbar</string>
 
-    <string name="login_connect_to">Mit %1$s verbinden</string>
-    <string name="login_connect_to_modular">Mit Modular verbinden</string>
+    <string name="login_splash_text3">Erweitere &amp; individualisiere dein Benutzererlebnis</string>
+    <string name="login_connect_to">Verbinde mit %1$s</string>
+    <string name="login_connect_to_modular">Mit Element Matrix Services verbinden</string>
     <string name="login_connect_to_a_custom_server">Mit einem benutzerdefinierten Server verbinden</string>
-
-    <!-- Replaced string is the homeserver url -->
-    <string name="login_signup_to">Bei %1$s registrieren</string>
-    <string name="login_signin_username_hint">Benutzername oder Email-Adresse</string>
-    <string name="login_signup_username_hint">Benutzername</string>
-    <string name="login_signup_password_hint">Passwort</string>
-    <string name="login_signup_submit">Weiter</string>
-    <string name="login_signup_error_user_in_use">Dieser Nutzername wird bereits verwendet.</string>
-    <string name="login_signup_cancel_confirmation_title">Achtung</string>
-    <string name="login_signup_cancel_confirmation_content">Dein Nutzeraccount wurde noch nicht erstellt.\n\nRegistrierungsprozess abbrechen?</string>
-
-    <!-- Replaced string is the homeserver url -->
     <string name="login_signin_to">Bei %1$s anmelden</string>
     <string name="login_signup">Registrieren</string>
     <string name="login_signin">Anmelden</string>
     <string name="login_signin_sso">Mit einmaligem Anmelden (SSO) fortfahren</string>
 
-    <string name="login_server_url_form_modular_hint">Modular Adresse</string>
+    <string name="login_server_url_form_modular_hint">Element Matrix Services Adresse</string>
     <string name="login_server_url_form_other_hint">Adresse</string>
     <string name="login_sso_error_message">Ein Fehler beim Laden der Seite %1$s (%2$d) ist aufgetreten</string>
     <string name="login_registration_disabled">Es tut uns leid. Dieser Server akzeptiert keine neuen Benutzerkonten.</string>
@@ -1943,6 +1928,12 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="login_msisdn_confirm_notice">Wir haben einen Code an %1$s gesendet. Gib diesen unten ein um dich zu verifizieren.</string>
     <string name="login_msisdn_confirm_hint">Code eingeben</string>
     <string name="login_msisdn_confirm_send_again">Erneut senden</string>
+    <string name="login_signin_username_hint">Benutzername oder E-Mail-Adresse</string>
+    <string name="login_signup_password_hint">Passwort</string>
+    <string name="login_signup_error_user_in_use">Dieser Benutzername ist bereits belegt</string>
+    <string name="login_signup_cancel_confirmation_content">Dein Benutzerkonto ist noch nicht erstellt.
+\n
+\nMöchtest du die Registrierung stoppen\?</string>
 
     <string name="login_a11y_choose_matrix_org">synod.im auswählen</string>
     <string name="login_a11y_choose_modular">modular auswählen</string>
@@ -1956,9 +1947,10 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="reaction_search_type_hint">Beginne zu Tippen um eine Reaktion zu finden.</string>
 
     <string name="room_join_rules_invite">%1$s hat den Raum auf \"nur-einladen\" gestellt.</string>
+    <string name="login_splash_title">Befreie deine Kommunikation</string>
     <string name="login_server_url_form_modular_text">Premium-Hosting für Organisationen</string>
-    <string name="login_server_url_form_modular_notice">Gib die Adresse des Modular Riot oder Servers ein, den du verwenden möchtest</string>
-    <string name="login_server_url_form_other_notice">Gibt die Adresse eines Servers oder eines Riot ein, zu dem du dich verbinden möchtest</string>
+    <string name="login_server_url_form_modular_notice">Gib die Adresse des Modular Element oder Servers ein, den du verwenden möchtest</string>
+    <string name="login_server_url_form_other_notice">Gibt die Adresse eines Servers oder eines Element ein, zu dem du dich verbinden möchtest</string>
 
     <string name="login_mode_not_supported">Die Anwendung kann sich nicht bei diesem Heimserver anmelden. Der Heimserver unterstützt die folgenden Anmeldetypen:%1$s.
 \n
@@ -1979,7 +1971,11 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
 
     <string name="login_msisdn_error_not_international">Internationale Telefonnummern müssen mit \'+\' beginnen</string>
     <string name="login_msisdn_error_other">Die Telefonnummer scheint ungültig zu sein. Bitte prüfen</string>
-    
+
+    <string name="login_signup_to">Anmelden bei %1$s</string>
+    <string name="login_signup_username_hint">Benutzername</string>
+    <string name="login_signup_submit">Weiter</string>
+    <string name="login_signup_cancel_confirmation_title">Warnung</string>
     <string name="login_a11y_captcha_container">Bitte löse das Captcha</string>
     <string name="login_error_outdated_homeserver_title">Veralteter Heimserver</string>
     <string name="login_error_outdated_homeserver_content">Auf diesem Heimserver läuft eine zu alte Version, um eine Verbindung herzustellen. Bitten die Heimserver-Administration um ein Upgrade.</string>
@@ -2404,9 +2400,9 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="error_adding_media_file_to_gallery">Datei konnte nicht zur Galerie hinzugefügt werden</string>
     <string name="change_password_summary">Neues Benutzerpasswort festlegen…</string>
 
-    <string name="use_other_session_content_description">Nutze die neueste Version von Synod.im auf deinen anderen Geräten, Synod.im Web, Riot Desktop, Synod.im iOS, Synod.im für Android oder einen anderen cross-signing fähigen Matrix client</string>
+    <string name="use_other_session_content_description">Nutze die neueste Version von Synod.im auf deinen anderen Geräten, Synod.im Web, Element Desktop, Synod.im iOS, Synod.im für Android oder einen anderen cross-signing fähigen Matrix client</string>
     <string name="riot_desktop_web">Synod.im Web
-\nRiot Desktop</string>
+\nElement Desktop</string>
     <string name="riot_ios_android">Synod.im iOS
 \nSynod.im für Android</string>
     <string name="or_other_mx_capabale_client">oder einen anderen cross-signing fähigen Matrix Client</string>

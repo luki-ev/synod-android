@@ -21,5 +21,6 @@ object VectorSettingsUrls {
     const val COPYRIGHT = "https://synod.im/copyright"
     const val TAC = "https://synod.im/terms"
     const val PRIVACY_POLICY = "https://synod.im/privacy"
+    const val DISCLAIMER_URL = "https://synod.im/"
     const val THIRD_PARTY_LICENSES = "file:///android_asset/open_source_licenses.html"
 }
