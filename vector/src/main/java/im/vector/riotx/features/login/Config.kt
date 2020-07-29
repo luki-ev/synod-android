@@ -16,4 +16,4 @@
 
 package im.vector.riotx.features.login
 
-const val MODULAR_LINK = "https://librechurch.org/"
+const val EMS_LINK = "https://librechurch.org/"

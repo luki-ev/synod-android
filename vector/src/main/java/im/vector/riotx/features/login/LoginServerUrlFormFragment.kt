@@ -83,7 +83,7 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment()
 
     @OnClick(R.id.loginServerUrlFormLearnMore)
     fun learnMore() {
-        //openUrlInChromeCustomTab(requireActivity(), null, EMS_LINK)
+        openUrlInChromeCustomTab(requireActivity(), null, EMS_LINK)
     }
 
     override fun resetViewModel() {
