@@ -51,7 +51,7 @@ class LoginServerSelectionFragment @Inject constructor() : AbstractLoginFragment
 
     @OnClick(R.id.loginServerChoiceEMSLearnMore)
     fun learnMore() {
-        openUrlInChromeCustomTab(requireActivity(), null, EMS_LINK)
+        //openUrlInChromeCustomTab(requireActivity(), null, EMS_LINK)
     }
 
     @OnClick(R.id.loginServerChoiceMatrixOrg)
