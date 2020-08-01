@@ -113,7 +113,7 @@ android {
 
     defaultConfig {
         resConfigs "de", "en"
-        applicationId "im.synod.riotx"
+        applicationId "im.synod"
         // Set to API 21: see #405
         minSdkVersion 21
         targetSdkVersion 29

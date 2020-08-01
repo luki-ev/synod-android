@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:784306529994:android:2e6689cf1f77886a367633",
+        "mobilesdk_app_id": "1:784306529994:android:7bc5acfd655b2c03367633",
         "android_client_info": {
-          "package_name": "im.synod.riotx.debug"
+          "package_name": "im.synod.debug"
         }
       },
       "oauth_client": [
