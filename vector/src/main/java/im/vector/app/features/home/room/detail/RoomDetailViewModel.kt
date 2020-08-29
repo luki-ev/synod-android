@@ -350,7 +350,7 @@ class RoomDetailViewModel @AssistedInject constructor(
 
             // We use the default element wrapper for this widget
             // https://github.com/vector-im/element-web/blob/develop/docs/jitsi-dev.md
-            val url = "https://app.element.io/jitsi.html" +
+            val url = "https://web.synod.im/jitsi.html" +
                     "?confId=$confId" +
                     "#conferenceDomain=\$domain" +
                     "&conferenceId=\$conferenceId" +
