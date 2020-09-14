@@ -2400,7 +2400,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="pause_video">Pause</string>
     <string name="action_copy">Kopieren</string>
     <string name="bottom_action_notification">Benachrichtigungen</string>
-    <string name="call_failed_no_connection">Element-Anruf fehlgeschlagen</string>
+    <string name="call_failed_no_connection">Synod-Anruf fehlgeschlagen</string>
     <string name="play_video">Abspielen</string>
     <string name="dismiss">Ablehnen</string>
 
@@ -2533,11 +2533,11 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
 
     <string name="open_terms_of">Öffne AGBs von %s</string>
     <string name="disconnect_identity_server_dialog_content">Trenne Verbingung zu Identitätsserver %s\?</string>
-    <string name="identity_server_error_outdated_identity_server">Dieser Identitätsserver ist veraltet. Element unterstützt nur API V2.</string>
+    <string name="identity_server_error_outdated_identity_server">Dieser Identitätsserver ist veraltet. Synod.im unterstützt nur API V2.</string>
     <string name="identity_server_error_outdated_home_server">Diese Operation is nicht möglich. Der Homeserver ist veraltet.</string>
     <string name="identity_server_error_no_identity_server_configured">Bitte konfiguriere zuerst einen Identitätsserver.</string>
     <string name="identity_server_error_terms_not_signed">Bitte akzeptiere zuerst die AGB des Identitätsservers in den Einstellungen.</string>
-    <string name="identity_server_error_bulk_sha256_not_supported">Deiner Privatssphäre wegen unterstützt Element nur das Senden gehashter Emailaddressen und Telefonnummern.</string>
+    <string name="identity_server_error_bulk_sha256_not_supported">Deiner Privatssphäre wegen unterstützt Synod.im nur das Senden gehashter Emailaddressen und Telefonnummern.</string>
     <string name="identity_server_error_binding_error">Die Assoziierung ist fehlgeschlagen.</string>
     <string name="identity_server_error_no_current_binding_error">Für diese Kennung gibt es aktuell keine Assoziierung.</string>
 
