@@ -166,13 +166,7 @@ class LinkHandlerActivity : VectorBaseActivity() {
 
     companion object {
         private val SUPPORTED_HOSTS = listOf(
-                // Regular Element Web instance
-                "app.element.io",
-                // Other known instances of Element Web
-                "develop.element.io",
-                "staging.element.io",
-                // Previous Web instance, kept for compatibility reason
-                "riot.im"
+                "web.synod.im"
         )
         private val SUPPORTED_PATHS = listOf(
                 "/#/room/",

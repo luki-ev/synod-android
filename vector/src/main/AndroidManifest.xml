@@ -143,7 +143,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="https" />
-                <data android:host="synod.im" />
+                <data android:host="web.synod.im" />
             </intent-filter>
         </activity>
 
