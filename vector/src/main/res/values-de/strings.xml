@@ -1823,7 +1823,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="error_handling_incoming_share">Zu teilende Daten nicht verarbeitbar</string>
 
     <string name="login_splash_text3">Erweitere &amp; individualisiere dein Benutzererlebnis</string>
-    <string name="login_connect_to">Verbinde mit %1$s</string>
+    <string name="login_connect_to">Anmelden bei %1$s</string>
     <string name="login_connect_to_modular">Mit Element Matrix Services verbinden</string>
     <string name="login_connect_to_a_custom_server">Mit einem benutzerdefinierten Server verbinden</string>
     <string name="login_signin_to">Bei %1$s anmelden</string>
@@ -1917,7 +1917,7 @@ Verwahre deinen Wiederherstellungsschlüssel an einem sehr sicheren Ort wie eine
     <string name="login_msisdn_error_not_international">Internationale Telefonnummern müssen mit \'+\' beginnen</string>
     <string name="login_msisdn_error_other">Die Telefonnummer scheint ungültig zu sein. Bitte prüfen</string>
 
-    <string name="login_signup_to">Anmelden bei %1$s</string>
+    <string name="login_signup_to">Registrieren bei %1$s</string>
     <string name="login_signup_username_hint">Benutzername</string>
     <string name="login_signup_submit">Weiter</string>
     <string name="login_signup_cancel_confirmation_title">Warnung</string>
