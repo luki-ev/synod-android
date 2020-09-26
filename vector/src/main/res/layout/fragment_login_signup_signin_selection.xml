@@ -34,10 +34,10 @@
                 android:id="@+id/loginSignupSigninTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="27dp"
+                android:layout_marginTop="36dp"
                 android:textAppearance="@style/TextAppearance.Vector.Login.Title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/loginSignupSigninServerIcon"
+                app:layout_constraintTop_toBottomOf="@+id/loginLogo"
                 app:layout_goneMarginTop="0dp"
                 tools:text="@string/login_connect_to" />
 
