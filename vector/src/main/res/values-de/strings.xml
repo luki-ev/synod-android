@@ -1538,7 +1538,7 @@ Dieser Fehler ist außerhalb von Synod.im passiert. Es gibt kein Google-Konto au
     <string name="login_signup_cancel_confirmation_content">Dein Benutzerkonto ist noch nicht erstellt.
 \n
 \nMöchtest du die Registrierung stoppen\?</string>
-    <string name="login_a11y_choose_matrix_org">synod.im auswählen</string>
+    <string name="login_a11y_choose_matrix_org">Synod.im auswählen</string>
     <string name="login_a11y_choose_modular">modular auswählen</string>
     <string name="login_a11y_choose_other">Benutzerdefinierten Server auswählen</string>
     <string name="login_terms_title">Bedingungen akzeptieren um fortzufahren</string>
