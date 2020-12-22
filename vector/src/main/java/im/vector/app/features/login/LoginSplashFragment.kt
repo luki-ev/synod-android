@@ -24,6 +24,9 @@ import javax.inject.Inject
  * In this screen, the user is viewing an introduction to what he can do with this application
  *
  * Changed for Synod.im: Skip server selection using code from LoginServerSelectionFragment.
+ *
+ * @see updateWithState
+ * @see LoginServerSelectionFragment.updateWithState
  */
 class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
@@ -40,8 +43,8 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
 
     override fun updateWithState(state: LoginViewState) {
         if (state.loginMode != LoginMode.Unknown) {
-            // LoginFlow for matrix.org has been retrieved
-            loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OnLoginFlowRetrieved(state.loginMode == LoginMode.Sso)))
+            // Skip server selection (copied from LoginServerSelectionFragment.updateWithState)
+            loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OnLoginFlowRetrieved))
         }
     }
 }
