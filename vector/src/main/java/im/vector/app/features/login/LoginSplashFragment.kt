@@ -16,8 +16,13 @@
 
 package im.vector.app.features.login
 
-import butterknife.OnClick
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import im.vector.app.R
+import im.vector.app.core.utils.ensureTrailingSlash
+import im.vector.app.databinding.FragmentLoginSplashBinding
 import javax.inject.Inject
 
 /**
@@ -25,16 +30,30 @@ import javax.inject.Inject
  *
  * Changed for Synod.im: Skip server selection using code from LoginServerSelectionFragment.
  *
+ * @see getStarted
  * @see updateWithState
  * @see LoginServerSelectionFragment.updateWithState
  */
-class LoginSplashFragment @Inject constructor() : AbstractLoginFragment() {
+class LoginSplashFragment @Inject constructor() : AbstractLoginFragment<FragmentLoginSplashBinding>() {
 
-    override fun getLayoutResId() = R.layout.fragment_login_splash
+    override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginSplashBinding {
+        return FragmentLoginSplashBinding.inflate(inflater, container, false)
+    }
 
-    @OnClick(R.id.loginSplashSubmit)
-    fun getStarted() {
-        loginViewModel.handle(LoginAction.UpdateHomeServer(getString(R.string.matrix_org_server_url)))
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupViews()
+    }
+
+    private fun setupViews() {
+        views.loginSplashSubmit.setOnClickListener { getStarted() }
+    }
+
+    private fun getStarted() {
+        // upstream: loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OpenServerSelection))
+        // Synod.im: skip server selection
+        loginViewModel.handle(LoginAction.UpdateHomeServer(getString(R.string.matrix_org_server_url).ensureTrailingSlash()))
     }
 
     override fun resetViewModel() {
