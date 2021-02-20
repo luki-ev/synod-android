@@ -10,7 +10,8 @@
 /build
 /captures
 .externalNativeBuild
-
+/vector/fdroid/
+vector/gplay/
 /tmp
 
 ktlint
