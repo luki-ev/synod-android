@@ -29,7 +29,6 @@ import org.matrix.android.sdk.internal.session.homeserver.GetHomeServerCapabilit
 import org.matrix.android.sdk.internal.session.initsync.DefaultInitialSyncProgressService
 import org.matrix.android.sdk.internal.session.initsync.reportSubtask
 import org.matrix.android.sdk.internal.session.sync.model.LazyRoomSyncEphemeral
-import org.matrix.android.sdk.internal.session.sync.model.SyncResponse
 import org.matrix.android.sdk.internal.session.sync.parsing.InitialSyncResponseParser
 import org.matrix.android.sdk.internal.session.user.UserStore
 import org.matrix.android.sdk.internal.task.Task
@@ -101,7 +100,7 @@ internal class DefaultSyncTask @Inject constructor(
         val readTimeOut = (params.timeout + TIMEOUT_MARGIN).coerceAtLeast(TimeOutInterceptor.DEFAULT_LONG_TIMEOUT)
 
         if (isInitialSync) {
-            Timber.v("INIT_SYNC with filter: ${requestParams["filter"]}")
+            Timber.d("INIT_SYNC with filter: ${requestParams["filter"]}")
             val initSyncStrategy = initialSyncStrategy
             logDuration("INIT_SYNC strategy: $initSyncStrategy") {
                 if (initSyncStrategy is InitialSyncStrategy.Optimized) {
@@ -115,8 +114,8 @@ internal class DefaultSyncTask @Inject constructor(
                     workingDir.deleteRecursively()
                 } else {
                     val syncResponse = logDuration("INIT_SYNC Request") {
-                        executeRequest<SyncResponse>(globalErrorReceiver) {
-                            apiCall = syncAPI.sync(
+                        executeRequest(globalErrorReceiver) {
+                            syncAPI.sync(
                                     params = requestParams,
                                     readTimeOut = readTimeOut
                             )
@@ -130,8 +129,8 @@ internal class DefaultSyncTask @Inject constructor(
             }
             initialSyncProgressService.endAll()
         } else {
-            val syncResponse = executeRequest<SyncResponse>(globalErrorReceiver) {
-                apiCall = syncAPI.sync(
+            val syncResponse = executeRequest(globalErrorReceiver) {
+                syncAPI.sync(
                         params = requestParams,
                         readTimeOut = readTimeOut
                 )
@@ -145,7 +144,7 @@ internal class DefaultSyncTask @Inject constructor(
         val workingFile = File(workingDir, "initSync.json")
         val status = initialSyncStatusRepository.getStep()
         if (workingFile.exists() && status >= InitialSyncStatus.STEP_DOWNLOADED) {
-            Timber.v("INIT_SYNC file is already here")
+            Timber.d("INIT_SYNC file is already here")
             reportSubtask(initialSyncProgressService, InitSyncStep.Downloading, 1, 0.3f) {
                 // Empty task
             }
@@ -204,7 +203,7 @@ internal class DefaultSyncTask @Inject constructor(
             // Log some stats
             val nbOfJoinedRooms = syncResponse.rooms?.join?.size ?: 0
             val nbOfJoinedRoomsInFile = syncResponse.rooms?.join?.values?.count { it.ephemeral is LazyRoomSyncEphemeral.Stored }
-            Timber.v("INIT_SYNC $nbOfJoinedRooms rooms, $nbOfJoinedRoomsInFile ephemeral stored into files")
+            Timber.d("INIT_SYNC $nbOfJoinedRooms rooms, $nbOfJoinedRoomsInFile ephemeral stored into files")
 
             logDuration("INIT_SYNC Database insertion") {
                 syncResponseHandler.handleResponse(syncResponse, null, initialSyncProgressService)

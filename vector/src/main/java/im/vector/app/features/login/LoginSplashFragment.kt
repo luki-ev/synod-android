@@ -16,13 +16,13 @@
 
 package im.vector.app.features.login
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import im.vector.app.R
-import im.vector.app.core.utils.ensureTrailingSlash
 import im.vector.app.databinding.FragmentLoginSplashBinding
+
 import javax.inject.Inject
 
 /**
@@ -34,7 +34,9 @@ import javax.inject.Inject
  * @see updateWithState
  * @see LoginServerSelectionFragment.updateWithState
  */
-class LoginSplashFragment @Inject constructor() : AbstractLoginFragment<FragmentLoginSplashBinding>() {
+class LoginSplashFragment @Inject constructor(
+        private val vectorPreferences: VectorPreferences
+) : AbstractLoginFragment<FragmentLoginSplashBinding>() {
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginSplashBinding {
         return FragmentLoginSplashBinding.inflate(inflater, container, false)
@@ -48,6 +50,14 @@ class LoginSplashFragment @Inject constructor() : AbstractLoginFragment<Fragment
 
     private fun setupViews() {
         views.loginSplashSubmit.setOnClickListener { getStarted() }
+
+        if (BuildConfig.DEBUG || vectorPreferences.developerMode()) {
+            views.loginSplashVersion.isVisible = true
+            @SuppressLint("SetTextI18n")
+            views.loginSplashVersion.text = "Version : ${BuildConfig.VERSION_NAME}\n" +
+                    "Branch: ${BuildConfig.GIT_BRANCH_NAME}\n" +
+                    "Build: ${BuildConfig.BUILD_NUMBER}"
+        }
     }
 
     private fun getStarted() {

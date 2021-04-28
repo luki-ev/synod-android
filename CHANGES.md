@@ -1,31 +1,65 @@
-Changes in Element 1.1.3 (2021-XX-XX)
+Changes in Element 1.1.6 (2021-04-16)
 ===================================================
 
-Features ✨:
- -
+Bugfix 🐛:
+ - Fix crash on the timeline
+ - App crashes on "troubleshoot notifications" button (#3187)
 
-Improvements 🙌:
- -
+Changes in Element 1.1.5 (2021-04-15)
+===================================================
 
 Bugfix 🐛:
- -
+ - Fix crash during Realm migration
+ - Fix crash when playing video (#3179)
 
-Translations 🗣:
- -
+Changes in Element 1.1.4 (2021-04-09)
+===================================================
+
+Improvements 🙌:
+ - Split network request `/keys/query` into smaller requests (250 users max) (#2925)
+ - Crypto improvement | Bulk send NO_OLM withheld code
+ - Display the room shield in all room setting screens
+ - Improve message with Emoji only detection (#3017)
+ - Picture preview when replying. Also add the image preview in the message detail bottomsheet (#2916)
+ - Api interceptor to allow app developers peek responses (#2986)
+ - Update reactions to Unicode 13.1 (#2998)
+ - Be more robust when parsing some enums
+ - Improve timeline filtering (dissociate membership and profile events, display hidden events when highlighted, fix hidden item/read receipts behavior)
+ - Add better support for empty room name fallback (#3106)
+ - Room list improvements (paging)
+ - Fix quick click action (#3127)
+ - Get Event after a Push for a faster notification display in some conditions
+ - Always try to retry Http requests in case of 429 (#1300)
+ - registration availability endpoint added to matrix-sdk
+
+Bugfix 🐛:
+ - Fix bad theme change for the MainActivity
+ - Handle encrypted reactions (#2509)
+ - Disable URL preview for some domains (#2995)
+ - Fix avatar rendering for DMs, after initial sync (#2693)
+ - Fix mandatory parameter in API (#3065)
+ - If signout request fails, do not start LoginActivity, but restart the app (#3099)
+ - Retain keyword order in emoji import script, and update the generated file (#3147)
 
 SDK API changes ⚠️:
- -
+ - Several Services have been migrated to coroutines (#2449)
+ - Removes filtering options on Timeline.
 
 Build 🧱:
- -
-
-Test:
- -
+ - Properly exclude gms dependencies in fdroid build flavour which were pulled in through the jitsi SDK (#3125)
 
 Other changes:
- -
+ - Add version details on the login screen, in debug or developer mode
+ - Migrate Retrofit interface to coroutine calls
 
-Changes in Element 1.1.2 (2021-03-16)
+Changes in Element 1.1.3 (2021-03-18)
+===================================================
+
+Bugfix 🐛:
+ - Fix regression in UpdateTrustWorker (introduced in 1.1.2)
+ - Timeline : Fix ripple effect on text item and fix background color of separators.
+
+Changes in Element 1.1.2 (2021-03-16) (was not published tp GPlay prod)
 ===================================================
 
 Improvements 🙌:
@@ -41,7 +75,7 @@ Bugfix 🐛:
 Other changes:
  - Change formatting on issue templates to proper headings.
 
-Changes in Element 1.1.1 (2021-03-10)
+Changes in Element 1.1.1 (2021-03-10) (was not published tp GPlay prod)
 ===================================================
 
 Improvements 🙌:
