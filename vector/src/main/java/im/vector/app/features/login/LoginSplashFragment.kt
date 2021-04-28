@@ -21,7 +21,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import im.vector.app.BuildConfig
+import im.vector.app.R
+import im.vector.app.core.utils.ensureTrailingSlash
 import im.vector.app.databinding.FragmentLoginSplashBinding
+import im.vector.app.features.settings.VectorPreferences
 
 import javax.inject.Inject
 
@@ -34,6 +39,7 @@ import javax.inject.Inject
  * @see updateWithState
  * @see LoginServerSelectionFragment.updateWithState
  */
+//class LoginSplashFragment @Inject constructor() : AbstractLoginFragment<FragmentLoginSplashBinding>() {
 class LoginSplashFragment @Inject constructor(
         private val vectorPreferences: VectorPreferences
 ) : AbstractLoginFragment<FragmentLoginSplashBinding>() {
