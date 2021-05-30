@@ -27,7 +27,6 @@ import im.vector.app.R
 import im.vector.app.core.utils.ensureTrailingSlash
 import im.vector.app.databinding.FragmentLoginSplashBinding
 import im.vector.app.features.settings.VectorPreferences
-
 import javax.inject.Inject
 
 /**
