@@ -16,6 +16,7 @@
 package im.vector.app.features.settings
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.MediaStore
@@ -153,6 +154,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         const val SETTINGS_LABS_USE_RESTRICTED_JOIN_RULE = "SETTINGS_LABS_USE_RESTRICTED_JOIN_RULE"
         const val SETTINGS_LABS_SPACES_HOME_AS_ORPHAN = "SETTINGS_LABS_SPACES_HOME_AS_ORPHAN"
 
+        const val SETTINGS_LABS_VOICE_MESSAGE = "SETTINGS_LABS_VOICE_MESSAGE"
+
         private const val SETTINGS_DEVELOPER_MODE_PREFERENCE_KEY = "SETTINGS_DEVELOPER_MODE_PREFERENCE_KEY"
         private const val SETTINGS_LABS_SHOW_HIDDEN_EVENTS_PREFERENCE_KEY = "SETTINGS_LABS_SHOW_HIDDEN_EVENTS_PREFERENCE_KEY"
         private const val SETTINGS_LABS_ENABLE_SWIPE_TO_REPLY = "SETTINGS_LABS_ENABLE_SWIPE_TO_REPLY"
@@ -254,12 +257,25 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     private val defaultPrefs = DefaultSharedPreferences.getInstance(context)
 
     /**
+     * Allow subscribing and unsubscribing to configuration changes. This is
+     * particularly useful when you need to be notified of a configuration change
+     * in a background service, e.g. for the P2P demos.
+     */
+    fun subscribeToChanges(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        defaultPrefs.registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    fun unsubscribeToChanges(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+        defaultPrefs.unregisterOnSharedPreferenceChangeListener(listener)
+    }
+
+    /**
      * Clear the preferences.
      */
     fun clearPreferences() {
         val keysToKeep = HashSet(mKeysToKeepAfterLogout)
 
-        // home server urls
+        // homeserver urls
         keysToKeep.add(ServerUrlsRepository.HOME_SERVER_URL_PREF)
         keysToKeep.add(ServerUrlsRepository.IDENTITY_SERVER_URL_PREF)
 
@@ -973,5 +989,9 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         return defaultPrefs.edit {
             putInt(TAKE_PHOTO_VIDEO_MODE, mode)
         }
+    }
+
+    fun labsUseVoiceMessage(): Boolean {
+        return defaultPrefs.getBoolean(SETTINGS_LABS_VOICE_MESSAGE, false)
     }
 }
