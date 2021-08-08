@@ -172,6 +172,7 @@ class LoginFragment @Inject constructor() : AbstractSSOLoginFragment<FragmentLog
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
+                    // Changed for Synod.im: Hide matrix.org icon.
                     views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
                     views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
