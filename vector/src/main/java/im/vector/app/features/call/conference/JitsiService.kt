@@ -68,7 +68,7 @@ class JitsiService @Inject constructor(
         // https://github.com/vector-im/element-web/blob/develop/docs/jitsi-dev.md
         // https://github.com/matrix-org/matrix-react-sdk/blob/develop/src/utils/WidgetUtils.ts#L469
         val url = buildString {
-            append("https://https://web.synod.im/jitsi.html")
+            append("https://web.synod.im/jitsi.html")
             appendParamToUrl("confId", confId)
             append("#conferenceDomain=\$domain")
             append("&conferenceId=\$conferenceId")
