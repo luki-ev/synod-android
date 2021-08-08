@@ -1506,7 +1506,7 @@
     <string name="room_settings_addresses_add_new_address">New address (e.g #foo:matrix.org")</string>
 
     <string name="room_settings_no_flair">This room is not showing flair for any communities</string>
-    <string name="room_settings_add_new_group">New community ID (e.g +foo:matrix.org")</string>
+    <string name="room_settings_add_new_group">New community ID (e.g +foo:synod.im")</string>
     <string name="room_settings_invalid_group_format_dialog_title">Invalid community ID</string>
     <string name="room_settings_invalid_group_format_dialog_body">\'%s\' is not a valid community ID</string>
 
@@ -2226,7 +2226,7 @@
     <string name="room_filtering_footer_create_new_direct_message">Send a new direct message</string>
     <string name="room_filtering_footer_open_room_directory">View the room directory</string>
 
-    <string name="room_directory_search_hint">Name or ID (#example:matrix.org)</string>
+    <string name="room_directory_search_hint">Name or ID (#example:synod.im)</string>
     <string name="user_directory_search_hint">Search by name or ID</string>
 
     <string name="search_hint_room_name">Search Name</string>
@@ -2408,7 +2408,7 @@
     <string name="direct_room_join_rules_invite_by_you">You made this invite only.</string>
     <string name="timeline_unread_messages">Unread messages</string>
 
-    <string name="login_splash_title">It\'s your conversation. Own it.</string>
+    <string name="login_splash_title">Independent communication for churches</string>
     <string name="login_splash_text1">Chat with people directly or in groups</string>
     <string name="login_splash_text2">Keep conversations private with encryption</string>
     <string name="login_splash_text3">Extend &amp; customise your experience</string>
@@ -2416,7 +2416,7 @@
 
     <string name="login_server_title">Select a server</string>
     <string name="login_server_text">Just like email, accounts have one home, although you can talk to anyone</string>
-    <string name="login_server_matrix_org_text">Join millions for free on the largest public server</string>
+    <string name="login_server_matrix_org_text">Communicate - using the secure messenger for congregations</string>
     <string name="login_server_modular_text">Premium hosting for organisations</string>
     <string name="login_server_modular_learn_more">Learn more</string>
     <string name="login_server_other_title">Other</string>

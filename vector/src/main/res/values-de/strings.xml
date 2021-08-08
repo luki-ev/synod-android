@@ -932,7 +932,7 @@
     <string name="settings_vibrate_on_mention">Vibriere beim Erwähnen eines Nutzers</string>
     <string name="room_settings_room_notifications_title">Benachrichtigungen</string>
     <string name="room_settings_no_flair">Dieser Raum zeigt für keine Community Avatare an</string>
-    <string name="room_settings_add_new_group">Neue Community-ID (z.B. +foo:matrix.org)</string>
+    <string name="room_settings_add_new_group">Neue Community-ID (z.B. +foo:synod.im)</string>
     <string name="room_settings_invalid_group_format_dialog_title">Ungültige Community-ID</string>
     <string name="room_settings_invalid_group_format_dialog_body">\'%s\' ist keine valide Community-ID</string>
     <string name="create">Erstellen</string>
@@ -1568,7 +1568,7 @@
     <string name="downloaded_file">Die Datei %1$s wurde heruntergeladen!</string>
     <string name="room_filtering_footer_title">Kannst du nicht finden, wonach du suchst\?</string>
     <string name="room_filtering_footer_create_new_room">Erstelle einen neuen Raum</string>
-    <string name="room_directory_search_hint">Name oder ID (#beispiel:matrix.org)</string>
+    <string name="room_directory_search_hint">Name oder ID (#beispiel:synod.im)</string>
     <string name="labs_swipe_to_reply_in_timeline">Wischen, um in der Zeitleiste zu antworten</string>
     <string name="direct_room_no_known_users">Kein Ergebnis gefunden. Verwende \'Mit Matrix-ID hinzufügen\', um auf dem Server zu suchen.</string>
     <string name="direct_room_start_search">Beginne mit der Eingabe, um Ergebnisse zu erhalten</string>
@@ -1744,7 +1744,7 @@
     <string name="login_splash_submit">Beginne</string>
     <string name="login_server_title">Wähle einen Server</string>
     <string name="login_server_text">Genau wie bei E-Mails haben Accounts ein Zuhause, auch wenn du mit jedem kommunizieren kannst</string>
-    <string name="login_server_matrix_org_text">Folge Millionen Anderen kostenlos auf dem größten öffentlichen Server</string>
+    <string name="login_server_matrix_org_text">Tausche dich aus - mit dem sicheren Messenger im kirchlichen Bereich</string>
     <string name="login_server_modular_text">Premium-Hosting für Organisationen</string>
     <string name="login_server_modular_learn_more">Mehr erfahren</string>
     <string name="login_server_other_title">Andere</string>
@@ -1812,7 +1812,7 @@
     <string name="login_validation_code_is_not_correct">Der eingegebene Code ist nicht korrekt. Bitte überprüfe deine Eingabe.</string>
     <string name="reaction_search_type_hint">Beginne zu Tippen um eine Reaktion zu finden.</string>
     <string name="room_join_rules_invite">%1$s hat den Raum auf \"nur-einladen\" gestellt.</string>
-    <string name="login_splash_title">Es ist deine Konversation. Mache sie dir zu eigen.</string>
+    <string name="login_splash_title">Unabhängige kirchliche Kommunikation</string>
     <string name="login_server_url_form_modular_text">Premium-Hosting für Organisationen</string>
     <string name="login_server_url_form_modular_notice">Gib die Adresse des Modular Element oder Servers ein, den du verwenden möchtest</string>
     <string name="login_mode_not_supported">Die Anwendung kann sich nicht bei diesem Home-Server anmelden. Der Home-Server unterstützt die folgenden Anmeldetypen: %1$s.
@@ -1822,7 +1822,7 @@
     <string name="login_reset_password_submit">Weiter</string>
     <string name="login_reset_password_success_notice_2">Du wurdest von allen Sitzungen abgemeldet und erhältst keine Push-Benachrichtigungen mehr. Um Benachrichtigungen wieder zu aktivieren, melde dich auf jedem Gerät erneut an.</string>
     <string name="login_reset_password_cancel_confirmation_title">Warnung</string>
-    <string name="login_set_email_notice">Lege eine E-Mail-Adresse fest, um dein Konto wiederherzustellen. Später kannst du optional zulassen, dass Personen dich anhand dieser E-Mail-Adresse entdecken.</string>
+    <string name="login_set_email_notice">Gib eine Email-Adresse an, um später dein Passwort neu setzen zu können, falls du es vergessen hast.</string>
     <string name="login_set_email_submit">Weiter</string>
     <string name="login_set_msisdn_title">Lege Telefonnummer fest</string>
     <string name="login_set_msisdn_notice">Lege eine Telefonnummer fest, damit Personen dich anhand dieser entdecken können.</string>
