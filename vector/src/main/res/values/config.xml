@@ -23,7 +23,6 @@
 
     <string-array name="room_directory_servers" translatable="false">
         <item>synod.im</item>
-        <item>gitter.im</item>
     </string-array>
 
 </resources>
