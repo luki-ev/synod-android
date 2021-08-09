@@ -56,7 +56,7 @@ class JitsiService @Inject constructor(
         // Build data for a jitsi widget
         val widgetId: String = WidgetType.Jitsi.preferred + "_" + session.myUserId + "_" + System.currentTimeMillis()
         val preferredJitsiDomain = tryOrNull {
-            rawService.getElementWellknown(session.myUserId)
+            rawService.getElementWellknown(session.sessionParams)
                     ?.jitsiServer
                     ?.preferredDomain
         }
@@ -68,7 +68,7 @@ class JitsiService @Inject constructor(
         // https://github.com/vector-im/element-web/blob/develop/docs/jitsi-dev.md
         // https://github.com/matrix-org/matrix-react-sdk/blob/develop/src/utils/WidgetUtils.ts#L469
         val url = buildString {
-            append("https://https://web.synod.im/jitsi.html")
+            append("https://web.synod.im/jitsi.html")
             appendParamToUrl("confId", confId)
             append("#conferenceDomain=\$domain")
             append("&conferenceId=\$conferenceId")

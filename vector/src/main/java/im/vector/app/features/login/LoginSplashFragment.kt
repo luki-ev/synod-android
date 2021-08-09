@@ -38,7 +38,6 @@ import javax.inject.Inject
  * @see updateWithState
  * @see LoginServerSelectionFragment.updateWithState
  */
-//class LoginSplashFragment @Inject constructor() : AbstractLoginFragment<FragmentLoginSplashBinding>() {
 class LoginSplashFragment @Inject constructor(
         private val vectorPreferences: VectorPreferences
 ) : AbstractLoginFragment<FragmentLoginSplashBinding>() {

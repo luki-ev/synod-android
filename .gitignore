@@ -10,8 +10,8 @@
 /build
 /captures
 .externalNativeBuild
-/vector/fdroid/
-vector/gplay/
 /tmp
+/fastlane/private
+/fastlane/report.xml
 
 ktlint
