@@ -13,13 +13,13 @@
         android:id="@+id/menu_home_suggestion"
         android:icon="@drawable/ic_material_bug_report"
         android:title="@string/send_suggestion"
-        android:visible="@bool/false_not_implemented" />
+        android:visible="true" />
 
     <item
         android:id="@+id/menu_home_report_bug"
         android:icon="@drawable/ic_material_bug_report"
         android:title="@string/send_bug_report"
-        android:visible="@bool/false_not_implemented" />
+        android:visible="true" />
 
     <item
         android:id="@+id/menu_home_init_sync_legacy"
