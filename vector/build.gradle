@@ -323,7 +323,7 @@ dependencies {
     def moshi_version = '1.12.0'
     def daggerVersion = '2.38.1'
     def autofill_version = "1.1.0"
-    def work_version = '2.5.0'
+    def work_version = '2.6.0'
     def arch_version = '2.1.0'
     def lifecycle_version = '2.2.0'
     def rxbinding_version = '3.1.0'
