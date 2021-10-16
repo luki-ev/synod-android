@@ -140,7 +140,7 @@ dependencies {
     implementation libs.arrow.instances
 
     // olm lib is now hosted by jitpack: https://jitpack.io/#org.matrix.gitlab.matrix-org/olm
-    implementation 'org.matrix.gitlab.matrix-org:olm:3.2.4'
+    implementation 'org.matrix.gitlab.matrix-org:olm:3.2.6'
 
     // DI
     implementation libs.dagger.dagger
