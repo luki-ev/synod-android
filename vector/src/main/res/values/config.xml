@@ -25,4 +25,10 @@
         <item>synod.im</item>
     </string-array>
 
+    <!-- Permalink config -->
+    <string-array name="permalink_supported_hosts" translatable="false">
+        <!-- Regular Synod Web instance -->
+        <item>web.synod.im</item>
+    </string-array>
+
 </resources>
