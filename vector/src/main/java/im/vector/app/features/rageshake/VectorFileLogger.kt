@@ -40,12 +40,12 @@ class VectorFileLogger @Inject constructor(
 ) : Timber.Tree() {
 
     companion object {
-        private const val SIZE_20MB = 20 * 1024 * 1024
+        private const val SIZE_1MB = 1 * 1024 * 1024
         private const val SIZE_50MB = 50 * 1024 * 1024
     }
 
-    private val maxLogSizeByte = if (vectorPreferences.labAllowedExtendedLogging()) SIZE_50MB else SIZE_20MB
-    private val logRotationCount = if (vectorPreferences.labAllowedExtendedLogging()) 15 else 7
+    private val maxLogSizeByte = if (vectorPreferences.labAllowedExtendedLogging()) SIZE_50MB else SIZE_1MB
+    private val logRotationCount = if (vectorPreferences.labAllowedExtendedLogging()) 15 else 2
 
     private val logger = Logger.getLogger(context.packageName).apply {
         tryOrNull {
