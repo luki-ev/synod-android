@@ -472,7 +472,7 @@ dependencies {
 
     implementation "androidx.emoji:emoji-appcompat:1.1.0"
 
-    implementation ('com.github.BillCarsonFr:JsonViewer:0.6'){
+    implementation ('com.github.BillCarsonFr:JsonViewer:0.7'){
         exclude group: 'com.airbnb.android'
     }
 
