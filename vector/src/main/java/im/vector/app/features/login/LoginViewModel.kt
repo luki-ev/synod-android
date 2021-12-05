@@ -37,6 +37,7 @@ import im.vector.app.core.resources.StringProvider
 import im.vector.app.core.utils.ensureTrailingSlash
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.MatrixPatterns.getDomain
 import org.matrix.android.sdk.api.auth.AuthenticationService
 import org.matrix.android.sdk.api.auth.HomeServerHistoryService
@@ -552,7 +553,11 @@ class LoginViewModel @AssistedInject constructor(
     private fun handleLoginOrRegister(action: LoginAction.LoginOrRegister) = withState { state ->
         when (state.signMode) {
             SignMode.Unknown            -> error("Developer error, invalid sign mode")
-            SignMode.SignIn             -> handleLogin(action)
+            // Changed for Synod.im: Allow to use Matrix ID as username so it is possible to use staging servers for testing
+            SignMode.SignIn             -> when {
+                MatrixPatterns.isUserId(action.username) -> handleDirectLogin(action, null)
+                else                                     -> handleLogin(action)
+            }
             SignMode.SignUp             -> handleRegisterWith(action)
             SignMode.SignInWithMatrixId -> handleDirectLogin(action, null)
         }.exhaustive
