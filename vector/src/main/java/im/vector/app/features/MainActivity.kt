@@ -24,9 +24,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
-import im.vector.app.core.di.ScreenComponent
 import im.vector.app.core.error.ErrorFormatter
 import im.vector.app.core.extensions.startSyncing
 import im.vector.app.core.platform.VectorBaseActivity
@@ -67,6 +67,7 @@ data class MainActivityArgs(
  * This Activity, when started with argument, is also doing some cleanup when user signs out,
  * clears cache, is logged out, or is soft logged out
  */
+@AndroidEntryPoint
 class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity {
 
     companion object {
@@ -98,10 +99,6 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     @Inject lateinit var pinLocker: PinLocker
     @Inject lateinit var popupAlertManager: PopupAlertManager
 
-    override fun injectWith(injector: ScreenComponent) {
-        injector.inject(this)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args = parseArgs()
@@ -119,7 +116,6 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     private fun clearNotifications() {
         // Dismiss all notifications
         notificationDrawerManager.clearAllEvents()
-        notificationDrawerManager.persistInfo()
 
         // Also clear the dynamic shortcuts
         shortcutsHandler.clearShortcuts()
