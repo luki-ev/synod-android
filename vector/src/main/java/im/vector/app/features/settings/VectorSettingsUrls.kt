@@ -17,7 +17,7 @@
 package im.vector.app.features.settings
 
 object VectorSettingsUrls {
-
+    const val HELP = "https://doc.librechurch.org/Wiki.jsp?page=Synod.im%20FAQ"
     const val COPYRIGHT = "https://synod.im/copyright"
     const val TAC = "https://synod.im/terms"
     const val PRIVACY_POLICY = "https://synod.im/privacy"
