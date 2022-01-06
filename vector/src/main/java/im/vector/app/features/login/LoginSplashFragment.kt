@@ -68,9 +68,24 @@ class LoginSplashFragment @Inject constructor(
     }
 
     private fun getStarted() {
-        // upstream: loginViewModel.handle(LoginAction.OnGetStarted(resetLoginConfig = false))
-        // Synod.im: skip server selection
-        loginViewModel.handle(LoginAction.UpdateHomeServer(getString(R.string.matrix_org_server_url).ensureTrailingSlash()))
+        if (isUiTest()) {
+            // Ugly hack: Use upstream implementation for UI tests.
+            // Probably the least complex solution... at least it requires not much maintenance effort.
+            loginViewModel.handle(LoginAction.OnGetStarted(resetLoginConfig = false))
+        } else {
+            // Synod.im: skip server selection
+            loginViewModel.handle(LoginAction.UpdateHomeServer(getString(R.string.matrix_org_server_url).ensureTrailingSlash()))
+        }
+    }
+
+    private fun isUiTest(): Boolean {
+        for (element in Thread.currentThread().stackTrace) {
+            if (element.className.startsWith("androidx.test.espresso.")) {
+                return true
+            }
+        }
+
+        return false
     }
 
     override fun resetViewModel() {
@@ -97,7 +112,7 @@ class LoginSplashFragment @Inject constructor(
 
     override fun updateWithState(state: LoginViewState) {
         if (state.loginMode != LoginMode.Unknown) {
-            // Skip server selection (copied from LoginServerSelectionFragment.updateWithState)
+            // Synod.im: Skip server selection (copied from LoginServerSelectionFragment.updateWithState)
             loginViewModel.handle(LoginAction.PostViewEvent(LoginViewEvents.OnLoginFlowRetrieved))
         }
     }
