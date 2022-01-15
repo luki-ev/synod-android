@@ -182,7 +182,8 @@ class FtueAuthLoginFragment @Inject constructor() : AbstractSSOFtueAuthFragment<
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    views.loginServerIcon.isVisible = true
+                    // Changed for Synod.im: Hide matrix.org icon.
+                    views.loginServerIcon.isVisible = false
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
                     views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
                     views.loginNotice.text = getString(R.string.login_server_matrix_org_text)

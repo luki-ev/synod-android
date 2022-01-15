@@ -159,7 +159,10 @@ class OnboardingViewModel @AssistedInject constructor(
                 getLoginFlow(homeServerConnectionConfig, ServerType.Other)
             }
         } else {
-            _viewEvents.post(OnboardingViewEvents.OpenServerSelection)
+            // Changed for Synod.im: Skip server selection
+            handleUpdateHomeserver(OnboardingAction.UpdateHomeServer(matrixOrgUrl))
+            // Previous code:
+            // _viewEvents.post(OnboardingViewEvents.OpenServerSelection)
         }
     }
 
