@@ -27,6 +27,7 @@ import im.vector.app.BuildConfig
 import im.vector.app.R
 import im.vector.app.core.utils.ensureTrailingSlash
 import im.vector.app.databinding.FragmentLoginSplashBinding
+import im.vector.app.features.analytics.plan.Screen
 import im.vector.app.features.settings.VectorPreferences
 import org.matrix.android.sdk.api.failure.Failure
 import java.net.UnknownHostException
@@ -47,6 +48,11 @@ class LoginSplashFragment @Inject constructor(
 
     override fun getBinding(inflater: LayoutInflater, container: ViewGroup?): FragmentLoginSplashBinding {
         return FragmentLoginSplashBinding.inflate(inflater, container, false)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        analyticsScreenName = Screen.ScreenName.Welcome
+        super.onCreate(savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

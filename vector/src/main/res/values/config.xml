@@ -7,6 +7,8 @@
     <string name="matrix_org_server_url" translatable="false">https://synod.im</string>
     <string name="piwik_server_url" translatable="false">https://synod.im/piwik.php</string>
     <string name="bug_report_url" translatable="false">https://bugs.synod.im</string>
+    <string name="bug_report_app_name" translatable="false">synod-android</string>
+    <string name="bug_report_auto_uisi_app_name" translatable="false">element-auto-uisi</string>
 
     <!--
         Pusher config for the application
