@@ -17,7 +17,7 @@ jobs:
     name: Matrix SDK - Build Android Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/cache@v2
         with:
           path: |
@@ -34,7 +34,7 @@ jobs:
     name: App - Build Android Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/cache@v2
         with:
           path: |
@@ -55,7 +55,7 @@ jobs:
       matrix:
         api-level: [ 28 ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
       - uses: actions/setup-java@v2
         with:
