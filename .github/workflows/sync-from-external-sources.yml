@@ -30,7 +30,7 @@ jobs:
       - name: Run Emoji script
         run: ./tools/import_emojis.py
       - name: Create Pull Request for Emojis
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Sync Emojis
           title: Sync Emojis
@@ -63,7 +63,7 @@ jobs:
       - name: Run SAS String script
         run: ./tools/import_sas_strings.py
       - name: Create Pull Request for SAS Strings
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Sync SAS Strings
           title: Sync SAS Strings
@@ -81,7 +81,7 @@ jobs:
       - name: Run analytics import script
         run: ./tools/import_analytic_plan.sh
       - name: Create Pull Request for analytics plan
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4
         with:
           commit-message: Sync analytics plan
           title: Sync analytics plan
