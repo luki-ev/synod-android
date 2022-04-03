@@ -50,7 +50,7 @@ abstract class CallTileTimelineItem : AbsBaseMessageItem<CallTileTimelineItem.Ho
     @EpoxyAttribute
     lateinit var attributes: Attributes
 
-    override fun getViewType() = STUB_ID
+    override fun getViewStubId() = STUB_ID
 
     override fun bind(holder: Holder) {
         super.bind(holder)
@@ -263,7 +263,8 @@ abstract class CallTileTimelineItem : AbsBaseMessageItem<CallTileTimelineItem.Ho
             override val itemLongClickListener: View.OnLongClickListener? = null,
             override val itemClickListener: ClickListener? = null,
             override val reactionPillCallback: TimelineEventController.ReactionPillCallback? = null,
-            override val readReceiptsCallback: TimelineEventController.ReadReceiptsCallback? = null
+            override val readReceiptsCallback: TimelineEventController.ReadReceiptsCallback? = null,
+            override val reactionsSummaryEvents: ReactionsSummaryEvents? = null
     ) : AbsBaseMessageItem.Attributes
 
     enum class CallKind(@DrawableRes val icon: Int, @StringRes val title: Int) {

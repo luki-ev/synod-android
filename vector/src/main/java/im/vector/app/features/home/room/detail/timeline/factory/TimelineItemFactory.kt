@@ -44,8 +44,17 @@ class TimelineItemFactory @Inject constructor(private val messageItemFactory: Me
     fun create(params: TimelineItemFactoryParams): VectorEpoxyModel<*> {
         val event = params.event
         val computedModel = try {
-            if (!timelineEventVisibilityHelper.shouldShowEvent(event, params.highlightedEventId)) {
-                return buildEmptyItem(event, params.prevEvent, params.highlightedEventId)
+            if (!timelineEventVisibilityHelper.shouldShowEvent(
+                            timelineEvent = event,
+                            highlightedEventId = params.highlightedEventId,
+                            isFromThreadTimeline = params.isFromThreadTimeline(),
+                            rootThreadEventId = params.rootThreadEventId)) {
+                return buildEmptyItem(
+                        event,
+                        params.prevEvent,
+                        params.highlightedEventId,
+                        params.rootThreadEventId,
+                        params.isFromThreadTimeline())
             }
 
             // Manage state event differently, to check validity
@@ -85,7 +94,7 @@ class TimelineItemFactory @Inject constructor(private val messageItemFactory: Me
                 when (event.root.getClearType()) {
                     // Message itemsX
                     EventType.STICKER,
-                    EventType.POLL_START,
+                    in EventType.POLL_START,
                     EventType.MESSAGE               -> messageItemFactory.create(params)
                     EventType.REDACTION,
                     EventType.KEY_VERIFICATION_ACCEPT,
@@ -98,8 +107,8 @@ class TimelineItemFactory @Inject constructor(private val messageItemFactory: Me
                     EventType.CALL_SELECT_ANSWER,
                     EventType.CALL_NEGOTIATE,
                     EventType.REACTION,
-                    EventType.POLL_RESPONSE,
-                    EventType.POLL_END              -> noticeItemFactory.create(params)
+                    in EventType.POLL_RESPONSE,
+                    in EventType.POLL_END           -> noticeItemFactory.create(params)
                     // Calls
                     EventType.CALL_INVITE,
                     EventType.CALL_HANGUP,
@@ -134,11 +143,24 @@ class TimelineItemFactory @Inject constructor(private val messageItemFactory: Me
             Timber.e(throwable, "failed to create message item")
             defaultItemFactory.create(params, throwable)
         }
-        return computedModel ?: buildEmptyItem(event, params.prevEvent, params.highlightedEventId)
+        return computedModel ?: buildEmptyItem(
+                event,
+                params.prevEvent,
+                params.highlightedEventId,
+                params.rootThreadEventId,
+                params.isFromThreadTimeline())
     }
 
-    private fun buildEmptyItem(timelineEvent: TimelineEvent, prevEvent: TimelineEvent?, highlightedEventId: String?): TimelineEmptyItem {
-        val isNotBlank = prevEvent == null || timelineEventVisibilityHelper.shouldShowEvent(prevEvent, highlightedEventId)
+    private fun buildEmptyItem(timelineEvent: TimelineEvent,
+                               prevEvent: TimelineEvent?,
+                               highlightedEventId: String?,
+                               rootThreadEventId: String?,
+                               isFromThreadTimeline: Boolean): TimelineEmptyItem {
+        val isNotBlank = prevEvent == null || timelineEventVisibilityHelper.shouldShowEvent(
+                timelineEvent = prevEvent,
+                highlightedEventId = highlightedEventId,
+                isFromThreadTimeline = isFromThreadTimeline,
+                rootThreadEventId = rootThreadEventId)
         return TimelineEmptyItem_()
                 .id(timelineEvent.localId)
                 .eventId(timelineEvent.eventId)

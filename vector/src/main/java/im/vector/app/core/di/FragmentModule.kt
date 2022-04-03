@@ -58,9 +58,10 @@ import im.vector.app.features.home.HomeDetailFragment
 import im.vector.app.features.home.HomeDrawerFragment
 import im.vector.app.features.home.LoadingFragment
 import im.vector.app.features.home.room.breadcrumbs.BreadcrumbsFragment
-import im.vector.app.features.home.room.detail.RoomDetailFragment
+import im.vector.app.features.home.room.detail.TimelineFragment
 import im.vector.app.features.home.room.detail.search.SearchFragment
 import im.vector.app.features.home.room.list.RoomListFragment
+import im.vector.app.features.home.room.threads.list.views.ThreadListFragment
 import im.vector.app.features.location.LocationPreviewFragment
 import im.vector.app.features.location.LocationSharingFragment
 import im.vector.app.features.login.LoginCaptchaFragment
@@ -96,9 +97,13 @@ import im.vector.app.features.login2.created.AccountCreatedFragment
 import im.vector.app.features.login2.terms.LoginTermsFragment2
 import im.vector.app.features.matrixto.MatrixToRoomSpaceFragment
 import im.vector.app.features.matrixto.MatrixToUserFragment
+import im.vector.app.features.onboarding.ftueauth.FtueAuthAccountCreatedFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthCaptchaFragment
+import im.vector.app.features.onboarding.ftueauth.FtueAuthChooseDisplayNameFragment
+import im.vector.app.features.onboarding.ftueauth.FtueAuthChooseProfilePictureFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthGenericTextInputFormFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthLoginFragment
+import im.vector.app.features.onboarding.ftueauth.FtueAuthPersonalizationCompleteFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthResetPasswordFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthResetPasswordMailConfirmationFragment
 import im.vector.app.features.onboarding.ftueauth.FtueAuthResetPasswordSuccessFragment
@@ -204,8 +209,8 @@ interface FragmentModule {
 
     @Binds
     @IntoMap
-    @FragmentKey(RoomDetailFragment::class)
-    fun bindRoomDetailFragment(fragment: RoomDetailFragment): Fragment
+    @FragmentKey(TimelineFragment::class)
+    fun bindTimelineFragment(fragment: TimelineFragment): Fragment
 
     @Binds
     @IntoMap
@@ -471,6 +476,26 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(FtueAuthTermsFragment::class)
     fun bindFtueAuthTermsFragment(fragment: FtueAuthTermsFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(FtueAuthAccountCreatedFragment::class)
+    fun bindFtueAuthAccountCreatedFragment(fragment: FtueAuthAccountCreatedFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(FtueAuthChooseDisplayNameFragment::class)
+    fun bindFtueAuthChooseDisplayNameFragment(fragment: FtueAuthChooseDisplayNameFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(FtueAuthChooseProfilePictureFragment::class)
+    fun bindFtueAuthChooseProfilePictureFragment(fragment: FtueAuthChooseProfilePictureFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(FtueAuthPersonalizationCompleteFragment::class)
+    fun bindFtueAuthPersonalizationCompleteFragment(fragment: FtueAuthPersonalizationCompleteFragment): Fragment
 
     @Binds
     @IntoMap
@@ -936,6 +961,11 @@ interface FragmentModule {
     @IntoMap
     @FragmentKey(SpaceLeaveAdvancedFragment::class)
     fun bindSpaceLeaveAdvancedFragment(fragment: SpaceLeaveAdvancedFragment): Fragment
+
+    @Binds
+    @IntoMap
+    @FragmentKey(ThreadListFragment::class)
+    fun bindThreadListFragment(fragment: ThreadListFragment): Fragment
 
     @Binds
     @IntoMap

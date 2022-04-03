@@ -17,12 +17,15 @@ package org.matrix.android.sdk.internal.session.room.timeline
 
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import kotlinx.coroutines.runBlocking
 import org.matrix.android.sdk.api.session.crypto.CryptoService
 import org.matrix.android.sdk.api.session.crypto.MXCryptoError
 import org.matrix.android.sdk.api.session.events.model.Event
 import org.matrix.android.sdk.api.session.events.model.toModel
 import org.matrix.android.sdk.internal.crypto.NewSessionListener
 import org.matrix.android.sdk.internal.crypto.model.event.EncryptedEventContent
+import org.matrix.android.sdk.internal.database.lightweight.LightweightSettingsStorage
+import org.matrix.android.sdk.internal.database.mapper.asDomain
 import org.matrix.android.sdk.internal.database.model.EventEntity
 import org.matrix.android.sdk.internal.database.query.where
 import org.matrix.android.sdk.internal.di.SessionDatabase
@@ -36,7 +39,8 @@ internal class TimelineEventDecryptor @Inject constructor(
         @SessionDatabase
         private val realmConfiguration: RealmConfiguration,
         private val cryptoService: CryptoService,
-        private val threadsAwarenessHandler: ThreadsAwarenessHandler
+        private val threadsAwarenessHandler: ThreadsAwarenessHandler,
+        private val lightweightSettingsStorage: LightweightSettingsStorage
 ) {
 
     private val newSessionListener = object : NewSessionListener {
@@ -96,14 +100,38 @@ internal class TimelineEventDecryptor @Inject constructor(
         }
         executor?.execute {
             Realm.getInstance(realmConfiguration).use { realm ->
-                processDecryptRequest(request, realm)
+                try {
+                    runBlocking {
+                        processDecryptRequest(request, realm)
+                    }
+                } catch (e: InterruptedException) {
+                    Timber.i("Decryption got interrupted")
+                }
             }
         }
     }
 
-    private fun processDecryptRequest(request: DecryptionRequest, realm: Realm) {
+    private fun threadAwareNonEncryptedEvents(request: DecryptionRequest, realm: Realm) {
+        val event = request.event
+            realm.executeTransaction {
+                val eventId = event.eventId ?: return@executeTransaction
+                val eventEntity = EventEntity
+                        .where(it, eventId = eventId)
+                        .findFirst()
+                val decryptedEvent = eventEntity?.asDomain()
+                threadsAwarenessHandler.makeEventThreadAware(realm, event.roomId, decryptedEvent, eventEntity)
+        }
+    }
+    private suspend fun processDecryptRequest(request: DecryptionRequest, realm: Realm) {
         val event = request.event
         val timelineId = request.timelineId
+
+        if (!request.event.isEncrypted()) {
+            // Here we have requested a decryption to an event that is not encrypted
+            // We will simply make this event thread aware
+            threadAwareNonEncryptedEvents(request, realm)
+            return
+        }
         try {
             val result = cryptoService.decryptEvent(request.event, timelineId)
             Timber.v("Successfully decrypted event ${event.eventId}")
@@ -112,15 +140,9 @@ internal class TimelineEventDecryptor @Inject constructor(
                 val eventEntity = EventEntity
                         .where(it, eventId = eventId)
                         .findFirst()
-
-                eventEntity?.apply {
-                    val decryptedPayload = threadsAwarenessHandler.handleIfNeededDuringDecryption(
-                            it,
-                            roomId = event.roomId,
-                            event,
-                            result)
-                    setDecryptionResult(result, decryptedPayload)
-                }
+                eventEntity?.setDecryptionResult(result)
+                val decryptedEvent = eventEntity?.asDomain()
+                threadsAwarenessHandler.makeEventThreadAware(realm, event.roomId, decryptedEvent, eventEntity)
             }
         } catch (e: MXCryptoError) {
             Timber.v("Failed to decrypt event ${event.eventId} : ${e.localizedMessage}")

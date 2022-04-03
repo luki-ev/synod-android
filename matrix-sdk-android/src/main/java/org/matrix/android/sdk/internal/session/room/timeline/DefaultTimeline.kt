@@ -35,8 +35,10 @@ import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.session.room.timeline.Timeline
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 import org.matrix.android.sdk.api.session.room.timeline.TimelineSettings
+import org.matrix.android.sdk.internal.database.lightweight.LightweightSettingsStorage
 import org.matrix.android.sdk.internal.database.mapper.TimelineEventMapper
 import org.matrix.android.sdk.internal.session.room.membership.LoadRoomMembersTask
+import org.matrix.android.sdk.internal.session.room.relation.threads.FetchThreadTimelineTask
 import org.matrix.android.sdk.internal.session.sync.handler.room.ReadReceiptHandler
 import org.matrix.android.sdk.internal.session.sync.handler.room.ThreadsAwarenessHandler
 import org.matrix.android.sdk.internal.task.SemaphoreCoroutineSequencer
@@ -57,9 +59,11 @@ internal class DefaultTimeline(private val roomId: String,
                                paginationTask: PaginationTask,
                                getEventTask: GetContextOfEventTask,
                                fetchTokenAndPaginateTask: FetchTokenAndPaginateTask,
+                               fetchThreadTimelineTask: FetchThreadTimelineTask,
                                timelineEventMapper: TimelineEventMapper,
                                timelineInput: TimelineInput,
                                threadsAwarenessHandler: ThreadsAwarenessHandler,
+                               lightweightSettingsStorage: LightweightSettingsStorage,
                                eventDecryptor: TimelineEventDecryptor) : Timeline {
 
     companion object {
@@ -79,16 +83,22 @@ internal class DefaultTimeline(private val roomId: String,
     private val sequencer = SemaphoreCoroutineSequencer()
     private val postSnapshotSignalFlow = MutableSharedFlow<Unit>(0)
 
+    private var isFromThreadTimeline = false
+    private var rootThreadEventId: String? = null
+
     private val strategyDependencies = LoadTimelineStrategy.Dependencies(
             timelineSettings = settings,
             realm = backgroundRealm,
             eventDecryptor = eventDecryptor,
             paginationTask = paginationTask,
+            realmConfiguration = realmConfiguration,
             fetchTokenAndPaginateTask = fetchTokenAndPaginateTask,
+            fetchThreadTimelineTask = fetchThreadTimelineTask,
             getContextOfEventTask = getEventTask,
             timelineInput = timelineInput,
             timelineEventMapper = timelineEventMapper,
             threadsAwarenessHandler = threadsAwarenessHandler,
+            lightweightSettingsStorage = lightweightSettingsStorage,
             onEventsUpdated = this::sendSignalToPostSnapshot,
             onLimitedTimeline = this::onLimitedTimeline,
             onNewTimelineEvents = this::onNewTimelineEvents
@@ -118,18 +128,21 @@ internal class DefaultTimeline(private val roomId: String,
         listeners.clear()
     }
 
-    override fun start() {
+    override fun start(rootThreadEventId: String?) {
         timelineScope.launch {
             loadRoomMembersIfNeeded()
         }
         timelineScope.launch {
             sequencer.post {
                 if (isStarted.compareAndSet(false, true)) {
+                    isFromThreadTimeline = rootThreadEventId != null
+                    this@DefaultTimeline.rootThreadEventId = rootThreadEventId
+                    // /
                     val realm = Realm.getInstance(realmConfiguration)
                     ensureReadReceiptAreLoaded(realm)
                     backgroundRealm.set(realm)
                     listenToPostSnapshotSignals()
-                    openAround(initialEventId)
+                    openAround(initialEventId, rootThreadEventId)
                     postSnapshot()
                 }
             }
@@ -150,7 +163,7 @@ internal class DefaultTimeline(private val roomId: String,
 
     override fun restartWithEventId(eventId: String?) {
         timelineScope.launch {
-            openAround(eventId)
+            openAround(eventId, rootThreadEventId)
             postSnapshot()
         }
     }
@@ -219,19 +232,24 @@ internal class DefaultTimeline(private val roomId: String,
         return true
     }
 
-    private suspend fun openAround(eventId: String?) = withContext(timelineDispatcher) {
+    private suspend fun openAround(eventId: String?, rootThreadEventId: String?) = withContext(timelineDispatcher) {
         val baseLogMessage = "openAround(eventId: $eventId)"
         Timber.v("$baseLogMessage started")
         if (!isStarted.get()) {
             throw IllegalStateException("You should call start before using timeline")
         }
         strategy.onStop()
-        strategy = if (eventId == null) {
-            buildStrategy(LoadTimelineStrategy.Mode.Live)
-        } else {
-            buildStrategy(LoadTimelineStrategy.Mode.Permalink(eventId))
+
+        strategy = when {
+            rootThreadEventId != null -> buildStrategy(LoadTimelineStrategy.Mode.Thread(rootThreadEventId))
+            eventId == null           -> buildStrategy(LoadTimelineStrategy.Mode.Live)
+            else                      -> buildStrategy(LoadTimelineStrategy.Mode.Permalink(eventId))
         }
-        initPaginationStates(eventId)
+
+        rootThreadEventId?.let {
+            initPaginationStates(null)
+        } ?: initPaginationStates(eventId)
+
         strategy.onStart()
         loadMore(
                 count = strategyDependencies.timelineSettings.initialSize,
@@ -283,7 +301,13 @@ internal class DefaultTimeline(private val roomId: String,
         Timber.v("Post snapshot of ${snapshot.size} events")
         withContext(coroutineDispatchers.main) {
             listeners.forEach {
-                tryOrNull { it.onTimelineUpdated(snapshot) }
+                if (initialEventId != null && isFromThreadTimeline && snapshot.firstOrNull { it.eventId == initialEventId } == null) {
+                    // We are in a thread timeline with a permalink, post update timeline only when the appropriate message have been found
+                    tryOrNull { it.onTimelineUpdated(arrayListOf()) }
+                } else {
+                    // In all the other cases update timeline as expected
+                    tryOrNull { it.onTimelineUpdated(snapshot) }
+                }
             }
         }
     }

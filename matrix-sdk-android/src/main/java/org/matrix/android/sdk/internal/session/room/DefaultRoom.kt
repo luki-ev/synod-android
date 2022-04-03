@@ -35,6 +35,8 @@ import org.matrix.android.sdk.api.session.room.send.DraftService
 import org.matrix.android.sdk.api.session.room.send.SendService
 import org.matrix.android.sdk.api.session.room.state.StateService
 import org.matrix.android.sdk.api.session.room.tags.TagsService
+import org.matrix.android.sdk.api.session.room.threads.ThreadsService
+import org.matrix.android.sdk.api.session.room.threads.local.ThreadsLocalService
 import org.matrix.android.sdk.api.session.room.timeline.TimelineService
 import org.matrix.android.sdk.api.session.room.typing.TypingService
 import org.matrix.android.sdk.api.session.room.uploads.UploadsService
@@ -54,6 +56,8 @@ import java.security.InvalidParameterException
 internal class DefaultRoom(override val roomId: String,
                            private val roomSummaryDataSource: RoomSummaryDataSource,
                            private val timelineService: TimelineService,
+                           private val threadsService: ThreadsService,
+                           private val threadsLocalService: ThreadsLocalService,
                            private val sendService: SendService,
                            private val draftService: DraftService,
                            private val stateService: StateService,
@@ -77,6 +81,8 @@ internal class DefaultRoom(override val roomId: String,
 ) :
         Room,
         TimelineService by timelineService,
+        ThreadsService by threadsService,
+        ThreadsLocalService by threadsLocalService,
         SendService by sendService,
         DraftService by draftService,
         StateService by stateService,

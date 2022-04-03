@@ -56,12 +56,21 @@ data class MatrixConfiguration(
         /**
          * RoomDisplayNameFallbackProvider to provide default room display name.
          */
-        val roomDisplayNameFallbackProvider: RoomDisplayNameFallbackProvider
+        val roomDisplayNameFallbackProvider: RoomDisplayNameFallbackProvider,
+        /**
+         * True to enable presence information sync (if available). False to disable regardless of server setting.
+         */
+        val presenceSyncEnabled: Boolean = true,
+        /**
+         * Thread messages default enable/disabled value
+         */
+        val threadMessagesEnabledDefault: Boolean = false,
 ) {
 
     /**
      * Can be implemented by your Application class.
      */
+    @Deprecated("Use Matrix.createInstance and manage the instance manually instead of Matrix.getInstance")
     interface Provider {
         fun providesMatrixConfiguration(): MatrixConfiguration
     }

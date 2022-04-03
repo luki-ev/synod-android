@@ -54,21 +54,19 @@ class CreatePollController @Inject constructor(
             title(host.stringProvider.getString(R.string.poll_type_title).toEpoxyCharSequence())
         }
 
-        /*
         pollTypeSelectionItem {
             id("poll_type_selection")
             pollType(currentState.pollType)
             pollTypeChangedListener { _, id ->
                 host.callback?.onPollTypeChanged(
                         if (id == R.id.openPollTypeRadioButton) {
-                            PollType.DISCLOSED
+                            PollType.DISCLOSED_UNSTABLE
                         } else {
-                            PollType.UNDISCLOSED
+                            PollType.UNDISCLOSED_UNSTABLE
                         }
                 )
             }
         }
-         */
 
         genericItem {
             id("question_title")
@@ -121,6 +119,7 @@ class CreatePollController @Inject constructor(
                 textColor(host.colorProvider.getColor(R.color.palette_element_green))
                 gravity(Gravity.START)
                 bold(true)
+                highlight(false)
                 buttonClickAction {
                     host.callback?.onAddOption()
                 }

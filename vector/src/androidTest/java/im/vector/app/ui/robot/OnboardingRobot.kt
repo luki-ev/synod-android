@@ -21,6 +21,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.assertion.BaristaEnabledAssertions.assertDisabled
 import com.adevinta.android.barista.assertion.BaristaEnabledAssertions.assertEnabled
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
@@ -40,7 +41,10 @@ class OnboardingRobot {
 
     private fun crawlGetStarted() {
         clickOn(R.id.loginSplashSubmit)
+        assertDisplayed(R.id.useCaseHeaderTitle, R.string.ftue_auth_use_case_title)
+        clickOn(R.id.useCaseOptionOne)
         OnboardingServersRobot().crawlSignUp()
+        pressBack()
         pressBack()
     }
 
@@ -52,6 +56,8 @@ class OnboardingRobot {
 
     fun createAccount(userId: String, password: String = "password", homeServerUrl: String = "http://10.0.2.2:8080") {
         initSession(true, userId, password, homeServerUrl)
+        waitUntilViewVisible(withText(R.string.ftue_account_created_congratulations_title))
+        clickOn(R.string.ftue_account_created_take_me_home)
     }
 
     fun login(userId: String, password: String = "password", homeServerUrl: String = "http://10.0.2.2:8080") {
@@ -66,6 +72,7 @@ class OnboardingRobot {
         assertDisplayed(R.id.loginSplashSubmit, R.string.login_splash_create_account)
         if (createAccount) {
             clickOn(R.id.loginSplashSubmit)
+            clickOn(R.id.useCaseOptionOne)
         } else {
             clickOn(R.id.loginSplashAlreadyHaveAccount)
         }

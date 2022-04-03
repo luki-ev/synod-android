@@ -77,6 +77,13 @@ interface RoomService {
     )
 
     /**
+     * Leave the room, or reject an invitation.
+     * @param roomId the roomId of the room to leave
+     * @param reason optional reason for leaving the room
+     */
+    suspend fun leaveRoom(roomId: String, reason: String? = null)
+
+    /**
      * Get a room from a roomId
      * @param roomId the roomId to look for.
      * @return a room with roomId or null
@@ -208,6 +215,12 @@ interface RoomService {
     fun getFilteredPagedRoomSummariesLive(queryParams: RoomSummaryQueryParams,
                                           pagedListConfig: PagedList.Config = defaultPagedListConfig,
                                           sortOrder: RoomSortOrder = RoomSortOrder.ACTIVITY): UpdatableLivePageResult
+
+    /**
+     * Return a LiveData on the number of rooms
+     * @param queryParams parameters to query the room summaries. It can be use to keep only joined rooms, for instance.
+     */
+    fun getRoomCountLive(queryParams: RoomSummaryQueryParams): LiveData<Int>
 
     /**
      * TODO Doc

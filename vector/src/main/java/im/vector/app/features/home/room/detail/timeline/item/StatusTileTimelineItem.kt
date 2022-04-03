@@ -40,7 +40,7 @@ abstract class StatusTileTimelineItem : AbsBaseMessageItem<StatusTileTimelineIte
     @EpoxyAttribute
     lateinit var attributes: Attributes
 
-    override fun getViewType() = STUB_ID
+    override fun getViewStubId() = STUB_ID
 
     @SuppressLint("SetTextI18n")
     override fun bind(holder: Holder) {
@@ -93,7 +93,8 @@ abstract class StatusTileTimelineItem : AbsBaseMessageItem<StatusTileTimelineIte
             override val itemClickListener: ClickListener? = null,
             override val reactionPillCallback: TimelineEventController.ReactionPillCallback? = null,
             override val readReceiptsCallback: TimelineEventController.ReadReceiptsCallback? = null,
-            val emojiTypeFace: Typeface? = null
+            val emojiTypeFace: Typeface? = null,
+            override val reactionsSummaryEvents: ReactionsSummaryEvents? = null
     ) : AbsBaseMessageItem.Attributes
 
     enum class ShieldUIState {

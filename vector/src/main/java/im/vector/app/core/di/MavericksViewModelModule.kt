@@ -39,12 +39,11 @@ import im.vector.app.features.discovery.DiscoverySettingsViewModel
 import im.vector.app.features.discovery.change.SetIdentityServerViewModel
 import im.vector.app.features.home.HomeActivityViewModel
 import im.vector.app.features.home.HomeDetailViewModel
-import im.vector.app.features.home.PromoteRestrictedViewModel
 import im.vector.app.features.home.UnknownDeviceDetectorSharedViewModel
 import im.vector.app.features.home.UnreadMessagesSharedViewModel
 import im.vector.app.features.home.UserColorAccountDataViewModel
 import im.vector.app.features.home.room.breadcrumbs.BreadcrumbsViewModel
-import im.vector.app.features.home.room.detail.RoomDetailViewModel
+import im.vector.app.features.home.room.detail.TimelineViewModel
 import im.vector.app.features.home.room.detail.composer.MessageComposerViewModel
 import im.vector.app.features.home.room.detail.search.SearchViewModel
 import im.vector.app.features.home.room.detail.timeline.action.MessageActionsViewModel
@@ -59,8 +58,10 @@ import im.vector.app.features.login.LoginViewModel
 import im.vector.app.features.login2.LoginViewModel2
 import im.vector.app.features.login2.created.AccountCreatedViewModel
 import im.vector.app.features.matrixto.MatrixToBottomSheetViewModel
+import im.vector.app.features.media.VectorAttachmentViewerViewModel
 import im.vector.app.features.onboarding.OnboardingViewModel
 import im.vector.app.features.poll.create.CreatePollViewModel
+import im.vector.app.features.qrcode.QrCodeScannerViewModel
 import im.vector.app.features.rageshake.BugReportViewModel
 import im.vector.app.features.reactions.EmojiSearchResultViewModel
 import im.vector.app.features.room.RequireActiveMembershipViewModel
@@ -222,6 +223,11 @@ interface MavericksViewModelModule {
 
     @Binds
     @IntoMap
+    @MavericksViewModelKey(QrCodeScannerViewModel::class)
+    fun qrCodeViewModelFactory(factory: QrCodeScannerViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
     @MavericksViewModelKey(RoomNotificationSettingsViewModel::class)
     fun roomNotificationSettingsViewModelFactory(factory: RoomNotificationSettingsViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
@@ -234,11 +240,6 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(SharedSecureStorageViewModel::class)
     fun sharedSecureStorageViewModelFactory(factory: SharedSecureStorageViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
-
-    @Binds
-    @IntoMap
-    @MavericksViewModelKey(PromoteRestrictedViewModel::class)
-    fun promoteRestrictedViewModelFactory(factory: PromoteRestrictedViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
@@ -537,8 +538,8 @@ interface MavericksViewModelModule {
 
     @Binds
     @IntoMap
-    @MavericksViewModelKey(RoomDetailViewModel::class)
-    fun roomDetailViewModelFactory(factory: RoomDetailViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+    @MavericksViewModelKey(TimelineViewModel::class)
+    fun roomDetailViewModelFactory(factory: TimelineViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
@@ -594,4 +595,9 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(LocationSharingViewModel::class)
     fun createLocationSharingViewModelFactory(factory: LocationSharingViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(VectorAttachmentViewerViewModel::class)
+    fun vectorAttachmentViewerViewModelFactory(factory: VectorAttachmentViewerViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 }

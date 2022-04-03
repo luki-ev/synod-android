@@ -35,6 +35,8 @@ import org.matrix.android.sdk.internal.session.room.state.DefaultStateService
 import org.matrix.android.sdk.internal.session.room.state.SendStateTask
 import org.matrix.android.sdk.internal.session.room.summary.RoomSummaryDataSource
 import org.matrix.android.sdk.internal.session.room.tags.DefaultTagsService
+import org.matrix.android.sdk.internal.session.room.threads.DefaultThreadsService
+import org.matrix.android.sdk.internal.session.room.threads.local.DefaultThreadsLocalService
 import org.matrix.android.sdk.internal.session.room.timeline.DefaultTimelineService
 import org.matrix.android.sdk.internal.session.room.typing.DefaultTypingService
 import org.matrix.android.sdk.internal.session.room.uploads.DefaultUploadsService
@@ -50,6 +52,8 @@ internal interface RoomFactory {
 internal class DefaultRoomFactory @Inject constructor(private val cryptoService: CryptoService,
                                                       private val roomSummaryDataSource: RoomSummaryDataSource,
                                                       private val timelineServiceFactory: DefaultTimelineService.Factory,
+                                                      private val threadsServiceFactory: DefaultThreadsService.Factory,
+                                                      private val threadsLocalServiceFactory: DefaultThreadsLocalService.Factory,
                                                       private val sendServiceFactory: DefaultSendService.Factory,
                                                       private val draftServiceFactory: DefaultDraftService.Factory,
                                                       private val stateServiceFactory: DefaultStateService.Factory,
@@ -76,6 +80,8 @@ internal class DefaultRoomFactory @Inject constructor(private val cryptoService:
                 roomId = roomId,
                 roomSummaryDataSource = roomSummaryDataSource,
                 timelineService = timelineServiceFactory.create(roomId),
+                threadsService = threadsServiceFactory.create(roomId),
+                threadsLocalService = threadsLocalServiceFactory.create(roomId),
                 sendService = sendServiceFactory.create(roomId),
                 draftService = draftServiceFactory.create(roomId),
                 stateService = stateServiceFactory.create(roomId),

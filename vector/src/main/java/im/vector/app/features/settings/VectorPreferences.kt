@@ -20,6 +20,7 @@ import android.content.SharedPreferences
 import android.media.RingtoneManager
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.annotation.BoolRes
 import androidx.core.content.edit
 import com.squareup.seismic.ShakeDetector
 import im.vector.app.BuildConfig
@@ -83,6 +84,7 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         // interface
         const val SETTINGS_INTERFACE_LANGUAGE_PREFERENCE_KEY = "SETTINGS_INTERFACE_LANGUAGE_PREFERENCE_KEY"
         const val SETTINGS_INTERFACE_TEXT_SIZE_KEY = "SETTINGS_INTERFACE_TEXT_SIZE_KEY"
+        const val SETTINGS_INTERFACE_BUBBLE_KEY = "SETTINGS_INTERFACE_BUBBLE_KEY"
         const val SETTINGS_SHOW_URL_PREVIEW_KEY = "SETTINGS_SHOW_URL_PREVIEW_KEY"
         private const val SETTINGS_SEND_TYPING_NOTIF_KEY = "SETTINGS_SEND_TYPING_NOTIF_KEY"
         private const val SETTINGS_ENABLE_MARKDOWN_KEY = "SETTINGS_ENABLE_MARKDOWN_KEY"
@@ -185,7 +187,6 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         private const val SETTINGS_DISPLAY_ALL_EVENTS_KEY = "SETTINGS_DISPLAY_ALL_EVENTS_KEY"
 
         private const val DID_ASK_TO_ENABLE_SESSION_PUSH = "DID_ASK_TO_ENABLE_SESSION_PUSH"
-        private const val DID_PROMOTE_NEW_RESTRICTED_JOIN_RULE = "DID_PROMOTE_NEW_RESTRICTED_JOIN_RULE"
 
         // Location Sharing
         const val SETTINGS_PREF_ENABLE_LOCATION_SHARING = "SETTINGS_PREF_ENABLE_LOCATION_SHARING"
@@ -200,6 +201,13 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         private const val TAKE_PHOTO_VIDEO_MODE = "TAKE_PHOTO_VIDEO_MODE"
 
         private const val SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE = "SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE"
+
+        // This key will be used to identify clients with the old thread support enabled io.element.thread
+        const val SETTINGS_LABS_ENABLE_THREAD_MESSAGES_OLD_CLIENTS = "SETTINGS_LABS_ENABLE_THREAD_MESSAGES"
+
+        // This key will be used to identify clients with the new thread support enabled m.thread
+        const val SETTINGS_LABS_ENABLE_THREAD_MESSAGES = "SETTINGS_LABS_ENABLE_THREAD_MESSAGES_FINAL"
+        const val SETTINGS_THREAD_MESSAGES_SYNCED = "SETTINGS_THREAD_MESSAGES_SYNCED"
 
         // Possible values for TAKE_PHOTO_VIDEO_MODE
         const val TAKE_PHOTO_VIDEO_MODE_ALWAYS_ASK = 0
@@ -299,6 +307,8 @@ class VectorPreferences @Inject constructor(private val context: Context) {
         }
     }
 
+    private fun getDefault(@BoolRes resId: Int) = context.resources.getBoolean(resId)
+
     fun areNotificationEnabledForDevice(): Boolean {
         return defaultPrefs.getBoolean(SETTINGS_ENABLE_THIS_DEVICE_PREFERENCE_KEY, true)
     }
@@ -352,16 +362,6 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     fun setDidAskUserToEnableSessionPush() {
         defaultPrefs.edit {
             putBoolean(DID_ASK_TO_ENABLE_SESSION_PUSH, true)
-        }
-    }
-
-    fun didPromoteNewRestrictedFeature(): Boolean {
-        return defaultPrefs.getBoolean(DID_PROMOTE_NEW_RESTRICTED_JOIN_RULE, false)
-    }
-
-    fun setDidPromoteNewRestrictedFeature() {
-        defaultPrefs.edit {
-            putBoolean(DID_PROMOTE_NEW_RESTRICTED_JOIN_RULE, true)
         }
     }
 
@@ -860,6 +860,15 @@ class VectorPreferences @Inject constructor(private val context: Context) {
     }
 
     /**
+     * Tells if the timeline messages should be shown in a bubble or not.
+     *
+     * @return true to show timeline message in bubble.
+     */
+    fun useMessageBubblesLayout(): Boolean {
+        return defaultPrefs.getBoolean(SETTINGS_INTERFACE_BUBBLE_KEY, getDefault(R.bool.settings_interface_bubble_default))
+    }
+
+    /**
      * Tells if the rage shake is used.
      *
      * @return true if the rage shake is used
@@ -1001,5 +1010,58 @@ class VectorPreferences @Inject constructor(private val context: Context) {
 
     fun labsRenderLocationsInTimeline(): Boolean {
         return defaultPrefs.getBoolean(SETTINGS_LABS_RENDER_LOCATIONS_IN_TIMELINE, true)
+    }
+
+    /**
+     * Indicates whether or not thread messages are enabled
+     */
+    fun areThreadMessagesEnabled(): Boolean {
+        return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES, getDefault(R.bool.settings_labs_thread_messages_default))
+    }
+
+    /**
+     * Manually sets thread messages enabled, useful for migrating users from io.element.thread
+     */
+    fun setThreadMessagesEnabled() {
+        defaultPrefs
+                .edit()
+                .putBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES, true)
+                .apply()
+    }
+
+    /**
+     * Indicates whether or not the user will be notified about the new thread support
+     * We should notify the user only if he had old thread support enabled
+     */
+    fun shouldNotifyUserAboutThreads(): Boolean {
+        return defaultPrefs.getBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES_OLD_CLIENTS, false)
+    }
+
+    /**
+     * Indicates that the user have been notified about threads migration
+     */
+    fun userNotifiedAboutThreads() {
+        defaultPrefs
+                .edit()
+                .putBoolean(SETTINGS_LABS_ENABLE_THREAD_MESSAGES_OLD_CLIENTS, false)
+                .apply()
+    }
+
+    /**
+     * Indicates whether or not we should clear cache for threads migration.
+     * Default value is true, for fresh installs and updates
+     */
+    fun shouldMigrateThreads(): Boolean {
+        return defaultPrefs.getBoolean(SETTINGS_THREAD_MESSAGES_SYNCED, true)
+    }
+
+    /**
+     * Indicates that there no longer threads migration needed
+     */
+    fun setShouldMigrateThreads(shouldMigrate: Boolean) {
+        defaultPrefs
+                .edit()
+                .putBoolean(SETTINGS_THREAD_MESSAGES_SYNCED, shouldMigrate)
+                .apply()
     }
 }

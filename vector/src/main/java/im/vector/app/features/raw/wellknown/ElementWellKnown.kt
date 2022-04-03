@@ -35,8 +35,16 @@ data class ElementWellKnown(
         val elementE2E: E2EWellKnownConfig? = null,
 
         @Json(name = "im.vector.riot.e2ee")
-        val riotE2E: E2EWellKnownConfig? = null
-)
+        val riotE2E: E2EWellKnownConfig? = null,
+
+        @Json(name = "org.matrix.msc3488.tile_server")
+        val unstableMapTileServerConfig: MapTileServerConfig? = null,
+
+        @Json(name = "m.tile_server")
+        val mapTileServerConfig: MapTileServerConfig? = null
+) {
+    fun getBestMapTileServerConfig() = mapTileServerConfig ?: unstableMapTileServerConfig
+}
 
 @JsonClass(generateAdapter = true)
 data class E2EWellKnownConfig(
@@ -52,4 +60,10 @@ data class E2EWellKnownConfig(
 data class WellKnownPreferredConfig(
         @Json(name = "preferredDomain")
         val preferredDomain: String? = null
+)
+
+@JsonClass(generateAdapter = true)
+data class MapTileServerConfig(
+        @Json(name = "map_style_url")
+        val mapStyleUrl: String? = null
 )

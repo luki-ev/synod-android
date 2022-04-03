@@ -17,8 +17,9 @@
 package im.vector.app.features.home.room.detail.composer
 
 import com.airbnb.mvrx.MavericksState
-import im.vector.app.features.home.room.detail.RoomDetailArgs
+import im.vector.app.features.home.room.detail.arguments.TimelineArgs
 import im.vector.app.features.home.room.detail.composer.voice.VoiceMessageRecorderView
+import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.session.room.timeline.TimelineEvent
 
 /**
@@ -61,12 +62,14 @@ data class MessageComposerViewState(
         val roomId: String,
         val canSendMessage: CanSendStatus = CanSendStatus.Allowed,
         val isSendButtonVisible: Boolean = false,
+        val rootThreadEventId: String? = null,
+        val startsThread: Boolean = false,
         val sendMode: SendMode = SendMode.Regular("", false),
         val voiceRecordingUiState: VoiceMessageRecorderView.RecordingUiState = VoiceMessageRecorderView.RecordingUiState.Idle
 ) : MavericksState {
 
     val isVoiceRecording = when (voiceRecordingUiState) {
-        VoiceMessageRecorderView.RecordingUiState.Idle      -> false
+        VoiceMessageRecorderView.RecordingUiState.Idle         -> false
         is VoiceMessageRecorderView.RecordingUiState.Locked,
         VoiceMessageRecorderView.RecordingUiState.Draft,
         is VoiceMessageRecorderView.RecordingUiState.Recording -> true
@@ -77,6 +80,10 @@ data class MessageComposerViewState(
     val isComposerVisible = canSendMessage.boolean() && !isVoiceRecording
     val isVoiceMessageRecorderVisible = canSendMessage.boolean() && !isSendButtonVisible
 
-    @Suppress("UNUSED") // needed by mavericks
-    constructor(args: RoomDetailArgs) : this(roomId = args.roomId)
+    constructor(args: TimelineArgs) : this(
+            roomId = args.roomId,
+            startsThread = args.threadTimelineArgs?.startsThread.orFalse(),
+            rootThreadEventId = args.threadTimelineArgs?.rootThreadEventId)
+
+    fun isInThreadTimeline(): Boolean = rootThreadEventId != null
 }

@@ -34,6 +34,7 @@ import org.matrix.android.sdk.internal.database.model.TimelineEventEntityFields
 import org.matrix.android.sdk.internal.database.query.find
 import org.matrix.android.sdk.internal.database.query.getOrCreate
 import org.matrix.android.sdk.internal.database.query.where
+import org.matrix.android.sdk.internal.database.query.whereRoomId
 import org.matrix.android.sdk.internal.extensions.assertIsManaged
 import org.matrix.android.sdk.internal.session.room.timeline.PaginationDirection
 import timber.log.Timber
@@ -81,17 +82,18 @@ internal fun ChunkEntity.addStateEvent(roomId: String, stateEvent: EventEntity, 
 internal fun ChunkEntity.addTimelineEvent(roomId: String,
                                           eventEntity: EventEntity,
                                           direction: PaginationDirection,
-                                          roomMemberContentsByUser: Map<String, RoomMemberContent?>) {
+                                          ownedByThreadChunk: Boolean = false,
+                                          roomMemberContentsByUser: Map<String, RoomMemberContent?>? = null): TimelineEventEntity? {
     val eventId = eventEntity.eventId
     if (timelineEvents.find(eventId) != null) {
-        return
+        return null
     }
     val displayIndex = nextDisplayIndex(direction)
     val localId = TimelineEventEntity.nextId(realm)
     val senderId = eventEntity.sender ?: ""
 
     // Update RR for the sender of a new message with a dummy one
-    val readReceiptsSummaryEntity = handleReadReceipts(realm, roomId, eventEntity, senderId)
+    val readReceiptsSummaryEntity = if (!ownedByThreadChunk) handleReadReceipts(realm, roomId, eventEntity, senderId) else null
     val timelineEventEntity = realm.createObject<TimelineEventEntity>().apply {
         this.localId = localId
         this.root = eventEntity
@@ -101,7 +103,8 @@ internal fun ChunkEntity.addTimelineEvent(roomId: String,
                 ?.also { it.cleanUp(eventEntity.sender) }
         this.readReceipts = readReceiptsSummaryEntity
         this.displayIndex = displayIndex
-        val roomMemberContent = roomMemberContentsByUser[senderId]
+        this.ownedByThreadChunk = ownedByThreadChunk
+        val roomMemberContent = roomMemberContentsByUser?.get(senderId)
         this.senderAvatar = roomMemberContent?.avatarUrl
         this.senderName = roomMemberContent?.displayName
         isUniqueDisplayName = if (roomMemberContent?.displayName != null) {
@@ -112,9 +115,10 @@ internal fun ChunkEntity.addTimelineEvent(roomId: String,
     }
     // numberOfTimelineEvents++
     timelineEvents.add(timelineEventEntity)
+    return timelineEventEntity
 }
 
-private fun computeIsUnique(
+fun computeIsUnique(
         realm: Realm,
         roomId: String,
         isLastForward: Boolean,
@@ -157,7 +161,19 @@ private fun ChunkEntity.addTimelineEventFromMerge(realm: Realm, timelineEventEnt
         this.senderName = timelineEventEntity.senderName
         this.isUniqueDisplayName = timelineEventEntity.isUniqueDisplayName
     }
+    handleThreadSummary(realm, eventId, copied)
     timelineEvents.add(copied)
+}
+
+/**
+ * Upon copy of the timeline events we should update the latestMessage TimelineEventEntity with the new one
+ */
+private fun handleThreadSummary(realm: Realm, oldEventId: String, newTimelineEventEntity: TimelineEventEntity) {
+    EventEntity
+            .whereRoomId(realm, newTimelineEventEntity.roomId)
+            .equalTo(EventEntityFields.IS_ROOT_THREAD, true)
+            .equalTo(EventEntityFields.THREAD_SUMMARY_LATEST_MESSAGE.EVENT_ID, oldEventId)
+            .findFirst()?.threadSummaryLatestMessage = newTimelineEventEntity
 }
 
 private fun handleReadReceipts(realm: Realm, roomId: String, eventEntity: EventEntity, senderId: String): ReadReceiptsSummaryEntity {

@@ -10,7 +10,7 @@ jobs:
     name: Project Check Suite
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run code quality check suite
         run: ./tools/check/check_code_quality.sh
 
@@ -18,8 +18,12 @@ jobs:
   ktlint:
     name: Kotlin Linter
     runs-on: ubuntu-latest
+    # Allow all jobs on main and develop. Just one per PR.
+    concurrency:
+      group: ${{ github.ref == 'refs/heads/main' && format('ktlint-main-{0}', github.sha) || github.ref == 'refs/heads/develop' && format('ktlint-develop-{0}', github.sha) || format('ktlint-{0}', github.ref) }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run ktlint
         run: |
           ./gradlew ktlintCheck --continue
@@ -54,7 +58,7 @@ jobs:
             echo "::set-output name=body::$body"
           fi
       - name: Find Comment
-        if: always()
+        if: always() && github.event_name == 'pull_request'
         uses: peter-evans/find-comment@v1
         id: fc
         with:
@@ -62,7 +66,7 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: Ktlint Results
       - name: Add comment if needed
-        if: always() && steps.ktlint-results.outputs.add_comment == 'true'
+        if: always() && github.event_name == 'pull_request' && steps.ktlint-results.outputs.add_comment == 'true'
         uses: peter-evans/create-or-update-comment@v1
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
@@ -73,7 +77,7 @@ jobs:
             ${{ steps.ktlint-results.outputs.body }}
           edit-mode: replace
       - name: Delete comment if needed
-        if: always() && steps.fc.outputs.comment-id != '' && steps.ktlint-results.outputs.add_comment == 'false'
+        if: always() && github.event_name == 'pull_request' && steps.fc.outputs.comment-id != '' && steps.ktlint-results.outputs.add_comment == 'false'
         uses: actions/github-script@v3
         with:
           script: |
@@ -87,8 +91,12 @@ jobs:
   android-lint:
     name: Android Linter
     runs-on: ubuntu-latest
+    # Allow all jobs on main and develop. Just one per PR.
+    concurrency:
+      group: ${{ github.ref == 'refs/heads/main' && format('android-lint-main-{0}', github.sha) || github.ref == 'refs/heads/develop' && format('android-lint-develop-{0}', github.sha) || format('android-lint-{0}', github.ref) }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/cache@v2
         with:
           path: |
@@ -116,8 +124,12 @@ jobs:
       fail-fast: false
       matrix:
         target: [ Gplay, Fdroid ]
+    # Allow all jobs on develop. Just one per PR.
+    concurrency:
+      group: ${{ github.ref == 'refs/heads/develop' && format('apk-lint-develop-{0}-{1}', matrix.target, github.sha) || format('apk-lint-{0}-{1}', matrix.target, github.ref) }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/cache@v2
         with:
           path: |
