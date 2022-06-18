@@ -39,7 +39,8 @@ class DefaultVectorFeatures : VectorFeatures {
     override fun onboardingVariant(): VectorFeatures.OnboardingVariant = BuildConfig.ONBOARDING_VARIANT
     override fun isOnboardingAlreadyHaveAccountSplashEnabled() = true
     override fun isOnboardingSplashCarouselEnabled() = true
-    override fun isOnboardingUseCaseEnabled() = true
+    // Changed for Synod.im: Ensure onboarding use case selection is not shown
+    override fun isOnboardingUseCaseEnabled() = false
     override fun isOnboardingPersonalizeEnabled() = false
     override fun isOnboardingCombinedRegisterEnabled() = false
     override fun isLiveLocationEnabled(): Boolean = BuildConfig.ENABLE_LIVE_LOCATION_SHARING
