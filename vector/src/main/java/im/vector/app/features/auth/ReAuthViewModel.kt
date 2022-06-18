@@ -25,7 +25,7 @@ import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.platform.VectorViewModel
 import org.matrix.android.sdk.api.auth.data.LoginFlowTypes
 import org.matrix.android.sdk.api.session.Session
-import org.matrix.android.sdk.internal.crypto.crosssigning.toBase64NoPadding
+import org.matrix.android.sdk.api.util.toBase64NoPadding
 import java.io.ByteArrayOutputStream
 
 class ReAuthViewModel @AssistedInject constructor(
@@ -58,7 +58,7 @@ class ReAuthViewModel @AssistedInject constructor(
             is ReAuthActions.ReAuthWithPass -> {
                 val safeForIntentCypher = ByteArrayOutputStream().also {
                     it.use {
-                        session.securelyStoreObject(action.password, initialState.resultKeyStoreAlias, it)
+                        session.secureStorageService().securelyStoreObject(action.password, initialState.resultKeyStoreAlias, it)
                     }
                 }.toByteArray().toBase64NoPadding()
                 _viewEvents.post(ReAuthEvents.PasswordFinishSuccess(safeForIntentCypher))

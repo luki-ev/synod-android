@@ -50,8 +50,8 @@ object TimelineDisplayableEvents {
             EventType.STATE_ROOM_TOMBSTONE,
             EventType.STATE_ROOM_JOIN_RULES,
             EventType.KEY_VERIFICATION_DONE,
-            EventType.KEY_VERIFICATION_CANCEL
-    ) + EventType.POLL_START
+            EventType.KEY_VERIFICATION_CANCEL,
+    ) + EventType.POLL_START + EventType.STATE_ROOM_BEACON_INFO
 }
 
 fun TimelineEvent.canBeMerged(): Boolean {
@@ -76,6 +76,6 @@ fun TimelineEvent.isRoomConfiguration(roomCreatorUserId: String?): Boolean {
             // but exclude events where the room creator invite others, or where others join
             roomCreatorUserId != null && root.stateKey == roomCreatorUserId
         }
-        else                            -> false
+        else -> false
     }
 }

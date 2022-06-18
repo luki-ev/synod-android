@@ -7,9 +7,22 @@ apply plugin: 'kotlin-parcelize'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.likethesalad.stem'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'kotlinx-knit'
 
 kapt {
     correctErrorTypes = true
+}
+
+knit {
+    files = fileTree(project.rootDir) {
+        include '**/*.md'
+        include '**/*.kt'
+        include '**/*.kts'
+        exclude '**/build/**'
+        exclude '**/.gradle/**'
+        exclude '**/towncrier/template.md'
+        exclude '**/CHANGES.md'
+    }
 }
 
 // Note: 2 digits max for each value
@@ -18,7 +31,7 @@ ext.versionMinor = 4
 // Note: even values are reserved for regular release, odd values for hotfix release.
 // When creating a hotfix, you should decrease the value, since the current value
 // is the value for the next regular release.
-ext.versionPatch = 11
+ext.versionPatch = 22
 
 static def getGitTimestamp() {
     def cmd = 'git show -s --format=%ct'
@@ -152,7 +165,6 @@ android {
 
         buildConfigField "Boolean", "enableLocationSharing", "true"
         buildConfigField "String", "mapTilerKey", "\"fU3vlMsMn4Jb6dnEIFsx\""
-        buildConfigField "Boolean", "PRESENCE_SYNC_ENABLED", "true"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -231,9 +243,9 @@ android {
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             // Set to true if you want to enable strict mode in debug
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
-            buildConfigField "Boolean", "ENABLE_LIVE_LOCATION_SHARING", "true"
 
             signingConfig signingConfigs.debug
+            testCoverageEnabled true
         }
 
         release {
@@ -241,7 +253,6 @@ android {
 
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
             buildConfigField "boolean", "ENABLE_STRICT_MODE_LOGS", "false"
-            buildConfigField "Boolean", "ENABLE_LIVE_LOCATION_SHARING", "false"
 
             postprocessing {
                 removeUnusedCode true
@@ -301,14 +312,14 @@ android {
     kotlinOptions {
         jvmTarget = "11"
         freeCompilerArgs += [
-                "-Xopt-in=kotlin.RequiresOptIn",
+                "-opt-in=kotlin.RequiresOptIn",
                 // Fixes false positive "This is an internal Mavericks API. It is not intended for external use."
                 // of MvRx `by viewModel()` calls. Maybe due to the inlining of code... This is a temporary fix...
-                "-Xopt-in=com.airbnb.mvrx.InternalMavericksApi",
+                "-opt-in=com.airbnb.mvrx.InternalMavericksApi",
                 // Opt in for kotlinx.coroutines.FlowPreview too
-                "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                "-opt-in=kotlinx.coroutines.FlowPreview",
                 // Opt in for kotlinx.coroutines.ExperimentalCoroutinesApi too
-                "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
         ]
     }
 
@@ -347,11 +358,11 @@ dependencies {
     implementation libs.androidx.constraintLayout
     implementation "androidx.sharetarget:sharetarget:1.1.0"
     implementation libs.androidx.core
-    implementation "androidx.media:media:1.4.3"
+    implementation "androidx.media:media:1.6.0"
     implementation "androidx.transition:transition:1.4.1"
 
     implementation "org.threeten:threetenbp:1.4.0:no-tzdb"
-    implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.9.0"
+    implementation "com.gabrielittner.threetenbp:lazythreetenbp:0.10.0"
 
     implementation libs.squareup.moshi
     kapt libs.squareup.moshiKotlin
@@ -361,7 +372,6 @@ dependencies {
     implementation libs.androidx.lifecycleProcess
     implementation libs.androidx.lifecycleRuntimeKtx
 
-    implementation libs.androidx.datastore
     implementation libs.androidx.datastorepreferences
 
 
@@ -372,12 +382,11 @@ dependencies {
     implementation 'com.facebook.stetho:stetho:1.6.0'
 
     // Phone number https://github.com/google/libphonenumber
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.46'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.50'
 
     // FlowBinding
     implementation libs.github.flowBinding
     implementation libs.github.flowBindingAppcompat
-    implementation libs.github.flowBindingMaterial
 
     implementation libs.airbnb.epoxy
     implementation libs.airbnb.epoxyGlide
@@ -417,10 +426,10 @@ dependencies {
     implementation 'androidx.browser:browser:1.4.0'
 
     // Passphrase strength helper
-    implementation 'com.nulab-inc:zxcvbn:1.5.2'
+    implementation 'com.nulab-inc:zxcvbn:1.7.0'
 
-    // To convert voice message on old platforms
-    implementation 'com.arthenica:ffmpeg-kit-audio:4.5.LTS'
+    // To convert voice message on old platforms. Always keep the LTS suffix!
+    implementation 'com.arthenica:ffmpeg-kit-audio:4.5.1.LTS'
 
     // Alerter
     implementation 'com.github.tapadoo:alerter:7.2.4'
@@ -443,11 +452,9 @@ dependencies {
     kapt libs.github.glideCompiler
     implementation 'com.github.yalantis:ucrop:2.2.8'
 
-    // Badge for compatibility
-    implementation 'me.leolin:ShortcutBadger:1.1.22@aar'
-
     // Chat effects
-    implementation 'nl.dionsegijn:konfetti:1.3.2'
+    implementation 'nl.dionsegijn:konfetti-xml:2.0.2'
+
     implementation 'com.github.jetradarmobile:android-snowfall:1.2.1'
     // DI
     implementation libs.dagger.hilt
@@ -466,7 +473,7 @@ dependencies {
     // OSS License, gplay flavor only
     gplayImplementation 'com.google.android.gms:play-services-oss-licenses:17.0.0'
 
-    implementation "androidx.emoji2:emoji2:1.0.1"
+    implementation "androidx.emoji2:emoji2:1.1.0"
 
     // WebRTC
     // org.webrtc:google-webrtc is for development purposes only
@@ -500,9 +507,14 @@ dependencies {
     implementation 'commons-codec:commons-codec:1.15'
 
     // MapTiler
-    implementation 'org.maplibre.gl:android-sdk:9.5.2'
-    implementation 'org.maplibre.gl:android-plugin-annotation-v9:1.0.0'
-
+    fdroidImplementation(libs.maplibre.androidSdk) {
+        exclude group: 'com.google.android.gms', module: 'play-services-location'
+    }
+    fdroidImplementation(libs.maplibre.pluginAnnotation) {
+        exclude group: 'com.google.android.gms', module: 'play-services-location'
+    }
+    gplayImplementation libs.maplibre.androidSdk
+    gplayImplementation libs.maplibre.pluginAnnotation
 
     // TESTS
     testImplementation libs.tests.junit

@@ -36,6 +36,7 @@ import kotlinx.coroutines.launch
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.raw.RawService
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.getUser
 import org.matrix.android.sdk.api.session.permalinks.PermalinkData
 import org.matrix.android.sdk.api.session.permalinks.PermalinkParser
 import org.matrix.android.sdk.api.session.room.model.create.CreateRoomParams
@@ -59,7 +60,7 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
     override fun handle(action: CreateDirectRoomAction) {
         when (action) {
             is CreateDirectRoomAction.CreateRoomAndInviteSelectedUsers -> onSubmitInvitees(action.selections)
-            is CreateDirectRoomAction.QrScannedAction                  -> onCodeParsed(action)
+            is CreateDirectRoomAction.QrScannedAction -> onCodeParsed(action)
         }
     }
 
@@ -74,7 +75,11 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
                 _viewEvents.post(CreateDirectRoomViewEvents.DmSelf)
             } else {
                 // Try to get user from known users and fall back to creating a User object from MXID
-                val qrInvitee = if (session.getUser(mxid) != null) session.getUser(mxid)!! else User(mxid, null, null)
+                val qrInvitee = if (session.getUser(mxid) != null) {
+                    session.getUser(mxid)!!
+                } else {
+                    User(mxid, null, null)
+                }
                 onSubmitInvitees(setOf(PendingSelection.UserPendingSelection(qrInvitee)))
             }
         }
@@ -85,7 +90,7 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
      */
     private fun onSubmitInvitees(selections: Set<PendingSelection>) {
         val existingRoomId = selections.singleOrNull()?.getMxId()?.let { userId ->
-            session.getExistingDirectRoomWithUser(userId)
+            session.roomService().getExistingDirectRoomWithUser(userId)
         }
         if (existingRoomId != null) {
             // Do not create a new DM, just tell that the creation is successful by passing the existing roomId
@@ -110,7 +115,7 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
                     .apply {
                         selections.forEach {
                             when (it) {
-                                is PendingSelection.UserPendingSelection     -> invitedUserIds.add(it.user.userId)
+                                is PendingSelection.UserPendingSelection -> invitedUserIds.add(it.user.userId)
                                 is PendingSelection.ThreePidPendingSelection -> invite3pids.add(it.threePid)
                             }
                         }
@@ -119,7 +124,7 @@ class CreateDirectRoomViewModel @AssistedInject constructor(
                     }
 
             val result = runCatchingToAsync {
-                session.createRoom(roomParams)
+                session.roomService().createRoom(roomParams)
             }
             analyticsTracker.capture(CreatedRoom(isDM = roomParams.isDirect.orFalse()))
 

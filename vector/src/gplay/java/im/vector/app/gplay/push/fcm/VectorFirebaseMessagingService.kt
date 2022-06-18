@@ -1,14 +1,11 @@
 /*
  * Copyright 2019 New Vector Ltd
  *
- *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *
  * http://www.apache.org/licenses/LICENSE-2.0
- *
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,7 +29,6 @@ import im.vector.app.BuildConfig
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.network.WifiDetector
 import im.vector.app.core.pushers.PushersManager
-import im.vector.app.features.badge.BadgeProxy
 import im.vector.app.features.notifications.NotifiableEventResolver
 import im.vector.app.features.notifications.NotificationDrawerManager
 import im.vector.app.features.notifications.NotificationUtils
@@ -46,6 +42,8 @@ import kotlinx.coroutines.runBlocking
 import org.matrix.android.sdk.api.extensions.tryOrNull
 import org.matrix.android.sdk.api.logger.LoggerTag
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.getRoom
+import org.matrix.android.sdk.api.session.room.getTimelineEvent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -150,10 +148,6 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
                 Timber.tag(loggerTag.value).d("## onMessageReceivedInternal()")
             }
 
-            // update the badge counter
-            val unreadCount = data["unread"]?.let { Integer.parseInt(it) } ?: 0
-            BadgeProxy.updateBadgeCount(applicationContext, unreadCount)
-
             val session = activeSessionHolder.getSafeActiveSession()
 
             if (session == null) {
@@ -170,7 +164,7 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
                     getEventFastLane(session, roomId, eventId)
 
                     Timber.tag(loggerTag.value).d("Requesting background sync")
-                    session.requireBackgroundSync()
+                    session.syncService().requireBackgroundSync()
                 }
             }
         } catch (e: Exception) {
@@ -194,7 +188,7 @@ class VectorFirebaseMessagingService : FirebaseMessagingService() {
 
         coroutineScope.launch {
             Timber.tag(loggerTag.value).d("Fast lane: start request")
-            val event = tryOrNull { session.getEvent(roomId, eventId) } ?: return@launch
+            val event = tryOrNull { session.eventService().getEvent(roomId, eventId) } ?: return@launch
 
             val resolvedEvent = notifiableEventResolver.resolveInMemoryEvent(session, event, canBeReplaced = true)
 

@@ -42,6 +42,7 @@ import org.matrix.android.sdk.internal.session.room.summary.RoomSummaryUpdater
 import org.matrix.android.sdk.internal.session.sync.SyncTokenStore
 import org.matrix.android.sdk.internal.task.Task
 import org.matrix.android.sdk.internal.util.awaitTransaction
+import org.matrix.android.sdk.internal.util.time.Clock
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -61,14 +62,15 @@ internal class DefaultLoadRoomMembersTask @Inject constructor(
         private val roomMemberEventHandler: RoomMemberEventHandler,
         private val cryptoSessionInfoProvider: CryptoSessionInfoProvider,
         private val deviceListManager: DeviceListManager,
-        private val globalErrorReceiver: GlobalErrorReceiver
+        private val globalErrorReceiver: GlobalErrorReceiver,
+        private val clock: Clock,
 ) : LoadRoomMembersTask {
 
     override suspend fun execute(params: LoadRoomMembersTask.Params) {
         when (getRoomMembersLoadStatus(params.roomId)) {
-            RoomMembersLoadStatusType.NONE    -> doRequest(params)
+            RoomMembersLoadStatusType.NONE -> doRequest(params)
             RoomMembersLoadStatusType.LOADING -> waitPreviousRequestToFinish(params)
-            RoomMembersLoadStatusType.LOADED  -> Unit
+            RoomMembersLoadStatusType.LOADED -> Unit
         }
     }
 
@@ -107,7 +109,7 @@ internal class DefaultLoadRoomMembersTask @Inject constructor(
             // We ignore all the already known members
             val roomEntity = RoomEntity.where(realm, roomId).findFirst()
                     ?: realm.createObject(roomId)
-            val now = System.currentTimeMillis()
+            val now = clock.epochMillis()
             for (roomMemberEvent in response.roomMemberEvents) {
                 if (roomMemberEvent.eventId == null || roomMemberEvent.stateKey == null || roomMemberEvent.type == null) {
                     continue
@@ -123,7 +125,7 @@ internal class DefaultLoadRoomMembersTask @Inject constructor(
                     eventId = roomMemberEvent.eventId
                     root = eventEntity
                 }
-                roomMemberEventHandler.handle(realm, roomId, roomMemberEvent)
+                roomMemberEventHandler.handle(realm, roomId, roomMemberEvent, false)
             }
             roomEntity.membersLoadStatus = RoomMembersLoadStatusType.LOADED
             roomSummaryUpdater.update(realm, roomId, updateMembers = true)

@@ -19,7 +19,7 @@ package im.vector.app.features.home.room.detail.timeline.item
 import android.os.Parcelable
 import im.vector.app.features.home.room.detail.timeline.style.TimelineMessageLayout
 import kotlinx.parcelize.Parcelize
-import org.matrix.android.sdk.api.crypto.VerificationState
+import org.matrix.android.sdk.api.session.crypto.verification.VerificationState
 import org.matrix.android.sdk.api.session.room.send.SendState
 import org.matrix.android.sdk.api.util.MatrixItem
 
@@ -42,7 +42,8 @@ data class MessageInformationData(
         val e2eDecoration: E2EDecoration = E2EDecoration.NONE,
         val sendStateDecoration: SendStateDecoration = SendStateDecoration.NONE,
         val isFirstFromThisSender: Boolean = false,
-        val isLastFromThisSender: Boolean = false
+        val isLastFromThisSender: Boolean = false,
+        val messageType: String? = null
 ) : Parcelable {
 
     val matrixItem: MatrixItem

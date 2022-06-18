@@ -63,7 +63,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Manage peerConnectionFactory & Peer connections outside of activity lifecycle to resist configuration changes
+ * Manage peerConnectionFactory & Peer connections outside of activity lifecycle to resist configuration changes.
  * Use app context
  */
 private val loggerTag = LoggerTag("WebRtcCallManager", LoggerTag.VOIP)
@@ -215,9 +215,10 @@ class WebRtcCallManager @Inject constructor(
         }
 
         Timber.tag(loggerTag.value).v("PeerConnectionFactory.initialize")
-        PeerConnectionFactory.initialize(PeerConnectionFactory
-                .InitializationOptions.builder(context.applicationContext)
-                .createInitializationOptions()
+        PeerConnectionFactory.initialize(
+                PeerConnectionFactory
+                        .InitializationOptions.builder(context.applicationContext)
+                        .createInitializationOptions()
         )
 
         val options = PeerConnectionFactory.Options()
@@ -226,7 +227,8 @@ class WebRtcCallManager @Inject constructor(
                 /* enableIntelVp8Encoder */
                 true,
                 /* enableH264HighProfile */
-                true)
+                true
+        )
         val defaultVideoDecoderFactory = DefaultVideoDecoderFactory(eglBaseContext)
         Timber.tag(loggerTag.value).v("PeerConnectionFactory.createPeerConnectionFactory ...")
         peerConnectionFactory = PeerConnectionFactory.builder()
@@ -271,7 +273,7 @@ class WebRtcCallManager @Inject constructor(
             // did we start background sync? so we should stop it
             if (isInBackground) {
                 if (FcmHelper.isPushSupported()) {
-                    currentSession?.stopAnyBackgroundSync()
+                    currentSession?.syncService()?.stopAnyBackgroundSync()
                 } else {
                     // for fdroid we should not stop, it should continue syncing
                     // maybe we should restore default timeout/delay though?
@@ -304,7 +306,8 @@ class WebRtcCallManager @Inject constructor(
         }
         CallService.onOutgoingCallRinging(
                 context = context.applicationContext,
-                callId = mxCall.callId)
+                callId = mxCall.callId
+        )
 
         // start the activity now
         context.startActivity(VectorCallActivity.newIntent(context, webRtcCall, VectorCallActivity.OUTGOING_CREATED))
@@ -377,7 +380,7 @@ class WebRtcCallManager @Inject constructor(
         if (isInBackground) {
             if (FcmHelper.isPushSupported()) {
                 // only for push version as fdroid version is already doing it?
-                currentSession?.startAutomaticBackgroundSync(30, 0)
+                currentSession?.syncService()?.startAutomaticBackgroundSync(30, 0)
             } else {
                 // Maybe increase sync freq? but how to set back to default values?
             }
@@ -451,7 +454,7 @@ class WebRtcCallManager @Inject constructor(
     }
 
     /**
-     * Analytics
+     * Analytics.
      */
     private fun WebRtcCall.trackCallStarted() {
         analyticsTracker.capture(

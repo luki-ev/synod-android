@@ -26,7 +26,8 @@ interface VectorFeatures {
     fun isOnboardingUseCaseEnabled(): Boolean
     fun isOnboardingPersonalizeEnabled(): Boolean
     fun isOnboardingCombinedRegisterEnabled(): Boolean
-    fun isLiveLocationEnabled(): Boolean
+    fun isOnboardingCombinedLoginEnabled(): Boolean
+    fun isScreenSharingEnabled(): Boolean
 
     enum class OnboardingVariant {
         LEGACY,
@@ -43,5 +44,6 @@ class DefaultVectorFeatures : VectorFeatures {
     override fun isOnboardingUseCaseEnabled() = false
     override fun isOnboardingPersonalizeEnabled() = false
     override fun isOnboardingCombinedRegisterEnabled() = false
-    override fun isLiveLocationEnabled(): Boolean = BuildConfig.ENABLE_LIVE_LOCATION_SHARING
+    override fun isOnboardingCombinedLoginEnabled() = false
+    override fun isScreenSharingEnabled(): Boolean = true
 }

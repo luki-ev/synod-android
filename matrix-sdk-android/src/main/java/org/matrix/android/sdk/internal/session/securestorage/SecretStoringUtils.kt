@@ -34,7 +34,6 @@ import java.io.InputStream
 import java.io.ObjectInputStream
 import java.io.ObjectOutputStream
 import java.io.OutputStream
-import java.lang.IllegalArgumentException
 import java.math.BigInteger
 import java.security.KeyPairGenerator
 import java.security.KeyStore
@@ -125,12 +124,12 @@ internal class SecretStoringUtils @Inject constructor(
     fun securelyStoreString(secret: String, keyAlias: String): ByteArray {
         return when {
             buildVersionSdkIntProvider.get() >= Build.VERSION_CODES.M -> encryptStringM(secret, keyAlias)
-            else                                                      -> encryptString(secret, keyAlias)
+            else -> encryptString(secret, keyAlias)
         }
     }
 
     /**
-     * Decrypt a secret that was encrypted by #securelyStoreString()
+     * Decrypt a secret that was encrypted by #securelyStoreString().
      */
     @SuppressLint("NewApi")
     @Throws(Exception::class)
@@ -139,8 +138,8 @@ internal class SecretStoringUtils @Inject constructor(
             // First get the format
             return when (val format = inputStream.read().toByte()) {
                 FORMAT_API_M -> decryptStringM(inputStream, keyAlias)
-                FORMAT_1     -> decryptString(inputStream, keyAlias)
-                else         -> throw IllegalArgumentException("Unknown format $format")
+                FORMAT_1 -> decryptString(inputStream, keyAlias)
+                else -> throw IllegalArgumentException("Unknown format $format")
             }
         }
     }
@@ -149,7 +148,7 @@ internal class SecretStoringUtils @Inject constructor(
     fun securelyStoreObject(any: Any, keyAlias: String, output: OutputStream) {
         when {
             buildVersionSdkIntProvider.get() >= Build.VERSION_CODES.M -> saveSecureObjectM(keyAlias, output, any)
-            else                                                      -> saveSecureObject(keyAlias, output, any)
+            else -> saveSecureObject(keyAlias, output, any)
         }
     }
 
@@ -158,8 +157,8 @@ internal class SecretStoringUtils @Inject constructor(
         // First get the format
         return when (val format = inputStream.read().toByte()) {
             FORMAT_API_M -> loadSecureObjectM(keyAlias, inputStream)
-            FORMAT_1     -> loadSecureObject(keyAlias, inputStream)
-            else         -> throw IllegalArgumentException("Unknown format $format")
+            FORMAT_1 -> loadSecureObject(keyAlias, inputStream)
+            else -> throw IllegalArgumentException("Unknown format $format")
         }
     }
 
@@ -170,8 +169,10 @@ internal class SecretStoringUtils @Inject constructor(
         if (secretKeyEntry == null) {
             // we generate it
             val generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-            val keyGenSpec = KeyGenParameterSpec.Builder(alias,
-                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+            val keyGenSpec = KeyGenParameterSpec.Builder(
+                    alias,
+                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            )
                     .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                     .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
                     .setKeySize(128)
