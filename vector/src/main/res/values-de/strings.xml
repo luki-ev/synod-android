@@ -2347,7 +2347,7 @@
     <string name="edit_poll_title">Umfrage bearbeiten</string>
     <string name="poll_no_votes_cast">Keine Stimmen abgegeben</string>
     <string name="login_splash_create_account">Konto erstellen</string>
-    <string name="ftue_auth_carousel_workplace_title">Nachrichtenaustausch für dein Team.</string>
+    <string name="ftue_auth_carousel_workplace_title">Nachrichtenaustausch für deine Kirche.</string>
     <string name="ftue_auth_carousel_encrypted_body">Ende-zu-Ende-verschlüsselt und ohne Telefonnummer nutzbar. Keine Werbung oder Datenerfassung.</string>
     <string name="ftue_auth_carousel_control_body">Wähle wo deine Gespräche liegen, für Kontrolle und Unabhängigkeit. Verbunden mit Matrix.</string>
     <string name="ftue_auth_carousel_secure_body">Sichere und unabhängige Kommunikation, die für die gleiche Vertraulichkeit sorgt, wie ein Gespräch von Angesicht zu Angesicht in deinem eigenen Zuhause.</string>
@@ -2425,4 +2425,5 @@
     <string name="threads_beta_enable_notice_title">Threads Beta</string>
     <string name="call_start_screen_sharing">Bildschirm teilen</string>
     <string name="action_try_it_out">Ausprobieren</string>
+    <string name="ftue_auth_carousel_workplace_body">Unsere Software ist frei (libre), weil sie die digitale Freiheit der Kirche stärkt.</string>
 </resources>
