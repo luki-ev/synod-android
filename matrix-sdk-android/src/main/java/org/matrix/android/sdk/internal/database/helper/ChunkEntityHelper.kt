@@ -79,11 +79,13 @@ internal fun ChunkEntity.addStateEvent(roomId: String, stateEvent: EventEntity, 
     }
 }
 
-internal fun ChunkEntity.addTimelineEvent(roomId: String,
-                                          eventEntity: EventEntity,
-                                          direction: PaginationDirection,
-                                          ownedByThreadChunk: Boolean = false,
-                                          roomMemberContentsByUser: Map<String, RoomMemberContent?>? = null): TimelineEventEntity? {
+internal fun ChunkEntity.addTimelineEvent(
+        roomId: String,
+        eventEntity: EventEntity,
+        direction: PaginationDirection,
+        ownedByThreadChunk: Boolean = false,
+        roomMemberContentsByUser: Map<String, RoomMemberContent?>? = null
+): TimelineEventEntity? {
     val eventId = eventEntity.eventId
     if (timelineEvents.find(eventId) != null) {
         return null
@@ -118,7 +120,7 @@ internal fun ChunkEntity.addTimelineEvent(roomId: String,
     return timelineEventEntity
 }
 
-fun computeIsUnique(
+internal fun computeIsUnique(
         realm: Realm,
         roomId: String,
         isLastForward: Boolean,
@@ -166,7 +168,7 @@ private fun ChunkEntity.addTimelineEventFromMerge(realm: Realm, timelineEventEnt
 }
 
 /**
- * Upon copy of the timeline events we should update the latestMessage TimelineEventEntity with the new one
+ * Upon copy of the timeline events we should update the latestMessage TimelineEventEntity with the new one.
  */
 private fun handleThreadSummary(realm: Realm, oldEventId: String, newTimelineEventEntity: TimelineEventEntity) {
     EventEntity
@@ -199,7 +201,7 @@ private fun handleReadReceipts(realm: Realm, roomId: String, eventEntity: EventE
 
 internal fun ChunkEntity.nextDisplayIndex(direction: PaginationDirection): Int {
     return when (direction) {
-        PaginationDirection.FORWARDS  -> {
+        PaginationDirection.FORWARDS -> {
             (timelineEvents.where().max(TimelineEventEntityFields.DISPLAY_INDEX)?.toInt() ?: 0) + 1
         }
         PaginationDirection.BACKWARDS -> {
@@ -225,6 +227,9 @@ internal fun ChunkEntity.isMoreRecentThan(chunkToCheck: ChunkEntity): Boolean {
     // Check if the chunk to check is linked to this one
     if (chunkToCheck.doesNextChunksVerifyCondition { it == this }) {
         return true
+    }
+    if (this.doesNextChunksVerifyCondition { it == chunkToCheck }) {
+        return false
     }
     // Otherwise check if this chunk is linked to last forward
     if (this.doesNextChunksVerifyCondition { it.isLastForward }) {

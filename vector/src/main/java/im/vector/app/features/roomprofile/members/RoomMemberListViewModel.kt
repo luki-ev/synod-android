@@ -33,12 +33,13 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import org.matrix.android.sdk.api.crypto.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.extensions.orFalse
 import org.matrix.android.sdk.api.query.QueryStringValue
 import org.matrix.android.sdk.api.session.Session
+import org.matrix.android.sdk.api.session.crypto.model.RoomEncryptionTrustLevel
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.members.roomMemberQueryParams
 import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
@@ -50,9 +51,11 @@ import org.matrix.android.sdk.flow.mapOptional
 import org.matrix.android.sdk.flow.unwrap
 import timber.log.Timber
 
-class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState: RoomMemberListViewState,
-                                                          private val roomMemberSummaryComparator: RoomMemberSummaryComparator,
-                                                          private val session: Session) :
+class RoomMemberListViewModel @AssistedInject constructor(
+        @Assisted initialState: RoomMemberListViewState,
+        private val roomMemberSummaryComparator: RoomMemberSummaryComparator,
+        private val session: Session
+) :
         VectorViewModel<RoomMemberListViewState, RoomMemberListAction, EmptyViewEvents>(initialState) {
 
     @AssistedFactory
@@ -69,6 +72,7 @@ class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState
         observeThirdPartyInvites()
         observeRoomSummary()
         observePowerLevel()
+        observeIgnoredUsers()
     }
 
     private fun observeRoomMemberSummaries() {
@@ -90,7 +94,7 @@ class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState
                     copy(roomMemberSummaries = async)
                 }
 
-        if (room.isEncrypted()) {
+        if (room.roomCryptoService().isEncrypted()) {
             room.flow().liveRoomMembers(roomMemberQueryParams)
                     .flatMapLatest { membersSummary ->
                         session.cryptoService().getLiveCryptoDeviceInfo(membersSummary.map { it.userId })
@@ -148,6 +152,16 @@ class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState
                 }
     }
 
+    private fun observeIgnoredUsers() {
+        session.flow()
+                .liveIgnoredUsers()
+                .execute { async ->
+                    copy(
+                            ignoredUserIds = async.invoke().orEmpty().map { it.userId }
+                    )
+                }
+    }
+
     private fun buildRoomMemberSummaries(powerLevelsContent: PowerLevelsContent, roomMembers: List<RoomMemberSummary>): RoomMemberSummaries {
         val admins = ArrayList<RoomMemberSummary>()
         val moderators = ArrayList<RoomMemberSummary>()
@@ -160,10 +174,10 @@ class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState
                     val userRole = powerLevelsHelper.getUserRole(roomMember.userId)
                     when {
                         roomMember.membership == Membership.INVITE -> invites.add(roomMember)
-                        userRole == Role.Admin                     -> admins.add(roomMember)
-                        userRole == Role.Moderator                 -> moderators.add(roomMember)
-                        userRole == Role.Default                   -> users.add(roomMember)
-                        else                                       -> customs.add(roomMember)
+                        userRole == Role.Admin -> admins.add(roomMember)
+                        userRole == Role.Moderator -> moderators.add(roomMember)
+                        userRole == Role.Default -> users.add(roomMember)
+                        else -> customs.add(roomMember)
                     }
                 }
 
@@ -179,13 +193,13 @@ class RoomMemberListViewModel @AssistedInject constructor(@Assisted initialState
     override fun handle(action: RoomMemberListAction) {
         when (action) {
             is RoomMemberListAction.RevokeThreePidInvite -> handleRevokeThreePidInvite(action)
-            is RoomMemberListAction.FilterMemberList     -> handleFilterMemberList(action)
+            is RoomMemberListAction.FilterMemberList -> handleFilterMemberList(action)
         }
     }
 
     private fun handleRevokeThreePidInvite(action: RoomMemberListAction.RevokeThreePidInvite) {
         viewModelScope.launch {
-            room.sendStateEvent(
+            room.stateService().sendStateEvent(
                     eventType = EventType.STATE_ROOM_THIRD_PARTY_INVITE,
                     stateKey = action.stateKey,
                     body = emptyMap()

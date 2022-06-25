@@ -66,7 +66,10 @@ echo "Search for forbidden patterns in code..."
 
 ${searchForbiddenStringsScript} ./tools/check/forbidden_strings_in_code.txt \
     ./matrix-sdk-android/src/main/java \
-    ./matrix-sdk-android-rx/src/main/java \
+    ./matrix-sdk-android-flow/src/main/java \
+    ./library/core-utils/src/main/java \
+    ./library/jsonviewer/src/main/java \
+    ./library/ui-styles/src/main/java \
     ./vector/src/main/java \
     ./vector/src/debug/java \
     ./vector/src/release/java \
@@ -80,14 +83,27 @@ echo "Search for forbidden patterns specific for SDK code..."
 
 ${searchForbiddenStringsScript} ./tools/check/forbidden_strings_in_code_sdk.txt \
     ./matrix-sdk-android/src \
-    ./matrix-sdk-android-rx/src
+    ./matrix-sdk-android-flow/src
 
 resultForbiddenStringInCodeSdk=$?
+
+echo
+echo "Search for forbidden patterns specific for App code..."
+
+${searchForbiddenStringsScript} ./tools/check/forbidden_strings_in_code_app.txt \
+    ./vector/src/main/java \
+    ./vector/src/debug/java \
+    ./vector/src/release/java \
+    ./vector/src/fdroid/java \
+    ./vector/src/gplay/java
+
+resultForbiddenStringInCodeApp=$?
 
 echo
 echo "Search for forbidden patterns in resources..."
 
 ${searchForbiddenStringsScript} ./tools/check/forbidden_strings_in_resources.txt \
+    ./library/ui-styles/src/main/res/values \
     ./vector/src/main/res/color \
     ./vector/src/main/res/layout \
     ./vector/src/main/res/values \
@@ -131,7 +147,7 @@ echo "Search for kotlin files with more than ${maxLines} lines..."
 
 ${checkLongFilesScript} ${maxLines} \
     ./matrix-sdk-android/src/main/java \
-    ./matrix-sdk-android-rx/src/main/java \
+    ./matrix-sdk-android-flow/src/main/java \
     ./vector/src/androidTest/java \
     ./vector/src/debug/java \
     ./vector/src/fdroid/java \
@@ -167,6 +183,7 @@ echo
 if [[ ${resultNbOfDrawable} -eq 0 ]] \
    && [[ ${resultForbiddenStringInCode} -eq 0 ]] \
    && [[ ${resultForbiddenStringInCodeSdk} -eq 0 ]] \
+   && [[ ${resultForbiddenStringInCodeApp} -eq 0 ]] \
    && [[ ${resultForbiddenStringInResource} -eq 0 ]] \
    && [[ ${resultForbiddenStringInLayout} -eq 0 ]] \
    && [[ ${resultLongFiles} -eq 0 ]] \

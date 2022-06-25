@@ -42,18 +42,19 @@ import org.matrix.android.sdk.internal.session.room.state.StateEventDataSource
 import org.matrix.android.sdk.internal.session.user.accountdata.UserAccountDataDataSource
 import org.matrix.android.sdk.internal.session.widgets.helper.WidgetFactory
 import org.matrix.android.sdk.internal.session.widgets.helper.extractWidgetSequence
-import java.util.HashMap
 import javax.inject.Inject
 
 @SessionScope
-internal class WidgetManager @Inject constructor(private val integrationManager: IntegrationManager,
-                                                 private val userAccountDataDataSource: UserAccountDataDataSource,
-                                                 private val stateEventDataSource: StateEventDataSource,
-                                                 private val createWidgetTask: CreateWidgetTask,
-                                                 private val widgetFactory: WidgetFactory,
-                                                 @UserId private val userId: String) :
+internal class WidgetManager @Inject constructor(
+        private val integrationManager: IntegrationManager,
+        private val userAccountDataDataSource: UserAccountDataDataSource,
+        private val stateEventDataSource: StateEventDataSource,
+        private val createWidgetTask: CreateWidgetTask,
+        private val widgetFactory: WidgetFactory,
+        @UserId private val userId: String
+) :
 
-    IntegrationManagerService.Listener, SessionLifecycleObserver {
+        IntegrationManagerService.Listener, SessionLifecycleObserver {
 
     private val lifecycleOwner: LifecycleOwner = LifecycleOwner { lifecycleRegistry }
     private val lifecycleRegistry: LifecycleRegistry = LifecycleRegistry(lifecycleOwner)
@@ -104,8 +105,10 @@ internal class WidgetManager @Inject constructor(private val integrationManager:
         return widgetFactory.computeURL(widget, isLightTheme)
     }
 
-    private fun List<Event>.mapEventsToWidgets(widgetTypes: Set<String>? = null,
-                                               excludedTypes: Set<String>? = null): List<Widget> {
+    private fun List<Event>.mapEventsToWidgets(
+            widgetTypes: Set<String>? = null,
+            excludedTypes: Set<String>? = null
+    ): List<Widget> {
         val widgetEvents = this
         // Widget id -> widget
         val widgets: MutableMap<String, Widget> = HashMap()
@@ -150,8 +153,10 @@ internal class WidgetManager @Inject constructor(private val integrationManager:
         return widgetsAccountData.mapToWidgets(widgetTypes, excludedTypes)
     }
 
-    private fun UserAccountDataEvent.mapToWidgets(widgetTypes: Set<String>? = null,
-                                                  excludedTypes: Set<String>? = null): List<Widget> {
+    private fun UserAccountDataEvent.mapToWidgets(
+            widgetTypes: Set<String>? = null,
+            excludedTypes: Set<String>? = null
+    ): List<Widget> {
         return extractWidgetSequence(widgetFactory)
                 .filter {
                     val widgetType = it.widgetContent.type ?: return@filter false

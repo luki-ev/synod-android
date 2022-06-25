@@ -45,9 +45,11 @@ import org.matrix.android.sdk.api.session.Session
 import org.matrix.android.sdk.api.session.crypto.keysbackup.KeysBackupState
 import org.matrix.android.sdk.api.session.events.model.EventType
 import org.matrix.android.sdk.api.session.events.model.isAttachmentMessage
+import org.matrix.android.sdk.api.session.events.model.isContentReportable
 import org.matrix.android.sdk.api.session.events.model.isTextMessage
 import org.matrix.android.sdk.api.session.events.model.isThread
 import org.matrix.android.sdk.api.session.events.model.toModel
+import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.room.model.message.MessageContent
 import org.matrix.android.sdk.api.session.room.model.message.MessageFormat
 import org.matrix.android.sdk.api.session.room.model.message.MessagePollContent
@@ -182,7 +184,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             } else {
                 when (timelineEvent.root.getClearType()) {
                     EventType.MESSAGE,
-                    EventType.STICKER       -> {
+                    EventType.STICKER -> {
                         val messageContent: MessageContent? = timelineEvent.getLastMessageContent()
                         if (messageContent is MessageTextContent && messageContent.format == MessageFormat.FORMAT_MATRIX_HTML) {
                             val html = messageContent.formattedBody
@@ -208,14 +210,14 @@ class MessageActionsViewModel @AssistedInject constructor(
                     EventType.CALL_INVITE,
                     EventType.CALL_CANDIDATES,
                     EventType.CALL_HANGUP,
-                    EventType.CALL_ANSWER   -> {
+                    EventType.CALL_ANSWER -> {
                         noticeEventFormatter.format(timelineEvent, room?.roomSummary()?.isDirect.orFalse())
                     }
                     in EventType.POLL_START -> {
                         timelineEvent.root.getClearContent().toModel<MessagePollContent>(catchError = true)
                                 ?.getBestPollCreationInfo()?.question?.getBestQuestion() ?: ""
                     }
-                    else                    -> null
+                    else -> null
                 }
             }
         } catch (failure: Throwable) {
@@ -254,16 +256,16 @@ class MessageActionsViewModel @AssistedInject constructor(
 
         return arrayListOf<EventSharedAction>().apply {
             when {
-                timelineEvent.root.sendState.hasFailed()         -> {
+                timelineEvent.root.sendState.hasFailed() -> {
                     addActionsForFailedState(timelineEvent, actionPermissions, messageContent, msgType)
                 }
-                timelineEvent.root.sendState.isSending()         -> {
+                timelineEvent.root.sendState.isSending() -> {
                     addActionsForSendingState(timelineEvent)
                 }
                 timelineEvent.root.sendState == SendState.SYNCED -> {
                     addActionsForSyncedState(timelineEvent, actionPermissions, messageContent, msgType)
                 }
-                timelineEvent.root.sendState == SendState.SENT   -> {
+                timelineEvent.root.sendState == SendState.SENT -> {
                     addActionsForSentNotSyncedState(timelineEvent)
                 }
             }
@@ -279,10 +281,12 @@ class MessageActionsViewModel @AssistedInject constructor(
         }
     }
 
-    private fun ArrayList<EventSharedAction>.addActionsForFailedState(timelineEvent: TimelineEvent,
-                                                                      actionPermissions: ActionPermissions,
-                                                                      messageContent: MessageContent?,
-                                                                      msgType: String?) {
+    private fun ArrayList<EventSharedAction>.addActionsForFailedState(
+            timelineEvent: TimelineEvent,
+            actionPermissions: ActionPermissions,
+            messageContent: MessageContent?,
+            msgType: String?
+    ) {
         val eventId = timelineEvent.eventId
         if (canRetry(timelineEvent, actionPermissions)) {
             add(EventSharedAction.Resend(eventId))
@@ -319,10 +323,12 @@ class MessageActionsViewModel @AssistedInject constructor(
         // TODO sent by me or sufficient power level
     }
 
-    private fun ArrayList<EventSharedAction>.addActionsForSyncedState(timelineEvent: TimelineEvent,
-                                                                      actionPermissions: ActionPermissions,
-                                                                      messageContent: MessageContent?,
-                                                                      msgType: String?) {
+    private fun ArrayList<EventSharedAction>.addActionsForSyncedState(
+            timelineEvent: TimelineEvent,
+            actionPermissions: ActionPermissions,
+            messageContent: MessageContent?,
+            msgType: String?
+    ) {
         val eventId = timelineEvent.eventId
         if (!timelineEvent.root.isRedacted()) {
             if (canReply(timelineEvent, messageContent, actionPermissions)) {
@@ -376,19 +382,23 @@ class MessageActionsViewModel @AssistedInject constructor(
 
             if (canRedact(timelineEvent, actionPermissions)) {
                 if (timelineEvent.root.getClearType() in EventType.POLL_START) {
-                    add(EventSharedAction.Redact(
-                            eventId,
-                            askForReason = informationData.senderId != session.myUserId,
-                            dialogTitleRes = R.string.delete_poll_dialog_title,
-                            dialogDescriptionRes = R.string.delete_poll_dialog_content
-                    ))
+                    add(
+                            EventSharedAction.Redact(
+                                    eventId,
+                                    askForReason = informationData.senderId != session.myUserId,
+                                    dialogTitleRes = R.string.delete_poll_dialog_title,
+                                    dialogDescriptionRes = R.string.delete_poll_dialog_content
+                            )
+                    )
                 } else {
-                    add(EventSharedAction.Redact(
-                            eventId,
-                            askForReason = informationData.senderId != session.myUserId,
-                            dialogTitleRes = R.string.delete_event_dialog_title,
-                            dialogDescriptionRes = R.string.delete_event_dialog_content
-                    ))
+                    add(
+                            EventSharedAction.Redact(
+                                    eventId,
+                                    askForReason = informationData.senderId != session.myUserId,
+                                    dialogTitleRes = R.string.delete_event_dialog_title,
+                                    dialogDescriptionRes = R.string.delete_event_dialog_content
+                            )
+                    )
                 }
             }
         }
@@ -396,8 +406,8 @@ class MessageActionsViewModel @AssistedInject constructor(
         if (vectorPreferences.developerMode()) {
             if (timelineEvent.isEncrypted() && timelineEvent.root.mCryptoError != null) {
                 val keysBackupService = session.cryptoService().keysBackupService()
-                if (keysBackupService.state == KeysBackupState.NotTrusted ||
-                        (keysBackupService.state == KeysBackupState.ReadyToBackUp &&
+                if (keysBackupService.getState() == KeysBackupState.NotTrusted ||
+                        (keysBackupService.getState() == KeysBackupState.ReadyToBackUp &&
                                 keysBackupService.canRestoreKeys())
                 ) {
                     add(EventSharedAction.UseKeyBackup)
@@ -412,7 +422,7 @@ class MessageActionsViewModel @AssistedInject constructor(
         add(EventSharedAction.CopyPermalink(eventId))
         if (session.myUserId != timelineEvent.root.senderId) {
             // not sent by me
-            if (timelineEvent.root.getClearType() == EventType.MESSAGE) {
+            if (timelineEvent.root.isContentReportable()) {
                 add(EventSharedAction.ReportContent(eventId, timelineEvent.root.senderId))
             }
 
@@ -439,19 +449,25 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_FILE,
             MessageType.MSGTYPE_POLL_START,
             MessageType.MSGTYPE_LOCATION -> true
-            else                         -> false
+            else -> false
         }
     }
 
     /**
      * Determine whether or not the Reply In Thread bottom sheet action will be visible
-     * to the user
+     * to the user.
      */
-    private fun canReplyInThread(event: TimelineEvent,
-                                 messageContent: MessageContent?,
-                                 actionPermissions: ActionPermissions): Boolean {
+    private fun canReplyInThread(
+            event: TimelineEvent,
+            messageContent: MessageContent?,
+            actionPermissions: ActionPermissions
+    ): Boolean {
         // We let reply in thread visible even if threads are not enabled, with an enhanced flow to attract users
 //        if (!vectorPreferences.areThreadMessagesEnabled()) return false
+        // Disable beta prompt if the homeserver do not support threads
+        if (!vectorPreferences.areThreadMessagesEnabled() &&
+                !session.homeServerCapabilitiesService().getHomeServerCapabilities().canUseThreading) return false
+
         if (initialState.isFromThreadTimeline) return false
         if (event.root.isThread()) return false
         if (event.root.getClearType() != EventType.MESSAGE &&
@@ -467,16 +483,18 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_FILE,
             MessageType.MSGTYPE_POLL_START,
             MessageType.MSGTYPE_STICKER_LOCAL -> true
-            else                              -> false
+            else -> false
         }
     }
 
     /**
-     * Determine whether or not the view in room action will be available for the current event
+     * Determine whether or not the view in room action will be available for the current event.
      */
-    private fun canViewInRoom(event: TimelineEvent,
-                              messageContent: MessageContent?,
-                              actionPermissions: ActionPermissions): Boolean {
+    private fun canViewInRoom(
+            event: TimelineEvent,
+            messageContent: MessageContent?,
+            actionPermissions: ActionPermissions
+    ): Boolean {
         if (!vectorPreferences.areThreadMessagesEnabled()) return false
         if (!initialState.isFromThreadTimeline) return false
         if (event.root.getClearType() != EventType.MESSAGE &&
@@ -493,7 +511,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_FILE,
             MessageType.MSGTYPE_POLL_START,
             MessageType.MSGTYPE_STICKER_LOCAL -> event.root.threadDetails?.isRootThread ?: false
-            else                              -> false
+            else -> false
         }
     }
 
@@ -508,7 +526,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_LOCATION -> {
                 true
             }
-            else                         -> false
+            else -> false
         }
     }
 
@@ -552,7 +570,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_NOTICE,
             MessageType.MSGTYPE_EMOTE,
             MessageType.MSGTYPE_LOCATION -> true
-            else                         -> false
+            else -> false
         }
     }
 
@@ -566,7 +584,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_AUDIO,
             MessageType.MSGTYPE_VIDEO,
             MessageType.MSGTYPE_FILE -> true
-            else                     -> false
+            else -> false
         }
     }
 
@@ -576,7 +594,7 @@ class MessageActionsViewModel @AssistedInject constructor(
             MessageType.MSGTYPE_AUDIO,
             MessageType.MSGTYPE_VIDEO,
             MessageType.MSGTYPE_FILE -> true
-            else                     -> false
+            else -> false
         }
     }
 

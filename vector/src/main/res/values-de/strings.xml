@@ -403,9 +403,7 @@
     <string name="settings_new_password">Neues Passwort</string>
     <string name="settings_fail_to_update_password">Ändern des Passworts fehlgeschlagen</string>
     <string name="settings_password_updated">Dein Passwort wurde aktualisiert</string>
-    <string name="settings_unignore_user">Alle Nachrichten von %s anzeigen\?
-\n
-\nBeachte: Diese Aktion wird die App neu starten und einige Zeit brauchen.</string>
+    <string name="settings_unignore_user">Alle Nachrichten von %s anzeigen\?</string>
     <string name="settings_select_country">Wähle ein Land</string>
     <string name="room_settings_topic">Thema</string>
     <string name="room_settings_room_read_history_rules_pref_title">Lesbarkeit des Chatverlaufs</string>
@@ -516,9 +514,8 @@
     <string name="has_been_banned">Du wurdest von %2$s aus %1$s verbannt</string>
     <string name="reason_colon">Grund: %1$s</string>
     <string name="room_settings_add_homescreen_shortcut">Zum Startbildschirm hinzufügen</string>
-    <string name="settings_flair">Community-Avatare</string>
     <string name="send_bug_report_rage_shake">Schütteln, um einen Fehler zu melden</string>
-    <string name="list_members">Mitglieder auflisten</string>
+    <string name="list_members">Mitglieder</string>
     <plurals name="room_title_members">
         <item quantity="one">%d Mitglied</item>
         <item quantity="other">%d Mitglieder</item>
@@ -1121,9 +1118,7 @@
     <string name="login_signin_username_hint">Benutzername oder E-Mail-Adresse</string>
     <string name="login_signup_password_hint">Passwort</string>
     <string name="login_signup_error_user_in_use">Dieser Benutzername ist bereits belegt</string>
-    <string name="login_signup_cancel_confirmation_content">Dein Benutzerkonto ist noch nicht erstellt.
-\n
-\nMöchtest du die Registrierung stoppen\?</string>
+    <string name="login_signup_cancel_confirmation_content">Dein Benutzerkonto ist noch nicht erstellt. Möchtest du die Registrierung stoppen\?</string>
     <string name="login_a11y_choose_matrix_org">matrix.org auswählen</string>
     <string name="login_a11y_choose_modular">modular auswählen</string>
     <string name="login_a11y_choose_other">Benutzerdefinierten Server auswählen</string>
@@ -1983,7 +1978,7 @@
     <string name="command_description_leave_room">Verlasse den Raum mit der angegebenen ID (oder den aktuellen Raum, wenn keine ID angegeben wird)</string>
     <string name="search_hint_room_name">Name suchen</string>
     <string name="you_are_invited">Du wurdest eingeladen</string>
-    <string name="leave_space">Space verlassen</string>
+    <string name="leave_space">Verlassen</string>
     <string name="space_add_child_title">Räume hinzufügen</string>
     <string name="space_explore_activity_title">Räume erkunden</string>
     <string name="join_anyway">Trotzdem beitreten</string>
@@ -2192,9 +2187,6 @@
     <string name="settings_mentions_and_keywords_encryption_notice">Auf deinem Mobilgerät wirst du keine Benachrichtigungen für Erwähnungen und Schlüsselwörter in verschlüsselten Räumen erhalten.</string>
     <string name="space_add_existing_spaces">Existierende Spaces hinzufügen</string>
     <string name="space_add_existing_rooms_only">Existierende Räume hinzufügen</string>
-    <string name="leave_specific_ones">Ausgewählte Räume oder Subspaces verlassen…</string>
-    <string name="dont_leave_any">Keine Räume und Subspaces verlassen</string>
-    <string name="leave_all_rooms_and_spaces">Alle Räume und Spaces verlassen</string>
     <string name="space_leave_prompt_msg_with_name">Willst du %s wirklich verlassen\?</string>
     <string name="invite_by_username_or_mail">Mit Benutzername oder E-Mail einladen</string>
     <string name="command_description_add_to_space">Zum ausgewählten Space hinzufügen</string>
@@ -2222,7 +2214,6 @@
 \n
 \nUm sie für immer zu entfernen, solltest du sie bannen.</string>
     <string name="a11y_stop_voice_message">Aufnahme beenden</string>
-    <string name="pick_tings_to_leave">Welche Räume willst du verlassen\?</string>
     <string name="finish_setup">Einrichtung beenden</string>
     <string name="a11y_presence_unavailable">Nicht stören</string>
     <string name="a11y_presence_offline">Offline</string>
@@ -2342,8 +2333,6 @@
     </plurals>
     <string name="room_profile_section_restore_security">Verschlüsselung wiederherstellen</string>
     <string name="tooltip_attachment_location">Standort freigeben</string>
-    <string name="location_share">Standort freigeben</string>
-    <string name="a11y_location_share_icon">Standort freigeben</string>
     <string name="location_activity_title_static_sharing">Standort freigeben</string>
     <string name="settings_enable_location_sharing">Standortfreigabe aktivieren</string>
     <string name="location_share_external">Öffnen mit</string>
@@ -2358,7 +2347,7 @@
     <string name="edit_poll_title">Umfrage bearbeiten</string>
     <string name="poll_no_votes_cast">Keine Stimmen abgegeben</string>
     <string name="login_splash_create_account">Konto erstellen</string>
-    <string name="ftue_auth_carousel_workplace_title">Nachrichtenaustausch für dein Team.</string>
+    <string name="ftue_auth_carousel_workplace_title">Nachrichtenaustausch für deine Kirche.</string>
     <string name="ftue_auth_carousel_encrypted_body">Ende-zu-Ende-verschlüsselt und ohne Telefonnummer nutzbar. Keine Werbung oder Datenerfassung.</string>
     <string name="ftue_auth_carousel_control_body">Wähle wo deine Gespräche liegen, für Kontrolle und Unabhängigkeit. Verbunden mit Matrix.</string>
     <string name="ftue_auth_carousel_secure_body">Sichere und unabhängige Kommunikation, die für die gleiche Vertraulichkeit sorgt, wie ein Gespräch von Angesicht zu Angesicht in deinem eigenen Zuhause.</string>
@@ -2380,7 +2369,7 @@
     <string name="thread_list_empty_title">Organisiere Diskussionen mit Threads</string>
     <string name="room_threads_filter">Threads im Raum filtern</string>
     <string name="ftue_auth_use_case_join_existing_server">Möchtest du einem existierenden Server beitreten\?</string>
-    <string name="ftue_auth_use_case_option_three">Gemeinschaften</string>
+    <string name="ftue_auth_use_case_option_three">Communities</string>
     <string name="ftue_auth_use_case_option_two">Teams</string>
     <string name="ftue_auth_use_case_subtitle">Wir helfen dir, in Verbindung zu kommen.</string>
     <string name="ftue_auth_use_case_title">Mit wem wirst du am meisten chatten\?</string>
@@ -2428,4 +2417,13 @@
     <string name="a11y_location_share_option_user_live_icon">Live-Standort teilen</string>
     <string name="location_share_option_user_live">Live-Standort teilen</string>
     <string name="threads_notice_migration_title">Threads nähern sich der Beta 🎉</string>
+    <string name="action_disable">Deaktivieren</string>
+    <string name="beta">BETA</string>
+    <string name="give_feedback_threads">Feedback geben</string>
+    <string name="beta_title_bottom_sheet_action">BETA</string>
+    <string name="threads_labs_enable_notice_title">Threads Beta</string>
+    <string name="threads_beta_enable_notice_title">Threads Beta</string>
+    <string name="call_start_screen_sharing">Bildschirm teilen</string>
+    <string name="action_try_it_out">Ausprobieren</string>
+    <string name="ftue_auth_carousel_workplace_body">Unsere Software ist frei (libre), weil sie die digitale Freiheit der Kirche stärkt.</string>
 </resources>

@@ -26,6 +26,7 @@ import im.vector.app.R
 import im.vector.app.core.di.ActiveSessionHolder
 import im.vector.app.core.di.DefaultSharedPreferences
 import im.vector.app.core.pushers.PushersManager
+import im.vector.app.core.time.Clock
 import im.vector.app.features.settings.VectorPreferences
 import timber.log.Timber
 
@@ -52,10 +53,12 @@ object FcmHelper {
      * TODO Store in realm
      *
      * @param context android context
-     * @param token   the token to store
+     * @param token the token to store
      */
-    fun storeFcmToken(context: Context,
-                      token: String?) {
+    fun storeFcmToken(
+            context: Context,
+            token: String?
+    ) {
         DefaultSharedPreferences.getInstance(context).edit {
             putString(PREFS_KEY_FCM_TOKEN, token)
         }
@@ -107,7 +110,12 @@ object FcmHelper {
     }
 
     @Suppress("UNUSED_PARAMETER")
-    fun onEnterBackground(context: Context, vectorPreferences: VectorPreferences, activeSessionHolder: ActiveSessionHolder) {
+    fun onEnterBackground(
+            context: Context,
+            vectorPreferences: VectorPreferences,
+            activeSessionHolder: ActiveSessionHolder,
+            clock: Clock
+    ) {
         // No op
     }
 }
