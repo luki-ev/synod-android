@@ -14,6 +14,8 @@ updates:
       - "vector-im/element-android-reviewers"
     ignore:
       - dependency-name: "*github-script*"
+    # Disable dependabot for synod-android
+    open-pull-requests-limit: 0
   # Updates for Gradle dependencies used in the app
   - package-ecosystem: gradle
     directory: "/"
@@ -24,3 +26,5 @@ updates:
       - "vector-im/element-android-reviewers"
     ignore:
       - dependency-name: com.google.zxing:core
+    # Disable dependabot for synod-android
+    open-pull-requests-limit: 0
