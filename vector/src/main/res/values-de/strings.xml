@@ -2528,4 +2528,5 @@
     <string name="ftue_account_created_personalize">Profil personalisieren</string>
     <string name="ftue_auth_carousel_workplace_body">Unsere Software ist frei (libre), weil sie die digitale Freiheit der Kirche stärkt.</string>
     <string name="send_feedback_threads_info">Threads sind noch in Arbeit, und es stehen neue, aufregende Funktionen an, wie z. B. verbesserte Benachrichtigungen. Wir würden uns sehr über Dein Feedback freuen!</string>
+    <string name="direct_room_encryption_enabled_tile_description_future">Nachrichten in diesem Chat werden End-zu-End-Verschlüsselt</string>
 </resources>
