@@ -241,6 +241,7 @@ class VectorCallActivity :
         detachRenderersIfNeeded()
         turnScreenOffAndKeyguardOn()
         removeOnPictureInPictureModeChangedListener(pictureInPictureModeChangedInfoConsumer)
+        screenCaptureServiceConnection.unbind()
         super.onDestroy()
     }
 
@@ -604,7 +605,7 @@ class VectorCallActivity :
     private fun returnToChat() {
         val roomId = withState(callViewModel) { it.roomId }
         val args = TimelineArgs(roomId)
-        val intent = RoomDetailActivity.newIntent(this, args).apply {
+        val intent = RoomDetailActivity.newIntent(this, args, false).apply {
             flags = FLAG_ACTIVITY_CLEAR_TOP
         }
         startActivity(intent)

@@ -73,6 +73,7 @@ import org.matrix.android.sdk.api.session.room.model.RoomHistoryVisibilityConten
 import org.matrix.android.sdk.api.session.room.model.RoomMemberContent
 import org.matrix.android.sdk.api.session.room.model.shouldShareHistory
 import org.matrix.android.sdk.api.session.sync.model.SyncResponse
+import org.matrix.android.sdk.api.util.Optional
 import org.matrix.android.sdk.internal.crypto.actions.MegolmSessionDataImporter
 import org.matrix.android.sdk.internal.crypto.actions.SetDeviceVerificationAction
 import org.matrix.android.sdk.internal.crypto.algorithms.IMXEncrypting
@@ -273,21 +274,16 @@ internal class DefaultCryptoService @Inject constructor(
                 .executeBy(taskExecutor)
     }
 
-    override fun getLiveMyDevicesInfo(): LiveData<List<DeviceInfo>> {
+    override fun getMyDevicesInfoLive(): LiveData<List<DeviceInfo>> {
         return cryptoStore.getLiveMyDevicesInfo()
+    }
+
+    override fun getMyDevicesInfoLive(deviceId: String): LiveData<Optional<DeviceInfo>> {
+        return cryptoStore.getLiveMyDevicesInfo(deviceId)
     }
 
     override fun getMyDevicesInfo(): List<DeviceInfo> {
         return cryptoStore.getMyDevicesInfo()
-    }
-
-    override fun getDeviceInfo(deviceId: String, callback: MatrixCallback<DeviceInfo>) {
-        getDeviceInfoTask
-                .configureWith(GetDeviceInfoTask.Params(deviceId)) {
-                    this.executionThread = TaskThread.CRYPTO
-                    this.callback = callback
-                }
-                .executeBy(taskExecutor)
     }
 
     override fun inboundGroupSessionsCount(onlyBackedUp: Boolean): Int {
@@ -513,12 +509,21 @@ internal class DefaultCryptoService @Inject constructor(
      * @param userId the user id
      * @param deviceId the device id
      */
-    override fun getDeviceInfo(userId: String, deviceId: String?): CryptoDeviceInfo? {
+    override fun getCryptoDeviceInfo(userId: String, deviceId: String?): CryptoDeviceInfo? {
         return if (userId.isNotEmpty() && !deviceId.isNullOrEmpty()) {
             cryptoStore.getUserDevice(userId, deviceId)
         } else {
             null
         }
+    }
+
+    override fun getCryptoDeviceInfo(deviceId: String, callback: MatrixCallback<DeviceInfo>) {
+        getDeviceInfoTask
+                .configureWith(GetDeviceInfoTask.Params(deviceId)) {
+                    this.executionThread = TaskThread.CRYPTO
+                    this.callback = callback
+                }
+                .executeBy(taskExecutor)
     }
 
     override fun getCryptoDeviceInfo(userId: String): List<CryptoDeviceInfo> {
@@ -527,6 +532,10 @@ internal class DefaultCryptoService @Inject constructor(
 
     override fun getLiveCryptoDeviceInfo(): LiveData<List<CryptoDeviceInfo>> {
         return cryptoStore.getLiveDeviceList()
+    }
+
+    override fun getLiveCryptoDeviceInfoWithId(deviceId: String): LiveData<Optional<CryptoDeviceInfo>> {
+        return cryptoStore.getLiveDeviceWithId(deviceId)
     }
 
     override fun getLiveCryptoDeviceInfo(userId: String): LiveData<List<CryptoDeviceInfo>> {
@@ -820,7 +829,7 @@ internal class DefaultCryptoService @Inject constructor(
                 EventType.SEND_SECRET -> {
                     onSecretSendReceived(event)
                 }
-                EventType.ROOM_KEY_WITHHELD -> {
+                in EventType.ROOM_KEY_WITHHELD.values -> {
                     onKeyWithHeldReceived(event)
                 }
                 else -> {
@@ -869,7 +878,7 @@ internal class DefaultCryptoService @Inject constructor(
                 senderKey = withHeldContent.senderKey,
                 fromDevice = withHeldContent.fromDevice,
                 event = Event(
-                        type = EventType.ROOM_KEY_WITHHELD,
+                        type = EventType.ROOM_KEY_WITHHELD.stable,
                         senderId = senderId,
                         content = event.getClearContent()
                 )

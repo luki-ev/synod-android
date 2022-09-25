@@ -32,6 +32,7 @@ import com.airbnb.mvrx.args
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
 import im.vector.app.core.animations.AppBarStateChangeListener
 import im.vector.app.core.animations.MatrixItemAppBarStateChangeListener
@@ -69,14 +70,16 @@ data class RoomMemberProfileArgs(
         val roomId: String? = null
 ) : Parcelable
 
-class RoomMemberProfileFragment @Inject constructor(
-        private val roomMemberProfileController: RoomMemberProfileController,
-        private val avatarRenderer: AvatarRenderer,
-        private val roomDetailPendingActionStore: RoomDetailPendingActionStore,
-        private val matrixItemColorProvider: MatrixItemColorProvider
-) : VectorBaseFragment<FragmentMatrixProfileBinding>(),
+@AndroidEntryPoint
+class RoomMemberProfileFragment :
+        VectorBaseFragment<FragmentMatrixProfileBinding>(),
         RoomMemberProfileController.Callback,
         VectorMenuProvider {
+
+    @Inject lateinit var roomMemberProfileController: RoomMemberProfileController
+    @Inject lateinit var avatarRenderer: AvatarRenderer
+    @Inject lateinit var roomDetailPendingActionStore: RoomDetailPendingActionStore
+    @Inject lateinit var matrixItemColorProvider: MatrixItemColorProvider
 
     private lateinit var headerViews: ViewStubRoomMemberProfileHeaderBinding
 
@@ -136,6 +139,7 @@ class RoomMemberProfileFragment @Inject constructor(
                 is RoomMemberProfileViewEvents.OnBanActionSuccess -> Unit
                 is RoomMemberProfileViewEvents.OnIgnoreActionSuccess -> Unit
                 is RoomMemberProfileViewEvents.OnInviteActionSuccess -> Unit
+                RoomMemberProfileViewEvents.GoBack -> handleGoBack()
             }
         }
         setupLongClicks()
@@ -309,6 +313,11 @@ class RoomMemberProfileFragment @Inject constructor(
         viewModel.handle(RoomMemberProfileAction.OpenOrCreateDm(fragmentArgs.userId))
     }
 
+    private fun handleGoBack() {
+        roomDetailPendingActionStore.data = RoomDetailPendingAction.DoNothing
+        vectorBaseActivity.finish()
+    }
+
     override fun onJumpToReadReceiptClicked() {
         roomDetailPendingActionStore.data = RoomDetailPendingAction.JumpToReadReceipt(fragmentArgs.userId)
         vectorBaseActivity.finish()
@@ -328,7 +337,7 @@ class RoomMemberProfileFragment @Inject constructor(
                 .setNeutralButton(R.string.ok, null)
                 .setPositiveButton(R.string.share_by_text) { _, _ ->
                     startSharePlainTextIntent(
-                            fragment = this,
+                            context = requireContext(),
                             activityResultLauncher = null,
                             chooserTitle = null,
                             text = permalink
