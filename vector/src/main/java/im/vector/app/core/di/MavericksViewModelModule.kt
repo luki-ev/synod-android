@@ -52,13 +52,14 @@ import im.vector.app.features.home.room.detail.timeline.reactions.ViewReactionsV
 import im.vector.app.features.home.room.detail.upgrade.MigrateRoomViewModel
 import im.vector.app.features.home.room.list.RoomListViewModel
 import im.vector.app.features.home.room.list.home.HomeRoomListViewModel
+import im.vector.app.features.home.room.list.home.invites.InvitesViewModel
+import im.vector.app.features.home.room.list.home.release.ReleaseNotesViewModel
 import im.vector.app.features.homeserver.HomeServerCapabilitiesViewModel
 import im.vector.app.features.invite.InviteUsersToRoomViewModel
 import im.vector.app.features.location.LocationSharingViewModel
-import im.vector.app.features.location.live.map.LocationLiveMapViewModel
+import im.vector.app.features.location.live.map.LiveLocationMapViewModel
+import im.vector.app.features.location.preview.LocationPreviewViewModel
 import im.vector.app.features.login.LoginViewModel
-import im.vector.app.features.login2.LoginViewModel2
-import im.vector.app.features.login2.created.AccountCreatedViewModel
 import im.vector.app.features.matrixto.MatrixToBottomSheetViewModel
 import im.vector.app.features.media.VectorAttachmentViewerViewModel
 import im.vector.app.features.onboarding.OnboardingViewModel
@@ -87,6 +88,9 @@ import im.vector.app.features.settings.account.deactivation.DeactivateAccountVie
 import im.vector.app.features.settings.crosssigning.CrossSigningSettingsViewModel
 import im.vector.app.features.settings.devices.DeviceVerificationInfoBottomSheetViewModel
 import im.vector.app.features.settings.devices.DevicesViewModel
+import im.vector.app.features.settings.devices.v2.details.SessionDetailsViewModel
+import im.vector.app.features.settings.devices.v2.othersessions.OtherSessionsViewModel
+import im.vector.app.features.settings.devices.v2.overview.SessionOverviewViewModel
 import im.vector.app.features.settings.devtools.AccountDataViewModel
 import im.vector.app.features.settings.devtools.GossipingEventsPaperTrailViewModel
 import im.vector.app.features.settings.devtools.KeyRequestListViewModel
@@ -352,6 +356,11 @@ interface MavericksViewModelModule {
 
     @Binds
     @IntoMap
+    @MavericksViewModelKey(im.vector.app.features.settings.devices.v2.DevicesViewModel::class)
+    fun devicesViewModelV2Factory(factory: im.vector.app.features.settings.devices.v2.DevicesViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
     @MavericksViewModelKey(KeyRequestListViewModel::class)
     fun keyRequestListViewModelFactory(factory: KeyRequestListViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
@@ -457,18 +466,8 @@ interface MavericksViewModelModule {
 
     @Binds
     @IntoMap
-    @MavericksViewModelKey(AccountCreatedViewModel::class)
-    fun accountCreatedViewModelFactory(factory: AccountCreatedViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
-
-    @Binds
-    @IntoMap
     @MavericksViewModelKey(OnboardingViewModel::class)
     fun onboardingViewModelFactory(factory: OnboardingViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
-
-    @Binds
-    @IntoMap
-    @MavericksViewModelKey(LoginViewModel2::class)
-    fun loginViewModel2Factory(factory: LoginViewModel2.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
@@ -607,13 +606,18 @@ interface MavericksViewModelModule {
 
     @Binds
     @IntoMap
+    @MavericksViewModelKey(LocationPreviewViewModel::class)
+    fun createLocationPreviewViewModelFactory(factory: LocationPreviewViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
     @MavericksViewModelKey(VectorAttachmentViewerViewModel::class)
     fun vectorAttachmentViewerViewModelFactory(factory: VectorAttachmentViewerViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
-    @MavericksViewModelKey(LocationLiveMapViewModel::class)
-    fun locationLiveMapViewModelFactory(factory: LocationLiveMapViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+    @MavericksViewModelKey(LiveLocationMapViewModel::class)
+    fun liveLocationMapViewModelFactory(factory: LiveLocationMapViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 
     @Binds
     @IntoMap
@@ -624,4 +628,29 @@ interface MavericksViewModelModule {
     @IntoMap
     @MavericksViewModelKey(HomeRoomListViewModel::class)
     fun homeRoomListViewModel(factory: HomeRoomListViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(InvitesViewModel::class)
+    fun invitesViewModel(factory: InvitesViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(ReleaseNotesViewModel::class)
+    fun releaseNotesViewModel(factory: ReleaseNotesViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(SessionOverviewViewModel::class)
+    fun sessionOverviewViewModelFactory(factory: SessionOverviewViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(OtherSessionsViewModel::class)
+    fun otherSessionsViewModelFactory(factory: OtherSessionsViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
+
+    @Binds
+    @IntoMap
+    @MavericksViewModelKey(SessionDetailsViewModel::class)
+    fun sessionDetailsViewModelFactory(factory: SessionDetailsViewModel.Factory): MavericksAssistedViewModelFactory<*, *>
 }

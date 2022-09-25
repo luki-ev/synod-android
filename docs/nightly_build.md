@@ -47,8 +47,8 @@ git checkout develop
 mv towncrier.toml towncrier.toml.bak
 sed 's/CHANGES\.md/CHANGES_NIGHTLY\.md/' towncrier.toml.bak > towncrier.toml
 rm towncrier.toml.bak
-yes n | towncrier --version nightly
-./gradlew assembleGplayNightly appDistributionUploadGplayNightly $CI_GRADLE_ARG_PROPERTIES --stacktrace
+yes n | towncrier build --version nightly
+./gradlew assembleGplayNightly appDistributionUploadGplayNightly $CI_GRADLE_ARG_PROPERTIES
 ```
 
 Then you can reset the change on the codebase.

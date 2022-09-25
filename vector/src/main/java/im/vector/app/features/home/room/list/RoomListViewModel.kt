@@ -25,7 +25,7 @@ import com.airbnb.mvrx.Success
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import im.vector.app.AppStateHandler
+import im.vector.app.SpaceStateHandler
 import im.vector.app.core.di.MavericksAssistedViewModelFactory
 import im.vector.app.core.di.hiltMavericksViewModelFactory
 import im.vector.app.core.platform.VectorViewModel
@@ -47,7 +47,6 @@ import org.matrix.android.sdk.api.session.getRoom
 import org.matrix.android.sdk.api.session.getRoomSummary
 import org.matrix.android.sdk.api.session.room.UpdatableLivePageResult
 import org.matrix.android.sdk.api.session.room.members.ChangeMembershipState
-import org.matrix.android.sdk.api.session.room.model.Membership
 import org.matrix.android.sdk.api.session.room.model.localecho.RoomLocalEcho
 import org.matrix.android.sdk.api.session.room.model.tag.RoomTag
 import org.matrix.android.sdk.api.session.room.roomSummaryQueryParams
@@ -60,7 +59,7 @@ class RoomListViewModel @AssistedInject constructor(
         @Assisted initialState: RoomListViewState,
         private val session: Session,
         stringProvider: StringProvider,
-        appStateHandler: AppStateHandler,
+        spaceStateHandler: SpaceStateHandler,
         vectorPreferences: VectorPreferences,
         autoAcceptInvites: AutoAcceptInvites,
         private val analyticsTracker: AnalyticsTracker
@@ -98,9 +97,8 @@ class RoomListViewModel @AssistedInject constructor(
 
     init {
         observeMembershipChanges()
-        observeLocalRooms()
 
-        appStateHandler.selectedSpaceFlow
+        spaceStateHandler.getSelectedSpaceFlow()
                 .distinctUntilChanged()
                 .execute {
                     copy(
@@ -126,29 +124,12 @@ class RoomListViewModel @AssistedInject constructor(
                 }
     }
 
-    private fun observeLocalRooms() {
-        val queryParams = roomSummaryQueryParams {
-            memberships = listOf(Membership.JOIN)
-        }
-        session
-                .flow()
-                .liveRoomSummaries(queryParams)
-                .map { roomSummaries ->
-                    roomSummaries.mapNotNull { summary ->
-                        summary.roomId.takeIf { RoomLocalEcho.isLocalEchoId(it) }
-                    }.toSet()
-                }
-                .setOnEach { roomIds ->
-                    copy(localRoomIds = roomIds)
-                }
-    }
-
     companion object : MavericksViewModelFactory<RoomListViewModel, RoomListViewState> by hiltMavericksViewModelFactory()
 
     private val roomListSectionBuilder = RoomListSectionBuilder(
             session,
             stringProvider,
-            appStateHandler,
+            spaceStateHandler,
             viewModelScope,
             autoAcceptInvites,
             {
@@ -174,19 +155,12 @@ class RoomListViewModel @AssistedInject constructor(
             is RoomListAction.ToggleSection -> handleToggleSection(action.section)
             is RoomListAction.JoinSuggestedRoom -> handleJoinSuggestedRoom(action)
             is RoomListAction.ShowRoomDetails -> handleShowRoomDetails(action)
+            RoomListAction.DeleteAllLocalRoom -> handleDeleteLocalRooms()
         }
     }
 
     fun isPublicRoom(roomId: String): Boolean {
         return session.getRoom(roomId)?.stateService()?.isPublic().orFalse()
-    }
-
-    fun deleteLocalRooms(roomsIds: Set<String>) {
-        viewModelScope.launch {
-            roomsIds.forEach {
-                session.roomService().deleteLocalRoom(it)
-            }
-        }
     }
 
     // PRIVATE METHODS *****************************************************************************
@@ -271,7 +245,7 @@ class RoomListViewModel @AssistedInject constructor(
             viewModelScope.launch {
                 try {
                     room.roomPushRuleService().setRoomNotificationState(action.notificationState)
-                } catch (failure: Exception) {
+                } catch (failure: Throwable) {
                     _viewEvents.post(RoomListViewEvents.Failure(failure))
                 }
             }
@@ -344,6 +318,18 @@ class RoomListViewModel @AssistedInject constructor(
             val value = runCatching { session.roomService().leaveRoom(action.roomId) }
                     .fold({ RoomListViewEvents.Done }, { RoomListViewEvents.Failure(it) })
             _viewEvents.post(value)
+        }
+    }
+
+    private fun handleDeleteLocalRooms() {
+        val localRoomIds = session.roomService()
+                .getRoomSummaries(roomSummaryQueryParams { roomId = QueryStringValue.Contains(RoomLocalEcho.PREFIX) })
+                .map { it.roomId }
+
+        viewModelScope.launch {
+            localRoomIds.forEach {
+                session.roomService().deleteLocalRoom(it)
+            }
         }
     }
 }

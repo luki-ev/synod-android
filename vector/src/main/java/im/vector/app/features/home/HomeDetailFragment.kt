@@ -28,8 +28,9 @@ import com.airbnb.mvrx.activityViewModel
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.google.android.material.badge.BadgeDrawable
-import im.vector.app.AppStateHandler
+import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
+import im.vector.app.SpaceStateHandler
 import im.vector.app.core.extensions.commitTransaction
 import im.vector.app.core.extensions.toMvRxBundle
 import im.vector.app.core.platform.OnBackPressed
@@ -41,7 +42,6 @@ import im.vector.app.core.ui.views.CurrentCallsView
 import im.vector.app.core.ui.views.CurrentCallsViewPresenter
 import im.vector.app.core.ui.views.KeysBackupBanner
 import im.vector.app.databinding.FragmentHomeDetailBinding
-import im.vector.app.features.VectorFeatures
 import im.vector.app.features.call.SharedKnownCallsViewModel
 import im.vector.app.features.call.VectorCallActivity
 import im.vector.app.features.call.dialpad.DialPadFragment
@@ -49,7 +49,6 @@ import im.vector.app.features.call.webrtc.WebRtcCallManager
 import im.vector.app.features.home.room.list.RoomListFragment
 import im.vector.app.features.home.room.list.RoomListParams
 import im.vector.app.features.home.room.list.UnreadCounterBadgeView
-import im.vector.app.features.home.room.list.home.HomeRoomListFragment
 import im.vector.app.features.popup.PopupAlertManager
 import im.vector.app.features.popup.VerificationVectorAlert
 import im.vector.app.features.settings.VectorLocale
@@ -62,19 +61,20 @@ import org.matrix.android.sdk.api.session.crypto.model.DeviceInfo
 import org.matrix.android.sdk.api.session.room.model.RoomSummary
 import javax.inject.Inject
 
-class HomeDetailFragment @Inject constructor(
-        private val avatarRenderer: AvatarRenderer,
-        private val colorProvider: ColorProvider,
-        private val alertManager: PopupAlertManager,
-        private val callManager: WebRtcCallManager,
-        private val vectorPreferences: VectorPreferences,
-        private val appStateHandler: AppStateHandler,
-        private val vectorFeatures: VectorFeatures,
-) : VectorBaseFragment<FragmentHomeDetailBinding>(),
+@AndroidEntryPoint
+class HomeDetailFragment :
+        VectorBaseFragment<FragmentHomeDetailBinding>(),
         KeysBackupBanner.Delegate,
         CurrentCallsView.Callback,
         OnBackPressed,
         VectorMenuProvider {
+
+    @Inject lateinit var avatarRenderer: AvatarRenderer
+    @Inject lateinit var colorProvider: ColorProvider
+    @Inject lateinit var alertManager: PopupAlertManager
+    @Inject lateinit var callManager: WebRtcCallManager
+    @Inject lateinit var vectorPreferences: VectorPreferences
+    @Inject lateinit var spaceStateHandler: SpaceStateHandler
 
     private val viewModel: HomeDetailViewModel by fragmentViewModel()
     private val unknownDeviceDetectorSharedViewModel: UnknownDeviceDetectorSharedViewModel by activityViewModel()
@@ -170,7 +170,7 @@ class HomeDetailFragment @Inject constructor(
 
         unreadMessagesSharedViewModel.onEach { state ->
             views.drawerUnreadCounterBadgeView.render(
-                    UnreadCounterBadgeView.State(
+                    UnreadCounterBadgeView.State.Count(
                             count = state.otherSpacesUnread.totalCount,
                             highlighted = state.otherSpacesUnread.isHighlight
                     )
@@ -186,13 +186,13 @@ class HomeDetailFragment @Inject constructor(
     }
 
     private fun navigateBack() {
-        val previousSpaceId = appStateHandler.getSpaceBackstack().removeLastOrNull()
-        val parentSpaceId = appStateHandler.getCurrentSpace()?.flattenParentIds?.lastOrNull()
+        val previousSpaceId = spaceStateHandler.popSpaceBackstack()
+        val parentSpaceId = spaceStateHandler.getCurrentSpace()?.flattenParentIds?.lastOrNull()
         setCurrentSpace(previousSpaceId ?: parentSpaceId)
     }
 
     private fun setCurrentSpace(spaceId: String?) {
-        appStateHandler.setCurrentSpace(spaceId, isForwardNavigation = false)
+        spaceStateHandler.setCurrentSpace(spaceId, isForwardNavigation = false)
         sharedActionViewModel.post(HomeActivitySharedAction.OnCloseSpace)
     }
 
@@ -215,7 +215,7 @@ class HomeDetailFragment @Inject constructor(
     }
 
     private fun refreshSpaceState() {
-        appStateHandler.getCurrentSpace()?.let {
+        spaceStateHandler.getCurrentSpace()?.let {
             onSpaceChange(it)
         }
     }
@@ -232,9 +232,10 @@ class HomeDetailFragment @Inject constructor(
                     viewBinder = VerificationVectorAlert.ViewBinder(user, avatarRenderer)
                     colorInt = colorProvider.getColorFromAttribute(R.attr.colorPrimary)
                     contentAction = Runnable {
-                        (weakCurrentActivity?.get() as? VectorBaseActivity<*>)
-                                ?.navigator
-                                ?.requestSessionVerification(requireContext(), newest.deviceId ?: "")
+                        (weakCurrentActivity?.get() as? VectorBaseActivity<*>)?.let { vectorBaseActivity ->
+                            vectorBaseActivity.navigator
+                                    .requestSessionVerification(vectorBaseActivity, newest.deviceId ?: "")
+                        }
                         unknownDeviceDetectorSharedViewModel.handle(
                                 UnknownDeviceDetectorSharedViewModel.Action.IgnoreDevice(newest.deviceId?.let { listOf(it) }.orEmpty())
                         )
@@ -355,12 +356,8 @@ class HomeDetailFragment @Inject constructor(
             if (fragmentToShow == null) {
                 when (tab) {
                     is HomeTab.RoomList -> {
-                        if (vectorFeatures.isNewAppLayoutEnabled()) {
-                            add(R.id.roomListContainer, HomeRoomListFragment::class.java, null, fragmentTag)
-                        } else {
-                            val params = RoomListParams(tab.displayMode)
-                            add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
-                        }
+                        val params = RoomListParams(tab.displayMode)
+                        add(R.id.roomListContainer, RoomListFragment::class.java, params.toMvRxBundle(), fragmentTag)
                     }
                     is HomeTab.DialPad -> {
                         add(R.id.roomListContainer, createDialPadFragment(), fragmentTag)
@@ -473,7 +470,7 @@ class HomeDetailFragment @Inject constructor(
         return this
     }
 
-    override fun onBackPressed(toolbarButton: Boolean) = if (appStateHandler.getCurrentSpace() != null) {
+    override fun onBackPressed(toolbarButton: Boolean) = if (spaceStateHandler.getCurrentSpace() != null) {
         navigateBack()
         true
     } else {

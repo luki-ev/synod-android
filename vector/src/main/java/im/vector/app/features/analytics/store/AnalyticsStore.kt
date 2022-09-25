@@ -27,8 +27,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.matrix.android.sdk.api.extensions.orFalse
+import org.matrix.android.sdk.api.extensions.orTrue
 import javax.inject.Inject
 
+/**
+ * Also accessed via reflection by the instrumentation tests @see [im.vector.app.ClearCurrentSessionRule].
+ */
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "vector_analytics")
 
 /**
@@ -48,8 +52,9 @@ class AnalyticsStore @Inject constructor(
             .map { preferences -> preferences[userConsent].orFalse() }
             .distinctUntilChanged()
 
+    // Changed for Synod.im: Set default to true so the user is not asked to enable analytics
     val didAskUserConsentFlow: Flow<Boolean> = context.dataStore.data
-            .map { preferences -> preferences[didAskUserConsent].orFalse() }
+            .map { preferences -> preferences[didAskUserConsent].orTrue() }
             .distinctUntilChanged()
 
     val analyticsIdFlow: Flow<String> = context.dataStore.data
