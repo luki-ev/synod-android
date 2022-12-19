@@ -16,6 +16,7 @@
 
 package im.vector.app.test.fakes
 
+import im.vector.app.features.settings.BackgroundSyncMode
 import im.vector.app.features.settings.VectorPreferences
 import io.mockk.every
 import io.mockk.justRun
@@ -51,5 +52,29 @@ class FakeVectorPreferences {
 
     fun verifySetNotificationEnabledForDevice(enabled: Boolean, inverse: Boolean = false) {
         verify(inverse = inverse) { instance.setNotificationEnabledForDevice(enabled) }
+    }
+
+    fun givenSessionManagerShowIpAddress(showIpAddress: Boolean) {
+        every { instance.showIpAddressInSessionManagerScreens() } returns showIpAddress
+    }
+
+    fun givenUnverifiedSessionsAlertLastShownMillis(lastShownMillis: Long) {
+        every { instance.getUnverifiedSessionsAlertLastShownMillis(any()) } returns lastShownMillis
+    }
+
+    fun givenSetFdroidSyncBackgroundMode(mode: BackgroundSyncMode) {
+        justRun { instance.setFdroidSyncBackgroundMode(mode) }
+    }
+
+    fun verifySetFdroidSyncBackgroundMode(mode: BackgroundSyncMode) {
+        verify { instance.setFdroidSyncBackgroundMode(mode) }
+    }
+
+    fun givenAreNotificationsEnabledForDevice(notificationsEnabled: Boolean) {
+        every { instance.areNotificationEnabledForDevice() } returns notificationsEnabled
+    }
+
+    fun givenIsBackgroundSyncEnabled(isEnabled: Boolean) {
+        every { instance.isBackgroundSyncEnabled() } returns isEnabled
     }
 }
