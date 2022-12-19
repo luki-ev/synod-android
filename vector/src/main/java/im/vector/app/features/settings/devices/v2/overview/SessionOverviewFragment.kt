@@ -19,6 +19,7 @@ package im.vector.app.features.settings.devices.v2.overview
 import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -156,14 +157,32 @@ class SessionOverviewFragment :
 
     override fun getMenuRes() = R.menu.menu_session_overview
 
+    override fun handlePrepareMenu(menu: Menu) {
+        withState(viewModel) { state ->
+            menu.findItem(R.id.sessionOverviewToggleIpAddress).title = if (state.isShowingIpAddress) {
+                getString(R.string.device_manager_other_sessions_hide_ip_address)
+            } else {
+                getString(R.string.device_manager_other_sessions_show_ip_address)
+            }
+        }
+    }
+
     override fun handleMenuItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.sessionOverviewRename -> {
                 goToRenameSession()
                 true
             }
+            R.id.sessionOverviewToggleIpAddress -> {
+                toggleIpAddressVisibility()
+                true
+            }
             else -> false
         }
+    }
+
+    private fun toggleIpAddressVisibility() {
+        viewModel.handle(SessionOverviewAction.ToggleIpAddressVisibility)
     }
 
     private fun goToRenameSession() = withState(viewModel) { state ->
@@ -206,10 +225,11 @@ class SessionOverviewFragment :
                     isDetailsButtonVisible = false,
                     isLearnMoreLinkVisible = deviceInfo.roomEncryptionTrustLevel != RoomEncryptionTrustLevel.Default,
                     isLastSeenDetailsVisible = !isCurrentSession,
+                    isShowingIpAddress = viewState.isShowingIpAddress,
             )
             views.sessionOverviewInfo.render(infoViewState, dateFormatter, drawableProvider, colorProvider, stringProvider)
             views.sessionOverviewInfo.onLearnMoreClickListener = {
-                showLearnMoreInfoVerificationStatus(deviceInfo.roomEncryptionTrustLevel == RoomEncryptionTrustLevel.Trusted)
+                showLearnMoreInfoVerificationStatus(deviceInfo.roomEncryptionTrustLevel)
             }
         } else {
             views.sessionOverviewInfo.isVisible = false
@@ -273,21 +293,28 @@ class SessionOverviewFragment :
         }
     }
 
-    private fun showLearnMoreInfoVerificationStatus(isVerified: Boolean) {
-        val titleResId = if (isVerified) {
-            R.string.device_manager_verification_status_verified
-        } else {
-            R.string.device_manager_verification_status_unverified
+    private fun showLearnMoreInfoVerificationStatus(roomEncryptionTrustLevel: RoomEncryptionTrustLevel?) {
+        val args = when (roomEncryptionTrustLevel) {
+            null -> {
+                // encryption not supported
+                SessionLearnMoreBottomSheet.Args(
+                        title = getString(R.string.device_manager_verification_status_unverified),
+                        description = getString(R.string.device_manager_learn_more_sessions_encryption_not_supported),
+                )
+            }
+            RoomEncryptionTrustLevel.Trusted -> {
+                SessionLearnMoreBottomSheet.Args(
+                        title = getString(R.string.device_manager_verification_status_verified),
+                        description = getString(R.string.device_manager_learn_more_sessions_verified_description),
+                )
+            }
+            else -> {
+                SessionLearnMoreBottomSheet.Args(
+                        title = getString(R.string.device_manager_verification_status_unverified),
+                        description = getString(R.string.device_manager_learn_more_sessions_unverified),
+                )
+            }
         }
-        val descriptionResId = if (isVerified) {
-            R.string.device_manager_learn_more_sessions_verified_description
-        } else {
-            R.string.device_manager_learn_more_sessions_unverified
-        }
-        val args = SessionLearnMoreBottomSheet.Args(
-                title = getString(titleResId),
-                description = getString(descriptionResId),
-        )
         SessionLearnMoreBottomSheet.show(childFragmentManager, args)
     }
 }

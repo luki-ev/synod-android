@@ -24,11 +24,13 @@ import im.vector.app.features.session.coroutineScope
 import im.vector.app.features.voicebroadcast.VoiceBroadcastConstants
 import im.vector.app.features.voicebroadcast.VoiceBroadcastFailure
 import im.vector.app.features.voicebroadcast.model.MessageVoiceBroadcastInfoContent
+import im.vector.app.features.voicebroadcast.model.VoiceBroadcast
 import im.vector.app.features.voicebroadcast.model.VoiceBroadcastChunk
 import im.vector.app.features.voicebroadcast.model.VoiceBroadcastState
 import im.vector.app.features.voicebroadcast.recording.VoiceBroadcastRecorder
-import im.vector.app.features.voicebroadcast.usecase.GetOngoingVoiceBroadcastsUseCase
+import im.vector.app.features.voicebroadcast.usecase.GetRoomLiveVoiceBroadcastsUseCase
 import im.vector.lib.multipicker.utils.toMultiPickerAudioType
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.VisibleForTesting
 import org.matrix.android.sdk.api.query.QueryStringValue
@@ -43,6 +45,8 @@ import org.matrix.android.sdk.api.session.room.getStateEvent
 import org.matrix.android.sdk.api.session.room.model.PowerLevelsContent
 import org.matrix.android.sdk.api.session.room.model.relation.RelationDefaultContent
 import org.matrix.android.sdk.api.session.room.powerlevels.PowerLevelsHelper
+import org.matrix.android.sdk.flow.flow
+import org.matrix.android.sdk.flow.unwrap
 import timber.log.Timber
 import java.io.File
 import javax.inject.Inject
@@ -52,7 +56,7 @@ class StartVoiceBroadcastUseCase @Inject constructor(
         private val voiceBroadcastRecorder: VoiceBroadcastRecorder?,
         private val context: Context,
         private val buildMeta: BuildMeta,
-        private val getOngoingVoiceBroadcastsUseCase: GetOngoingVoiceBroadcastsUseCase,
+        private val getRoomLiveVoiceBroadcastsUseCase: GetRoomLiveVoiceBroadcastsUseCase,
         private val stopVoiceBroadcastUseCase: StopVoiceBroadcastUseCase,
 ) {
 
@@ -63,6 +67,7 @@ class StartVoiceBroadcastUseCase @Inject constructor(
 
         assertCanStartVoiceBroadcast(room)
         startVoiceBroadcast(room)
+        return Result.success(Unit)
     }
 
     private suspend fun startVoiceBroadcast(room: Room) {
@@ -79,13 +84,18 @@ class StartVoiceBroadcastUseCase @Inject constructor(
                 ).toContent()
         )
 
-        startRecording(room, eventId, chunkLength, maxLength)
+        val voiceBroadcast = VoiceBroadcast(roomId = room.roomId, voiceBroadcastId = eventId)
+
+        // TODO Update unit test to cover the following line
+        room.flow().liveTimelineEvent(eventId).unwrap().first() // wait for the event come back from the sync
+
+        startRecording(room, voiceBroadcast, chunkLength, maxLength)
     }
 
-    private fun startRecording(room: Room, eventId: String, chunkLength: Int, maxLength: Int) {
+    private fun startRecording(room: Room, voiceBroadcast: VoiceBroadcast, chunkLength: Int, maxLength: Int) {
         voiceBroadcastRecorder?.addListener(object : VoiceBroadcastRecorder.Listener {
             override fun onVoiceMessageCreated(file: File, sequence: Int) {
-                sendVoiceFile(room, file, eventId, sequence)
+                sendVoiceFile(room, file, voiceBroadcast, sequence)
             }
 
             override fun onRemainingTimeUpdated(remainingTime: Long?) {
@@ -94,10 +104,10 @@ class StartVoiceBroadcastUseCase @Inject constructor(
                 }
             }
         })
-        voiceBroadcastRecorder?.startRecord(room.roomId, chunkLength, maxLength)
+        voiceBroadcastRecorder?.startRecordVoiceBroadcast(voiceBroadcast, chunkLength, maxLength)
     }
 
-    private fun sendVoiceFile(room: Room, voiceMessageFile: File, referenceEventId: String, sequence: Int) {
+    private fun sendVoiceFile(room: Room, voiceMessageFile: File, voiceBroadcast: VoiceBroadcast, sequence: Int) {
         val outputFileUri = FileProvider.getUriForFile(
                 context,
                 buildMeta.applicationId + ".fileProvider",
@@ -109,7 +119,7 @@ class StartVoiceBroadcastUseCase @Inject constructor(
                 attachment = audioType.toContentAttachmentData(isVoiceMessage = true),
                 compressBeforeSending = false,
                 roomIds = emptySet(),
-                relatesTo = RelationDefaultContent(RelationType.REFERENCE, referenceEventId),
+                relatesTo = RelationDefaultContent(RelationType.REFERENCE, voiceBroadcast.voiceBroadcastId),
                 additionalContent = mapOf(
                         VoiceBroadcastConstants.VOICE_BROADCAST_CHUNK_KEY to VoiceBroadcastChunk(sequence = sequence).toContent()
                 )
@@ -142,7 +152,7 @@ class StartVoiceBroadcastUseCase @Inject constructor(
                 Timber.d("## StartVoiceBroadcastUseCase: Cannot start voice broadcast: another voice broadcast")
                 throw VoiceBroadcastFailure.RecordingError.UserAlreadyBroadcasting
             }
-            getOngoingVoiceBroadcastsUseCase.execute(room.roomId).isNotEmpty() -> {
+            getRoomLiveVoiceBroadcastsUseCase.execute(room.roomId).isNotEmpty() -> {
                 Timber.d("## StartVoiceBroadcastUseCase: Cannot start voice broadcast: user already broadcasting")
                 throw VoiceBroadcastFailure.RecordingError.BlockedBySomeoneElse
             }
