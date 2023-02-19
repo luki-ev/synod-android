@@ -27,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import im.vector.app.R
 import im.vector.app.core.hardware.vibrate
 import im.vector.app.core.platform.VectorBaseFragment
-import im.vector.app.core.time.Clock
 import im.vector.app.core.utils.PERMISSIONS_FOR_VOICE_MESSAGE
 import im.vector.app.core.utils.checkPermissions
 import im.vector.app.core.utils.onPermissionDeniedSnackbar
@@ -41,6 +40,7 @@ import im.vector.app.features.home.room.detail.composer.MessageComposerViewState
 import im.vector.app.features.home.room.detail.composer.SendMode
 import im.vector.app.features.home.room.detail.composer.boolean
 import im.vector.app.features.home.room.detail.timeline.helper.AudioMessagePlaybackTracker
+import im.vector.lib.core.utils.timer.Clock
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -125,7 +125,6 @@ class VoiceRecorderFragment : VectorBaseFragment<FragmentVoiceRecorderBinding>()
                 if (checkPermissions(PERMISSIONS_FOR_VOICE_MESSAGE, requireActivity(), permissionVoiceMessageLauncher)) {
                     messageComposerViewModel.handle(MessageComposerAction.StartRecordingVoiceMessage)
                     vibrate(requireContext())
-                    updateRecordingUiState(VoiceMessageRecorderView.RecordingUiState.Recording(clock.epochMillis()))
                 }
             }
 

@@ -86,7 +86,6 @@ import im.vector.app.core.platform.VectorMenuProvider
 import im.vector.app.core.platform.showOptimizedSnackbar
 import im.vector.app.core.resources.ColorProvider
 import im.vector.app.core.resources.UserPreferencesProvider
-import im.vector.app.core.time.Clock
 import im.vector.app.core.ui.views.CurrentCallsView
 import im.vector.app.core.ui.views.CurrentCallsViewPresenter
 import im.vector.app.core.ui.views.FailedMessagesWarningView
@@ -186,6 +185,7 @@ import im.vector.app.features.widgets.WidgetActivity
 import im.vector.app.features.widgets.WidgetArgs
 import im.vector.app.features.widgets.WidgetKind
 import im.vector.app.features.widgets.permissions.RoomWidgetPermissionBottomSheet
+import im.vector.lib.core.utils.timer.Clock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -413,6 +413,7 @@ class TimelineFragment :
                 is RoomDetailViewEvents.DisplayAndAcceptCall -> acceptIncomingCall(it)
                 RoomDetailViewEvents.RoomReplacementStarted -> handleRoomReplacement()
                 RoomDetailViewEvents.OpenElementCallWidget -> handleOpenElementCallWidget()
+                RoomDetailViewEvents.DisplayPromptToStopVoiceBroadcast -> displayPromptToStopVoiceBroadcast()
             }
         }
 
@@ -796,7 +797,7 @@ class TimelineFragment :
         }
         // We use a custom layout for this menu item, so we need to set a ClickListener
         menu.findItem(R.id.open_matrix_apps)?.let { menuItem ->
-            menuItem.actionView?.debouncedClicks {
+            menuItem.actionView?.setOnClickListener {
                 handleMenuItemSelected(menuItem)
             }
         }
@@ -807,7 +808,7 @@ class TimelineFragment :
 
         // Custom thread notification menu item
         menu.findItem(R.id.menu_timeline_thread_list)?.let { menuItem ->
-            menuItem.actionView?.debouncedClicks {
+            menuItem.actionView?.setOnClickListener {
                 handleMenuItemSelected(menuItem)
             }
         }
@@ -2003,6 +2004,20 @@ class TimelineFragment :
                 ?.find { it.type == WidgetType.ElementCall }
                 ?.also { widget ->
                     navigator.openRoomWidget(requireContext(), state.roomId, widget)
+                }
+    }
+
+    private fun displayPromptToStopVoiceBroadcast() {
+        ConfirmationDialogBuilder
+                .show(
+                        activity = requireActivity(),
+                        askForReason = false,
+                        confirmationRes = R.string.stop_voice_broadcast_content,
+                        positiveRes = R.string.action_stop,
+                        reasonHintRes = 0,
+                        titleRes = R.string.stop_voice_broadcast_dialog_title
+                ) {
+                    timelineViewModel.handle(RoomDetailAction.VoiceBroadcastAction.Recording.StopConfirmed)
                 }
     }
 

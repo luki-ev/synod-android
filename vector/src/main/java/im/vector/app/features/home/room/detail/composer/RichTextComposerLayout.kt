@@ -49,6 +49,7 @@ import im.vector.app.databinding.ComposerRichTextLayoutBinding
 import im.vector.app.databinding.ViewRichTextMenuButtonBinding
 import io.element.android.wysiwyg.EditorEditText
 import io.element.android.wysiwyg.inputhandlers.models.InlineFormat
+import io.element.android.wysiwyg.inputhandlers.models.LinkAction
 import io.element.android.wysiwyg.utils.RustErrorCollector
 import uniffi.wysiwyg_composer.ActionState
 import uniffi.wysiwyg_composer.ComposerAction
@@ -231,7 +232,33 @@ internal class RichTextComposerLayout @JvmOverloads constructor(
         addRichTextMenuItem(R.drawable.ic_composer_strikethrough, R.string.rich_text_editor_format_strikethrough, ComposerAction.STRIKE_THROUGH) {
             views.richTextComposerEditText.toggleInlineFormat(InlineFormat.StrikeThrough)
         }
+        addRichTextMenuItem(R.drawable.ic_composer_link, R.string.rich_text_editor_link, ComposerAction.LINK) {
+            views.richTextComposerEditText.getLinkAction()?.let {
+                when (it) {
+                    LinkAction.InsertLink -> callback?.onSetLink(isTextSupported = true, initialLink = null)
+                    is LinkAction.SetLink -> callback?.onSetLink(isTextSupported = false, initialLink = it.currentLink)
+                }
+            }
+        }
+        addRichTextMenuItem(R.drawable.ic_composer_bullet_list, R.string.rich_text_editor_bullet_list, ComposerAction.UNORDERED_LIST) {
+            views.richTextComposerEditText.toggleList(ordered = false)
+        }
+        addRichTextMenuItem(R.drawable.ic_composer_numbered_list, R.string.rich_text_editor_numbered_list, ComposerAction.ORDERED_LIST) {
+            views.richTextComposerEditText.toggleList(ordered = true)
+        }
+        addRichTextMenuItem(R.drawable.ic_composer_inline_code, R.string.rich_text_editor_inline_code, ComposerAction.INLINE_CODE) {
+            views.richTextComposerEditText.toggleInlineFormat(InlineFormat.InlineCode)
+        }
     }
+
+    fun setLink(link: String?) =
+            views.richTextComposerEditText.setLink(link)
+
+    fun insertLink(link: String, text: String) =
+            views.richTextComposerEditText.insertLink(link, text)
+
+    fun removeLink() =
+            views.richTextComposerEditText.removeLink()
 
     @SuppressLint("ClickableViewAccessibility")
     private fun disallowParentInterceptTouchEvent(view: View) {
@@ -267,7 +294,7 @@ internal class RichTextComposerLayout @JvmOverloads constructor(
 
     private fun updateEditTextVisibility() {
         views.richTextComposerEditText.isVisible = isTextFormattingEnabled
-        views.richTextMenu.isVisible = isTextFormattingEnabled
+        views.richTextMenuScrollView.isVisible = isTextFormattingEnabled
         views.plainTextComposerEditText.isVisible = !isTextFormattingEnabled
 
         // The layouts for formatted text mode and plain text mode are different, so we need to update the constraints
