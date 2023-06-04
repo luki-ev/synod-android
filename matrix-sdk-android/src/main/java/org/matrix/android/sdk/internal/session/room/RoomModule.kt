@@ -59,6 +59,8 @@ import org.matrix.android.sdk.internal.session.room.directory.DefaultSetRoomDire
 import org.matrix.android.sdk.internal.session.room.directory.GetPublicRoomTask
 import org.matrix.android.sdk.internal.session.room.directory.GetRoomDirectoryVisibilityTask
 import org.matrix.android.sdk.internal.session.room.directory.SetRoomDirectoryVisibilityTask
+import org.matrix.android.sdk.internal.session.room.event.DefaultFilterAndStoreEventsTask
+import org.matrix.android.sdk.internal.session.room.event.FilterAndStoreEventsTask
 import org.matrix.android.sdk.internal.session.room.location.CheckIfExistingActiveLiveTask
 import org.matrix.android.sdk.internal.session.room.location.DefaultCheckIfExistingActiveLiveTask
 import org.matrix.android.sdk.internal.session.room.location.DefaultGetActiveBeaconInfoForUserTask
@@ -89,6 +91,12 @@ import org.matrix.android.sdk.internal.session.room.peeking.DefaultPeekRoomTask
 import org.matrix.android.sdk.internal.session.room.peeking.DefaultResolveRoomStateTask
 import org.matrix.android.sdk.internal.session.room.peeking.PeekRoomTask
 import org.matrix.android.sdk.internal.session.room.peeking.ResolveRoomStateTask
+import org.matrix.android.sdk.internal.session.room.poll.DefaultGetLoadedPollsStatusTask
+import org.matrix.android.sdk.internal.session.room.poll.DefaultLoadMorePollsTask
+import org.matrix.android.sdk.internal.session.room.poll.DefaultSyncPollsTask
+import org.matrix.android.sdk.internal.session.room.poll.GetLoadedPollsStatusTask
+import org.matrix.android.sdk.internal.session.room.poll.LoadMorePollsTask
+import org.matrix.android.sdk.internal.session.room.poll.SyncPollsTask
 import org.matrix.android.sdk.internal.session.room.read.DefaultMarkAllRoomsReadTask
 import org.matrix.android.sdk.internal.session.room.read.DefaultSetReadMarkersTask
 import org.matrix.android.sdk.internal.session.room.read.MarkAllRoomsReadTask
@@ -99,6 +107,8 @@ import org.matrix.android.sdk.internal.session.room.relation.DefaultUpdateQuickR
 import org.matrix.android.sdk.internal.session.room.relation.FetchEditHistoryTask
 import org.matrix.android.sdk.internal.session.room.relation.FindReactionEventForUndoTask
 import org.matrix.android.sdk.internal.session.room.relation.UpdateQuickReactionTask
+import org.matrix.android.sdk.internal.session.room.relation.poll.DefaultFetchPollResponseEventsTask
+import org.matrix.android.sdk.internal.session.room.relation.poll.FetchPollResponseEventsTask
 import org.matrix.android.sdk.internal.session.room.relation.threads.DefaultFetchThreadSummariesTask
 import org.matrix.android.sdk.internal.session.room.relation.threads.DefaultFetchThreadTimelineTask
 import org.matrix.android.sdk.internal.session.room.relation.threads.FetchThreadSummariesTask
@@ -354,4 +364,19 @@ internal abstract class RoomModule {
 
     @Binds
     abstract fun bindRedactLiveLocationShareTask(task: DefaultRedactLiveLocationShareTask): RedactLiveLocationShareTask
+
+    @Binds
+    abstract fun bindFetchPollResponseEventsTask(task: DefaultFetchPollResponseEventsTask): FetchPollResponseEventsTask
+
+    @Binds
+    abstract fun bindLoadMorePollsTask(task: DefaultLoadMorePollsTask): LoadMorePollsTask
+
+    @Binds
+    abstract fun bindGetLoadedPollsStatusTask(task: DefaultGetLoadedPollsStatusTask): GetLoadedPollsStatusTask
+
+    @Binds
+    abstract fun bindFilterAndStoreEventsTask(task: DefaultFilterAndStoreEventsTask): FilterAndStoreEventsTask
+
+    @Binds
+    abstract fun bindSyncPollsTask(task: DefaultSyncPollsTask): SyncPollsTask
 }

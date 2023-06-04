@@ -20,13 +20,16 @@ import android.text.format.DateUtils
 import android.widget.ImageButton
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.constraintlayout.widget.Group
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import com.airbnb.epoxy.EpoxyModelClass
 import im.vector.app.R
 import im.vector.app.core.epoxy.onClick
+import im.vector.app.core.extensions.setTextOrHide
 import im.vector.app.features.home.room.detail.RoomDetailAction.VoiceBroadcastAction
 import im.vector.app.features.home.room.detail.timeline.helper.AudioMessagePlaybackTracker.Listener.State
+import im.vector.app.features.voicebroadcast.VoiceBroadcastFailure
 import im.vector.app.features.voicebroadcast.listening.VoiceBroadcastPlayer
 import im.vector.app.features.voicebroadcast.model.VoiceBroadcastState
 import im.vector.app.features.voicebroadcast.views.VoiceBroadcastBufferingView
@@ -54,6 +57,16 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
             }
         }
         player.addListener(voiceBroadcast, playerListener)
+
+        playbackTracker.track(voiceBroadcast.voiceBroadcastId) { playbackState ->
+            renderBackwardForwardButtons(holder, playbackState)
+            renderPlaybackError(holder, playbackState)
+            renderLiveIndicator(holder)
+            if (!isUserSeeking) {
+                holder.seekBar.progress = playbackTracker.getPlaybackTime(voiceBroadcast.voiceBroadcastId) ?: 0
+            }
+        }
+
         bindSeekBar(holder)
         bindButtons(holder)
     }
@@ -63,10 +76,11 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
             playPauseButton.setOnClickListener {
                 if (player.currentVoiceBroadcast == voiceBroadcast) {
                     when (player.playingState) {
-                        VoiceBroadcastPlayer.State.PLAYING,
-                        VoiceBroadcastPlayer.State.BUFFERING -> callback?.onTimelineItemAction(VoiceBroadcastAction.Listening.Pause)
-                        VoiceBroadcastPlayer.State.PAUSED,
-                        VoiceBroadcastPlayer.State.IDLE -> callback?.onTimelineItemAction(VoiceBroadcastAction.Listening.PlayOrResume(voiceBroadcast))
+                        VoiceBroadcastPlayer.State.Playing,
+                        VoiceBroadcastPlayer.State.Buffering -> callback?.onTimelineItemAction(VoiceBroadcastAction.Listening.Pause)
+                        VoiceBroadcastPlayer.State.Paused,
+                        is VoiceBroadcastPlayer.State.Error,
+                        VoiceBroadcastPlayer.State.Idle -> callback?.onTimelineItemAction(VoiceBroadcastAction.Listening.PlayOrResume(voiceBroadcast))
                     }
                 } else {
                     callback?.onTimelineItemAction(VoiceBroadcastAction.Listening.PlayOrResume(voiceBroadcast))
@@ -93,24 +107,25 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
     override fun renderLiveIndicator(holder: Holder) {
         when {
             voiceBroadcastState == null || voiceBroadcastState == VoiceBroadcastState.STOPPED -> renderNoLiveIndicator(holder)
-            voiceBroadcastState == VoiceBroadcastState.PAUSED || !player.isLiveListening -> renderPausedLiveIndicator(holder)
+            voiceBroadcastState == VoiceBroadcastState.PAUSED -> renderPausedLiveIndicator(holder)
             else -> renderPlayingLiveIndicator(holder)
         }
     }
 
     private fun renderPlayingState(holder: Holder, state: VoiceBroadcastPlayer.State) {
         with(holder) {
-            bufferingView.isVisible = state == VoiceBroadcastPlayer.State.BUFFERING
-            voiceBroadcastMetadata.isVisible = state != VoiceBroadcastPlayer.State.BUFFERING
+            bufferingView.isVisible = state == VoiceBroadcastPlayer.State.Buffering
+            voiceBroadcastMetadata.isVisible = state != VoiceBroadcastPlayer.State.Buffering
 
             when (state) {
-                VoiceBroadcastPlayer.State.PLAYING,
-                VoiceBroadcastPlayer.State.BUFFERING -> {
+                VoiceBroadcastPlayer.State.Playing,
+                VoiceBroadcastPlayer.State.Buffering -> {
                     playPauseButton.setImageResource(R.drawable.ic_play_pause_pause)
                     playPauseButton.contentDescription = view.resources.getString(R.string.a11y_pause_voice_broadcast)
                 }
-                VoiceBroadcastPlayer.State.IDLE,
-                VoiceBroadcastPlayer.State.PAUSED -> {
+                is VoiceBroadcastPlayer.State.Error,
+                VoiceBroadcastPlayer.State.Idle,
+                VoiceBroadcastPlayer.State.Paused -> {
                     playPauseButton.setImageResource(R.drawable.ic_play_pause_play)
                     playPauseButton.contentDescription = view.resources.getString(R.string.a11y_play_voice_broadcast)
                 }
@@ -120,12 +135,35 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
         }
     }
 
+    private fun renderPlaybackError(holder: Holder, playbackState: State) {
+        with(holder) {
+            when {
+                playbackState is State.Error -> {
+                    controlsGroup.isVisible = false
+                    errorView.setTextOrHide(errorFormatter.toHumanReadable(playbackState.failure))
+                }
+                playbackState is State.Idle && hasUnableToDecryptEvent -> {
+                    controlsGroup.isVisible = false
+                    errorView.setTextOrHide(errorFormatter.toHumanReadable(VoiceBroadcastFailure.ListeningError.UnableToDecrypt))
+                }
+                else -> {
+                    errorView.isVisible = false
+                    controlsGroup.isVisible = true
+                }
+            }
+        }
+    }
+
     private fun bindSeekBar(holder: Holder) {
         with(holder) {
-            durationView.text = formatPlaybackTime(duration)
+            remainingTimeView.text = formatRemainingTime(duration)
+            elapsedTimeView.text = formatPlaybackTime(0)
             seekBar.max = duration
             seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) = Unit
+                override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                    remainingTimeView.text = formatRemainingTime(duration - progress)
+                    elapsedTimeView.text = formatPlaybackTime(progress)
+                }
 
                 override fun onStartTrackingTouch(seekBar: SeekBar) {
                     isUserSeeking = true
@@ -136,13 +174,6 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
                     isUserSeeking = false
                 }
             })
-        }
-        playbackTracker.track(voiceBroadcast.voiceBroadcastId) { playbackState ->
-            renderBackwardForwardButtons(holder, playbackState)
-            renderLiveIndicator(holder)
-            if (!isUserSeeking) {
-                holder.seekBar.progress = playbackTracker.getPlaybackTime(voiceBroadcast.voiceBroadcastId) ?: 0
-            }
         }
     }
 
@@ -156,6 +187,7 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
     }
 
     private fun formatPlaybackTime(time: Int) = DateUtils.formatElapsedTime((time / 1000).toLong())
+    private fun formatRemainingTime(time: Int) = if (time < 1000) formatPlaybackTime(time) else String.format("-%s", formatPlaybackTime(time))
 
     override fun unbind(holder: Holder) {
         super.unbind(holder)
@@ -177,10 +209,13 @@ abstract class MessageVoiceBroadcastListeningItem : AbsMessageVoiceBroadcastItem
         val fastBackwardButton by bind<ImageButton>(R.id.fastBackwardButton)
         val fastForwardButton by bind<ImageButton>(R.id.fastForwardButton)
         val seekBar by bind<SeekBar>(R.id.seekBar)
-        val durationView by bind<TextView>(R.id.playbackDuration)
+        val remainingTimeView by bind<TextView>(R.id.remainingTime)
+        val elapsedTimeView by bind<TextView>(R.id.elapsedTime)
         val broadcasterNameMetadata by bind<VoiceBroadcastMetadataView>(R.id.broadcasterNameMetadata)
         val voiceBroadcastMetadata by bind<VoiceBroadcastMetadataView>(R.id.voiceBroadcastMetadata)
         val listenersCountMetadata by bind<VoiceBroadcastMetadataView>(R.id.listenersCountMetadata)
+        val errorView by bind<TextView>(R.id.errorView)
+        val controlsGroup by bind<Group>(R.id.controlsGroup)
     }
 
     companion object {

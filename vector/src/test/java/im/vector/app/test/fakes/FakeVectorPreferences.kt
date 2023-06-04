@@ -77,4 +77,16 @@ class FakeVectorPreferences {
     fun givenIsBackgroundSyncEnabled(isEnabled: Boolean) {
         every { instance.isBackgroundSyncEnabled() } returns isEnabled
     }
+
+    fun givenShowIpAddressInSessionManagerScreens(show: Boolean) {
+        every { instance.showIpAddressInSessionManagerScreens() } returns show
+    }
+
+    fun verifySetIpAddressVisibilityInDeviceManagerScreens(isVisible: Boolean) {
+        verify { instance.setIpAddressVisibilityInDeviceManagerScreens(isVisible) }
+    }
+
+    fun givenIsVoiceBroadcastEnabled(isEnabled: Boolean) {
+        every { instance.isVoiceBroadcastEnabled() } returns isEnabled
+    }
 }

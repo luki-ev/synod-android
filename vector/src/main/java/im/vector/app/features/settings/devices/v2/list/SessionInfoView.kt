@@ -62,9 +62,10 @@ class SessionInfoView @JvmOverloads constructor(
             stringProvider: StringProvider,
     ) {
         renderDeviceInfo(
-                sessionInfoViewState.deviceFullInfo.deviceInfo.displayName.orEmpty(),
-                sessionInfoViewState.deviceFullInfo.deviceExtendedInfo.deviceType,
-                stringProvider,
+                sessionName = sessionInfoViewState.deviceFullInfo.deviceInfo.displayName
+                        ?: sessionInfoViewState.deviceFullInfo.deviceInfo.deviceId.orEmpty(),
+                deviceType = sessionInfoViewState.deviceFullInfo.deviceExtendedInfo.deviceType,
+                stringProvider = stringProvider,
         )
         renderVerificationStatus(
                 sessionInfoViewState.deviceFullInfo.roomEncryptionTrustLevel,
@@ -75,7 +76,7 @@ class SessionInfoView @JvmOverloads constructor(
         renderDeviceLastSeenDetails(
                 sessionInfoViewState.deviceFullInfo.isInactive,
                 sessionInfoViewState.deviceFullInfo.deviceInfo,
-                sessionInfoViewState.isLastSeenDetailsVisible,
+                sessionInfoViewState.isLastActivityVisible,
                 sessionInfoViewState.isShowingIpAddress,
                 dateFormatter,
                 drawableProvider,
@@ -197,7 +198,7 @@ class SessionInfoView @JvmOverloads constructor(
         } else {
             views.sessionInfoLastActivityTextView.isGone = true
         }
-        views.sessionInfoLastIPAddressTextView.setTextOrHide(deviceInfo.lastSeenIp?.takeIf { isLastSeenDetailsVisible && isShowingIpAddress })
+        views.sessionInfoLastIPAddressTextView.setTextOrHide(deviceInfo.lastSeenIp?.takeIf { isShowingIpAddress })
     }
 
     private fun renderDetailsButton(isDetailsButtonVisible: Boolean) {
