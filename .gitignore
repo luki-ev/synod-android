@@ -12,6 +12,9 @@
 /benchmark-out
 /captures
 .externalNativeBuild
+rust-sdk/target/*
+rust-sdk/src/uniffi/*
+Cargo.lock
 /tmp
 /fastlane/private
 /fastlane/report.xml
@@ -23,3 +26,6 @@
 /yarn.lock
 /node_modules
 **/out/failures
+
+# For manual dependency to rust crypto sdk
+library/rustCrypto/matrix-rust-sdk-crypto.aar
