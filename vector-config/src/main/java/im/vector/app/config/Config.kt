@@ -71,14 +71,12 @@ object Config {
      * Can be disabled by providing Analytics.Disabled
      */
     val DEBUG_ANALYTICS_CONFIG = Analytics.Disabled
-    )
 
     /**
      * The analytics configuration to use for the Release build type.
      * Can be disabled by providing Analytics.Disabled
      */
     val RELEASE_ANALYTICS_CONFIG = Analytics.Disabled
-    )
 
     /**
      * The analytics configuration to use for the Nightly build type.
