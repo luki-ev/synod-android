@@ -29,7 +29,6 @@ import java.net.Proxy
 data class MatrixConfiguration(
         val applicationFlavor: String = "Default-application-flavor",
         val cryptoConfig: MXCryptoConfig = MXCryptoConfig(),
-        val cryptoFlavor: String = "Default-crypto-flavor",
         val integrationUIUrl: String = "https://dimension.synod.im/element",
         val integrationRestUrl: String = "https://dimension.synod.im/api/v1/scalar",
         val integrationWidgetUrls: List<String> = listOf(
