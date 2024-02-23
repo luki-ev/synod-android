@@ -80,9 +80,9 @@ static def gitBranchName() {
     return cmd.execute().text.trim()
 }
 
-// For Google Play build, build on any other branch than synodim will have a "-dev" suffix
+// For Google Play build, build on any other branch than 1.5 will have a "-dev" suffix
 static def getGplayVersionSuffix() {
-    if (gitBranchName() == "synodim") {
+    if (gitBranchName() == "1.5") {
         return ""
     } else {
         return "-dev"
