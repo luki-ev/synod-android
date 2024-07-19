@@ -104,7 +104,7 @@ static def gitBranchName() {
 // For Google Play build, build on any other branch than 1.6 will have a "-dev" suffix
 static def getGplayVersionSuffix() {
     if (gitBranchName() == "1.6") {
-        return ""
+        return ".1"
     } else {
         return "-dev"
     }
@@ -120,7 +120,7 @@ static def getFdroidVersionSuffix() {
     if (gitTag() == "") {
         return "-dev"
     } else {
-        return ""
+        return ".1"
     }
 }
 
