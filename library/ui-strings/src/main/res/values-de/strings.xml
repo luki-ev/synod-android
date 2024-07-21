@@ -2562,7 +2562,7 @@
     <string name="auth_reset_password_error_unverified">E-Mail nicht bestätigt, prüfe deinen Posteingang</string>
     <string name="ftue_auth_welcome_back_title">Willkommen zurück!</string>
     <string name="ftue_auth_forgot_password">Passwort vergessen</string>
-    <string name="ftue_auth_login_username_entry">Nutzername / E-Mail-Adresse / Telefonnummer</string>
+    <string name="ftue_auth_login_username_entry">Nutzername / E-Mail-Adresse</string>
     <string name="ftue_auth_create_account_title">Erstelle dein Konto</string>
     <string name="ftue_auth_choose_server_entry_hint">Server-URL</string>
     <string name="ftue_auth_choose_server_subtitle">Wie lautet die Adresse deines Servers\? Dies ist eine Art Zuhause für all deine Daten</string>
