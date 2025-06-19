@@ -171,11 +171,15 @@ class LoginFragment :
 
             when (state.serverType) {
                 ServerType.MatrixOrg -> {
-                    // Changed for Synod.im: Hide matrix.org icon.
-                    views.loginServerIcon.isVisible = false
+                    views.loginServerIcon.isVisible = true
                     views.loginServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
                     views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
                     views.loginNotice.text = getString(CommonStrings.login_server_matrix_org_text)
+                }
+                ServerType.SynodIm -> {
+                    views.loginServerIcon.isVisible = false
+                    views.loginTitle.text = getString(resId, state.homeServerUrlFromUser.toReducedUrl())
+                    views.loginNotice.text = getString(CommonStrings.login_server_synod_im_text)
                 }
                 ServerType.EMS -> {
                     views.loginServerIcon.isVisible = true
@@ -259,7 +263,7 @@ class LoginFragment :
 
     override fun updateWithState(state: LoginViewState) {
         isSignupMode = state.signMode == SignMode.SignUp
-        isNumericOnlyUserIdForbidden = state.serverType == ServerType.MatrixOrg
+        isNumericOnlyUserIdForbidden = state.serverType == ServerType.MatrixOrg || state.serverType == ServerType.SynodIm
 
         setupUi(state)
         setupAutoFill(state)

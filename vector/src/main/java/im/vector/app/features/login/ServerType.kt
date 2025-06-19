@@ -11,5 +11,6 @@ enum class ServerType {
     Unknown,
     MatrixOrg,
     EMS,
-    Other
+    Other,
+    SynodIm
 }

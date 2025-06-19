@@ -75,7 +75,7 @@ class LoginSplashFragment :
             loginViewModel.handle(LoginAction.OnGetStarted(resetLoginConfig = false))
         } else {
             // Synod.im: skip server selection
-            loginViewModel.handle(LoginAction.UpdateHomeServer(getString(im.vector.app.config.R.string.matrix_org_server_url).ensureTrailingSlash()))
+            loginViewModel.handle(LoginAction.UpdateHomeServer(getString(im.vector.app.config.R.string.synod_im_server_url).ensureTrailingSlash()))
         }
     }
 

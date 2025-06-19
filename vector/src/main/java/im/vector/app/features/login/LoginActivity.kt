@@ -247,6 +247,7 @@ open class LoginActivity : VectorBaseActivity<ActivityLoginBinding>(), UnlockedA
     private fun onServerSelectionDone(loginViewEvents: LoginViewEvents.OnServerSelectionDone) {
         when (loginViewEvents.serverType) {
             ServerType.MatrixOrg -> Unit // In this case, we wait for the login flow
+            ServerType.SynodIm -> Unit // In this case, we wait for the login flow
             ServerType.EMS,
             ServerType.Other -> addFragmentToBackstack(
                     views.loginFragmentContainer,

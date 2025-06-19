@@ -30,6 +30,7 @@ class RegistrationActionHandler @Inject constructor(
 ) {
 
     private val matrixOrgUrl = stringProvider.getString(im.vector.app.config.R.string.matrix_org_server_url).ensureTrailingSlash()
+    private val synodImUrl = stringProvider.getString(im.vector.app.config.R.string.synod_im_server_url).ensureTrailingSlash()
 
     suspend fun processAction(state: SelectedHomeserverState, action: RegisterAction): Result {
         val result = registrationWizardActionDelegate.executeAction(action)
@@ -66,7 +67,7 @@ class RegistrationActionHandler @Inject constructor(
 
     private fun findNextStage(state: SelectedHomeserverState, flowResult: FlowResult): Result {
         val orderedResult = when {
-            state.hasSelectedMatrixOrg() && vectorFeatures.isOnboardingCombinedRegisterEnabled() -> flowResult.copy(
+            state.hasSelectedMatrixOrgOrSynodIm() && vectorFeatures.isOnboardingCombinedRegisterEnabled() -> flowResult.copy(
                     missingStages = flowResult.missingStages.sortedWith(MatrixOrgRegistrationStagesComparator())
             )
             else -> flowResult
@@ -80,7 +81,7 @@ class RegistrationActionHandler @Inject constructor(
 
     private suspend fun FlowResult.registrationShouldFallback() = vectorOverrides.forceLoginFallback.first() || missingStages.any { !it.isSupported() }
 
-    private fun SelectedHomeserverState.hasSelectedMatrixOrg() = userFacingUrl == matrixOrgUrl
+    private fun SelectedHomeserverState.hasSelectedMatrixOrgOrSynodIm() = userFacingUrl == matrixOrgUrl || userFacingUrl == synodImUrl
 
     sealed interface Result {
         data class RegistrationComplete(val session: Session) : Result
