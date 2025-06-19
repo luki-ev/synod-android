@@ -8,6 +8,8 @@
 package im.vector.app.features.onboarding
 
 import android.content.Context
+import android.content.res.Resources
+import androidx.core.os.ConfigurationCompat
 import com.airbnb.mvrx.MavericksViewModelFactory
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -115,7 +117,8 @@ class OnboardingViewModel @AssistedInject constructor(
     }
 
     private val matrixOrgUrl = stringProvider.getString(im.vector.app.config.R.string.matrix_org_server_url).ensureTrailingSlash()
-    private val defaultHomeserverUrl = mdmService.getData(MdmData.DefaultHomeserverUrl, matrixOrgUrl)
+    private val synodImUrl = stringProvider.getString(im.vector.app.config.R.string.synod_im_server_url).ensureTrailingSlash()
+    private val defaultHomeserverUrl = mdmService.getData(MdmData.DefaultHomeserverUrl, synodImUrl)
 
     private val registrationWizard: RegistrationWizard
         get() = authenticationService.getRegistrationWizard()
@@ -233,7 +236,7 @@ class OnboardingViewModel @AssistedInject constructor(
     private fun handleSplashAction(action: OnboardingAction.SplashAction) {
         setState { copy(onboardingFlow = action.onboardingFlow) }
         // Changed for Synod.im: Skip server selection
-        handle(OnboardingAction.HomeServerChange.SelectHomeServer(matrixOrgUrl))
+        handle(OnboardingAction.HomeServerChange.SelectHomeServer(synodImUrl))
         // Previous code: (would show "Server Selection Screen")
         // continueToPageAfterSplash(action.onboardingFlow)
     }
@@ -473,6 +476,9 @@ class OnboardingViewModel @AssistedInject constructor(
             ServerType.MatrixOrg ->
                 // Request login flow here
                 handle(OnboardingAction.HomeServerChange.SelectHomeServer(matrixOrgUrl))
+            ServerType.SynodIm ->
+                // Request login flow here
+                handle(OnboardingAction.HomeServerChange.SelectHomeServer(synodImUrl))
             ServerType.EMS,
             ServerType.Other -> _viewEvents.post(OnboardingViewEvents.OnServerSelectionDone(action.serverType))
         }
@@ -822,6 +828,8 @@ class OnboardingViewModel @AssistedInject constructor(
     private fun OnboardingViewState.alignServerTypeAfterSubmission(config: HomeServerConnectionConfig, serverTypeOverride: ServerType?): ServerType {
         return if (config.homeServerUri.toString() == matrixOrgUrl) {
             ServerType.MatrixOrg
+        } else if (config.homeServerUri.toString() == synodImUrl) {
+            ServerType.SynodIm
         } else {
             serverTypeOverride ?: serverType
         }

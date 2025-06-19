@@ -280,4 +280,5 @@ class FtueAuthCombinedRegisterFragment :
 
     private fun OnboardingViewState.isNumericOnlyUserIdForbidden() =
             selectedHomeserver.userFacingUrl == getString(im.vector.app.config.R.string.matrix_org_server_url)
+                    || selectedHomeserver.userFacingUrl == getString(im.vector.app.config.R.string.synod_im_server_url)
 }

@@ -613,6 +613,16 @@ class HomeActivity :
     override fun handlePrepareMenu(menu: Menu) {
         menu.findItem(R.id.menu_home_init_sync_legacy).isVisible = vectorPreferences.developerMode()
         menu.findItem(R.id.menu_home_init_sync_optimized).isVisible = vectorPreferences.developerMode()
+        // Changed for Synod.im: Disable bug reporting when on third party home server.
+        // Rage shake is still possible to keep the code changes minimal.
+        if (activeSessionHolder.hasActiveSession()) {
+            val homeServerUrlBase = activeSessionHolder.getActiveSession().sessionParams.homeServerUrlBase;
+            val defaultHomeServerUrl = getString(im.vector.app.config.R.string.synod_im_server_url)
+            if (homeServerUrlBase != defaultHomeServerUrl) {
+                menu.findItem(R.id.menu_home_report_bug).isVisible = false
+                menu.findItem(R.id.menu_home_suggestion).isVisible = false
+            }
+        }
     }
 
     override fun handleMenuItemSelected(item: MenuItem): Boolean {

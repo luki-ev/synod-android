@@ -82,6 +82,7 @@ class LoginViewModel @AssistedInject constructor(
     private var currentHomeServerConnectionConfig: HomeServerConnectionConfig? = null
 
     private val matrixOrgUrl = stringProvider.getString(im.vector.app.config.R.string.matrix_org_server_url).ensureTrailingSlash()
+    private val synodImUrl = stringProvider.getString(im.vector.app.config.R.string.synod_im_server_url).ensureTrailingSlash()
 
     val currentThreePid: String?
         get() = registrationWizard?.getCurrentThreePid()
@@ -441,6 +442,9 @@ class LoginViewModel @AssistedInject constructor(
             ServerType.MatrixOrg ->
                 // Request login flow here
                 handle(LoginAction.UpdateHomeServer(matrixOrgUrl))
+            ServerType.SynodIm ->
+                // Request login flow here
+                handle(LoginAction.UpdateHomeServer(synodImUrl))
             ServerType.EMS,
             ServerType.Other -> _viewEvents.post(LoginViewEvents.OnServerSelectionDone(action.serverType))
         }
@@ -780,6 +784,8 @@ class LoginViewModel @AssistedInject constructor(
                         // It is also useful to set the value again in the case of a certificate error on matrix.org
                         serverType = if (homeServerConnectionConfig.homeServerUri.toString() == matrixOrgUrl) {
                             ServerType.MatrixOrg
+                        } else if (homeServerConnectionConfig.homeServerUri.toString() == synodImUrl) {
+                            ServerType.SynodIm
                         } else {
                             serverTypeOverride ?: serverType
                         }
@@ -793,8 +799,8 @@ class LoginViewModel @AssistedInject constructor(
                 setState {
                     copy(
                             asyncHomeServerLoginFlowRequest = Uninitialized,
-                            // If we were trying to retrieve matrix.org login flow, also reset the serverType
-                            serverType = if (serverType == ServerType.MatrixOrg) ServerType.Unknown else serverType
+                            // If we were trying to retrieve matrix.org or synod.im login flow, also reset the serverType
+                            serverType = if (serverType == ServerType.MatrixOrg || serverType == ServerType.SynodIm) ServerType.Unknown else serverType
                     )
                 }
                 null

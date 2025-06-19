@@ -47,10 +47,14 @@ class LoginSignUpSignInSelectionFragment :
         when (state.serverType) {
             ServerType.MatrixOrg -> {
                 views.loginSignupSigninServerIcon.setImageResource(R.drawable.ic_logo_matrix_org)
-                // Changed for Synod.im: Hide matrix.org icon.
-                views.loginSignupSigninServerIcon.isVisible = false
+                views.loginSignupSigninServerIcon.isVisible = true
                 views.loginSignupSigninTitle.text = getString(CommonStrings.login_connect_to, state.homeServerUrlFromUser.toReducedUrl())
                 views.loginSignupSigninText.text = getString(CommonStrings.login_server_matrix_org_text)
+            }
+            ServerType.SynodIm -> {
+                views.loginSignupSigninServerIcon.isVisible = false
+                views.loginSignupSigninTitle.text = getString(CommonStrings.login_connect_to, state.homeServerUrlFromUser.toReducedUrl())
+                views.loginSignupSigninText.text = getString(CommonStrings.login_server_synod_im_text)
             }
             ServerType.EMS -> {
                 views.loginSignupSigninServerIcon.setImageResource(R.drawable.ic_logo_element_matrix_services)

@@ -299,6 +299,7 @@ class FtueAuthVariant(
     private fun onServerSelectionDone(onboardingViewEvents: OnboardingViewEvents.OnServerSelectionDone) {
         when (onboardingViewEvents.serverType) {
             ServerType.MatrixOrg -> Unit // In this case, we wait for the login flow
+            ServerType.SynodIm -> Unit // In this case, we wait for the login flow
             ServerType.EMS,
             ServerType.Other -> activity.addFragmentToBackstack(
                     views.loginFragmentContainer,

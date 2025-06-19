@@ -55,10 +55,14 @@ class FtueAuthSignUpSignInSelectionFragment :
     private fun render(state: OnboardingViewState) {
         when (state.serverType) {
             ServerType.MatrixOrg -> renderServerInformation(
-                    // Changed for Synod.im: Hide matrix.org icon.
-                    icon = null, // R.drawable.ic_logo_matrix_org,
+                    icon = R.drawable.ic_logo_matrix_org,
                     title = getString(CommonStrings.login_connect_to, state.selectedHomeserver.userFacingUrl.toReducedUrl()),
                     subtitle = getString(CommonStrings.login_server_matrix_org_text)
+            )
+            ServerType.SynodIm -> renderServerInformation(
+                    icon = null,
+                    title = getString(CommonStrings.login_connect_to, state.selectedHomeserver.userFacingUrl.toReducedUrl()),
+                    subtitle = getString(CommonStrings.login_server_synod_im_text)
             )
             ServerType.EMS -> renderServerInformation(
                     icon = R.drawable.ic_logo_element_matrix_services,
