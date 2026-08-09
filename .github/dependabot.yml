@@ -14,8 +14,8 @@ updates:
       - "element-hq/element-android-reviewers"
     ignore:
       - dependency-name: "*"
-    # Disable dependabot for synod-android
-    open-pull-requests-limit: 0
+    cooldown:
+      default-days: 7
   # Updates for Gradle dependencies used in the app
   - package-ecosystem: gradle
     directory: "/"
@@ -27,5 +27,5 @@ updates:
     allow:
       - dependency-name: "io.element.android:wysiwyg"
       - dependency-name: "org.matrix.rustcomponents:crypto-android"
-    # Disable dependabot for synod-android
-    open-pull-requests-limit: 0
+    cooldown:
+      default-days: 7
