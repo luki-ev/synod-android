@@ -118,21 +118,16 @@ internal class DefaultAuthenticationService @Inject constructor(
         val homeServerUrlBase = getHomeServerUrlBase() ?: return null
 
         return buildString {
-            // Changed for Synod.im: Use web.synod.im for registration.
-            if (homeServerUrlBase == "https://synod.im" && !forSignIn) {
-                append("https://web.synod.im/#/register")
-            } else {
-                append(homeServerUrlBase)
-                if (forSignIn) {
-                    append(LOGIN_FALLBACK_PATH)
-                    deviceId?.takeIf { it.isNotBlank() }?.let {
-                        // But https://github.com/matrix-org/synapse/issues/5755
-                        appendParamToUrl("device_id", it)
-                    }
-                } else {
-                    // For sign up
-                    append(REGISTER_FALLBACK_PATH)
+            append(homeServerUrlBase)
+            if (forSignIn) {
+                append(LOGIN_FALLBACK_PATH)
+                deviceId?.takeIf { it.isNotBlank() }?.let {
+                    // But https://github.com/matrix-org/synapse/issues/5755
+                    appendParamToUrl("device_id", it)
                 }
+            } else {
+                // For sign up
+                append(REGISTER_FALLBACK_PATH)
             }
         }
     }
