@@ -98,9 +98,12 @@
             android:name="android.max_aspect"
             android:value="9.9" />
 
+        <!-- Changed for Synod.im: Disabled to be compliant with Google Play Policies. -->
+        <!--
         <meta-data
             android:name="com.google.android.gms.car.application"
             android:resource="@xml/automotive_app_desc" />
+        -->
 
         <activity
             android:name=".features.MainActivity"
